@@ -1,4 +1,7 @@
+.profile {
+  margin: 20px 30px;
+}
+
 .profile__tab {
-  margin: 0 30px 20px;
   background-color: gold;
 }

@@ -1,6 +1,5 @@
 .left-sidebar {
   background: #b7b7b7;
-  height: 100vh;
   padding: 20px;
 }
 
@@ -36,5 +35,5 @@
 }
 
 .left-sidebar__link-emoji {
-  margin-right: 10px;
+  margin-right: 5px;
 }

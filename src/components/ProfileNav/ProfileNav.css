@@ -1,7 +1,6 @@
 .profile-nav {
   display: flex;
   gap: 10px;
-  margin-left: 30px;
 }
 
 .profile-nav__tab {
@@ -21,9 +20,15 @@
 .profile-nav__tab:focus {
   background-color: gold;
   border-bottom: none;
+  top: 2px;
+}
+
+.profile-nav__tab:last-of-type {
+  margin-left: auto;
 }
 
 .profile-nav__tab_active {
   background-color: gold;
   border-bottom: none;
+  top: 2px;
 }

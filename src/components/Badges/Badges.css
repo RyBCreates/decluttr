@@ -1,8 +1,21 @@
-.badges__text {
-  margin: 0;
+.badges {
   border: 1px solid #000000;
   padding: 20px;
   background-color: gold;
-  border-radius: 0 10px 10px 10px;
-  z-index: 1;
+  border-radius: 0 0 10px 10px;
+}
+
+.badges__text {
+  font-size: 32px;
+  margin: 0 0 20px 0;
+}
+
+.badges__gallery {
+  display: grid;
+  padding: 0;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px 10px;
+  list-style: none;
+  align-items: center;
+  justify-content: center;
 }
