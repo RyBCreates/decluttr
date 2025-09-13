@@ -3,6 +3,7 @@
   max-width: 1440px;
   margin: 0;
   justify-content: center;
+  background-color: rgb(235, 235, 235);
 }
 
 .app__content {
