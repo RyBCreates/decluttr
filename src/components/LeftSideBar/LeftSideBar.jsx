@@ -5,8 +5,8 @@ import "./LeftSideBar.css";
 function LeftSideBar() {
   return (
     <div className="left-sidebar">
-      <img className="left-sidebar__logo" src={logo}></img>
-      <div className="left-sidebar__container">
+      <img className="left-sidebar__logo" src={logo} alt="Decluttr logo"></img>
+      <nav className="left-sidebar__container" aria-label="Main navigation">
         <NavLink className="left-sidebar__link" to="/">
           <span className="left-sidebar__link-emoji">🏠</span> Home
         </NavLink>
@@ -16,7 +16,7 @@ function LeftSideBar() {
         <NavLink className="left-sidebar__link" to="shop">
           <span className="left-sidebar__link-emoji">🛒</span> Shop
         </NavLink>
-      </div>
+      </nav>
     </div>
   );
 }
