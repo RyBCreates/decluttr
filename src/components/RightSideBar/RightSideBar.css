@@ -1,0 +1,24 @@
+.right-sidebar {
+  background-color: rgb(137, 137, 137);
+}
+
+.right-sidebar__stats {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+  gap: 10px;
+}
+
+.right-sidebar__stat {
+  border: solid black 1px;
+  background-color: white;
+}
+
+.right-sidebar__streak,
+.right-sidebar__gems,
+.right-sidebar__experience {
+  margin: 0;
+  padding: 3px 8px;
+}

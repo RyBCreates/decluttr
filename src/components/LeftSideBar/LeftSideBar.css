@@ -1,0 +1,27 @@
+.left-sidebar {
+  background: #b7b7b7;
+  height: 100vh;
+  padding: 20px;
+}
+
+.left-sidebar__logo {
+  width: 169px;
+  height: 57px;
+  margin-bottom: 20px;
+}
+
+.left-sidebar__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.left-sidebar__link {
+  font-size: 24px;
+  text-align: left;
+  padding: 10px;
+  margin: 0;
+  width: 180px;
+}
