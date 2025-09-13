@@ -1,11 +1,4 @@
-.badges {
-  border: 1px solid #000000;
-  padding: 20px;
-  background-color: gold;
-  border-radius: 0 0 10px 10px;
-}
-
-.badges__text {
+.badges__title {
   font-size: 32px;
   margin: 0 0 20px 0;
 }
