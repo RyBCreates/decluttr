@@ -1,0 +1,40 @@
+.profile-banner {
+  background-color: rgb(167, 54, 54);
+  margin: 20px 30px;
+  padding: 20px;
+  display: flex;
+}
+
+.profile-banner__avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background-color: black;
+  object-fit: cover;
+}
+
+.profile-banner__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  color: white;
+  margin-left: 15px;
+}
+
+.profile-banner__username,
+.profile-banner__level {
+  margin: 0;
+  padding: 0 10px;
+
+  font-size: 30px;
+}
+
+.profile-banner__username {
+  border-bottom: 3px solid black;
+  padding-bottom: 5px;
+}
+
+.profile-banner__level {
+  padding-top: 5px;
+}
