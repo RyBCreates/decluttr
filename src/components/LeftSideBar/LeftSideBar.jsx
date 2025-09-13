@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo/decluttr-logo.svg";
 import "./LeftSideBar.css";
 
@@ -6,15 +7,15 @@ function LeftSideBar() {
     <div className="left-sidebar">
       <img className="left-sidebar__logo" src={logo}></img>
       <div className="left-sidebar__container">
-        <button className="left-sidebar__link">
+        <NavLink className="left-sidebar__link" to="/">
           <span className="left-sidebar__link-emoji">🏠</span> Home
-        </button>
-        <button className="left-sidebar__link">
+        </NavLink>
+        <NavLink className="left-sidebar__link" to="profile">
           <span className="left-sidebar__link-emoji">🧑🏿</span> Profile
-        </button>
-        <button className="left-sidebar__link">
+        </NavLink>
+        <NavLink className="left-sidebar__link" to="shop">
           <span className="left-sidebar__link-emoji">🛒</span> Shop
-        </button>
+        </NavLink>
       </div>
     </div>
   );
