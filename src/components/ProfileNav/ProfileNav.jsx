@@ -30,8 +30,9 @@ function ProfileNav({ activeTab, setActiveTab }) {
         role="tab"
         aria-selected={activeTab === "goals"}
         onClick={() => setActiveTab("goals")}
+        disabled
       >
-        Goals
+        Goals (Coming Soon)
       </button>
       <button
         className={`profile-nav__tab ${

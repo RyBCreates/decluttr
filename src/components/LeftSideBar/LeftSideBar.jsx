@@ -5,7 +5,13 @@ import "./LeftSideBar.css";
 function LeftSideBar() {
   return (
     <div className="left-sidebar">
-      <img className="left-sidebar__logo" src={logo} alt="Decluttr logo"></img>
+      <NavLink to="/">
+        <img
+          className="left-sidebar__logo"
+          src={logo}
+          alt="Decluttr logo"
+        ></img>
+      </NavLink>
       <nav className="left-sidebar__container" aria-label="Main navigation">
         <NavLink className="left-sidebar__link" to="/">
           <span className="left-sidebar__link-emoji">🏠</span> Home

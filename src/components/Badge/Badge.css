@@ -4,10 +4,12 @@
   align-items: center;
   justify-content: center;
   border: 1px solid black;
+  width: fit-content;
 }
 
 .badge__image {
   width: 100%;
+  max-width: 250px;
   height: auto;
   object-fit: cover;
   display: block;

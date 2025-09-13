@@ -1,4 +1,6 @@
 import Achievement from "../Achievement/Achievement";
+
+import { achievements } from "../../utils/mockData/mockAchievements";
 import "./Achievements.css";
 
 function Achievements() {
@@ -6,9 +8,9 @@ function Achievements() {
     <section className="achievements profile__tab">
       <h2 className="achievements__title">Here are your Achievements!</h2>
       <div className="achievements__collection">
-        <Achievement />
-        <Achievement />
-        <Achievement />
+        {achievements.map((achievement) => (
+          <Achievement achievement={achievement} key={achievement.id} />
+        ))}
       </div>
     </section>
   );
