@@ -24,6 +24,10 @@
   padding: 10px;
   margin: 0;
   width: 180px;
+  text-decoration: none;
+  color: black;
+  border: 1px solid black;
+  background-color: white;
 }
 
 .left-sidebar__link:hover {

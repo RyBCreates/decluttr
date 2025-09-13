@@ -1,15 +1,19 @@
-import Home from "../pages/Home/Home";
+import { Routes, Route } from "react-router-dom";
 import SideBar from "../LeftSideBar/LeftSideBar";
+import Home from "../pages/Home/Home";
+import Profile from "../pages/Profile/Profile";
+
 import "./App.css";
-import RightSideBar from "../RightSideBar/RightSideBar";
 
 function App() {
   return (
     <div className="app">
       <div className="app__content">
         <SideBar />
-        <Home />
-        <RightSideBar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+        </Routes>
       </div>
     </div>
   );
