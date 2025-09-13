@@ -1,6 +1,6 @@
 .shop {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr 350px;
 }
 
 .shop__content {
@@ -51,7 +51,7 @@
 }
 
 .shop__store-item {
-  width: 160px;
-  height: 170px;
+  width: 168px;
+  height: 178px;
   background-color: black;
 }
