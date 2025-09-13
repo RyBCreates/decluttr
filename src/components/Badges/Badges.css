@@ -1,0 +1,8 @@
+.badges__text {
+  margin: 0;
+  border: 1px solid #000000;
+  padding: 20px;
+  background-color: gold;
+  border-radius: 0 10px 10px 10px;
+  z-index: 1;
+}
