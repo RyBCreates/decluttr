@@ -4,7 +4,6 @@ import "./Achievement.css";
 function Achievement({ achievement }) {
   const [isCompleted, setIsCompleted] = useState(false);
 
-  console.log(achievement);
   return (
     <div className="achievement">
       <div className="achievement__info">
