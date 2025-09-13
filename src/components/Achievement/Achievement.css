@@ -1,0 +1,54 @@
+.achievement {
+  border: 1px solid black;
+  background-color: #5483bf;
+  padding: 15px;
+}
+
+.achievement__info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.achievement__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.achievement__title {
+  font-size: 24px;
+  margin: 0;
+}
+
+.achievement__completed {
+  color: rgb(55, 236, 10);
+}
+
+.achievement__reward {
+  color: #f2ca52;
+}
+
+.achievement__completed,
+.achievement__reward {
+  margin: 0 0 0 15px;
+  font-size: 20px;
+}
+
+.achievement__task {
+  margin: 0;
+  font-size: 18px;
+}
+
+.achievement__progress {
+  font-size: 36px;
+  margin: 0;
+}
+
+.achievement__progress-bar {
+  width: 100%;
+  height: 8px;
+  margin-top: 10px;
+  background-color: green;
+  color: white;
+}

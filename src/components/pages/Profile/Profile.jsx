@@ -2,6 +2,9 @@ import { useState } from "react";
 import ProfileBanner from "../../ProfileBanner/ProfileBanner";
 import ProfileNav from "../../ProfileNav/ProfileNav";
 import Badges from "../../Badges/Badges";
+import Achievements from "../../Achievements/Achievements";
+import Goals from "../../Goals/Goals";
+import Settings from "../../Settings/Settings";
 
 import "./Profile.css";
 
@@ -13,11 +16,11 @@ function Profile() {
       <ProfileBanner />
       <ProfileNav activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <div className="profile-tab-content">
+      <div className="profile__tab-content">
         {activeTab === "badges" && <Badges />}
-        {activeTab === "achievements" && <p>🎉 Your achievements go here.</p>}
-        {activeTab === "goals" && <p>🎯 Your goals go here.</p>}
-        {activeTab === "settings" && <p>⚙️ Profile settings here.</p>}
+        {activeTab === "achievements" && <Achievements />}
+        {activeTab === "goals" && <Goals />}
+        {activeTab === "settings" && <Settings />}
       </div>
     </div>
   );

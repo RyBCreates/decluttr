@@ -1,0 +1,10 @@
+.achievements__title {
+  font-size: 32px;
+  margin: 0 0 20px 0;
+}
+
+.achievements__collection {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}

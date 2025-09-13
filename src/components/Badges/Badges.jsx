@@ -4,7 +4,7 @@ import "./Badges.css";
 function Badges() {
   return (
     <section className="badges profile__tab">
-      <h2 className="badges__text">Here are your badges!</h2>
+      <h2 className="badges__title">Here are your Badges!</h2>
       <ul className="badges__gallery">
         <Badge />
         <Badge />
