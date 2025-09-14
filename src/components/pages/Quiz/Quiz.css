@@ -1,0 +1,8 @@
+.quiz {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.quiz__title {
+  margin: 36px 0 0 25px;
+}

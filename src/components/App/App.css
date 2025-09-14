@@ -2,6 +2,7 @@
   max-width: 1440px;
   margin: 0;
   background-color: rgb(235, 235, 235);
+  font-family: "Gabarito", sans-serif; /* Custom font */
 }
 
 .app__content {
