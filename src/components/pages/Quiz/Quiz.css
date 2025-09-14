@@ -64,6 +64,16 @@
   padding: 25px 30px;
   text-align: left;
   font-size: 32px;
+  border-radius: 5px;
+}
+
+.quiz__option-button:hover {
+  cursor: pointer;
+  background-color: #71afff;
+}
+
+.quiz__option-button:focus {
+  background-color: #5483bf;
 }
 
 .quiz__submit-button {
@@ -73,4 +83,9 @@
   border-radius: 10px;
   font-size: 32px;
   align-self: center;
+}
+
+.quiz__submit-button:hover {
+  transform: scale(1.1);
+  cursor: pointer;
 }

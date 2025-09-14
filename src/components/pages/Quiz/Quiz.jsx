@@ -1,7 +1,16 @@
+import { useState } from "react";
 import RightSideBar from "../../RightSideBar/RightSideBar";
+import { quizData } from "../../../utils/quizData/quizData";
 import "./Quiz.css";
 
 function Quiz() {
+  const [option1, setOption1] = useState(1);
+
+  const answer = option1;
+  const isAnswerCorrect = () => {
+    if (answer === 2) console.log("You got it right");
+    else console.log("try again");
+  };
   return (
     <div className="quiz">
       <div className="quiz__container">
@@ -32,7 +41,13 @@ function Quiz() {
               </button>
             </li>
           </ul>
-          <button className="quiz__submit-button" type="submit">
+          <button
+            className="quiz__submit-button"
+            type="submit"
+            onClick={() => {
+              console.log(isAnswerCorrect());
+            }}
+          >
             Submit
           </button>
         </div>
