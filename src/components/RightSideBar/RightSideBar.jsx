@@ -30,7 +30,7 @@ function RightSideBar() {
       <div className="right-sidebar__stat">
         <p className="right-sidebar__label">Level</p>
         <p className="right-sidebar__value">
-          <img src={experience} alt="" className="right-sidebar__icon" />{" "}
+          <img src={experience} alt="" className="right-sidebar__icon" />
           {level}
         </p>
       </div>
