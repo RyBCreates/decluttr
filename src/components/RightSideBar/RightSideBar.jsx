@@ -3,10 +3,10 @@ import fire from "../../assets/icons/fire-icon.svg";
 import points from "../../assets/icons/points-icon.svg";
 import experience from "../../assets/icons/exp-icon.svg";
 import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { CurrentUserContext } from "../../contexts/UserContext";
 
 function RightSideBar() {
-  const user = useContext(UserContext);
+  const { user } = useContext(CurrentUserContext);
 
   const streak = user?.streak ?? 0;
   const gems = user?.gems ?? 0;
