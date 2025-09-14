@@ -51,6 +51,13 @@
   background-color: transparent;
 }
 
+.left-sidebar__logout:hover,
+.left-sidebar__login:hover,
+.left-sidebar__register:hover {
+  cursor: pointer;
+  color: gold;
+}
+
 .left-sidebar__login {
   margin-right: 25px;
 }
