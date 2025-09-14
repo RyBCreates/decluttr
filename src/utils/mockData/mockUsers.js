@@ -27,7 +27,7 @@ export const users = [
     level: 21,
     xp: 2105,
     gems: 100,
-    streak: 0,
+    streak: 1,
   },
   {
     id: 4,

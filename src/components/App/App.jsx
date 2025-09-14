@@ -10,11 +10,14 @@ import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
 
 import { users } from "../../utils/mockData/mockUsers";
+import { UserContext } from "../../contexts/UserContext";
+import { SetUserContext } from "../../contexts/UserContext";
+
 import "./App.css";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [currentUser, serCurrentUser] = useState({ id: 1 });
+  const [currentUser, setCurrentUser] = useState(users[2]);
 
   const [activeModal, setActiveModal] = useState("");
 
@@ -66,31 +69,39 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <div className="app__content">
-        <LeftSideBar
-          isLoggedIn={isLoggedIn}
-          handleLoginClick={handleLoginClick}
-          handleLogoutClick={handleLogoutClick}
-          handleRegisterClick={handleRegisterClick}
-        />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="shop" element={<Shop />} />
-          <Route path="quiz" element={<Quiz />} />
-        </Routes>
-      </div>
-      <RegisterModal
-        activeModal={activeModal}
-        closeModal={closeModal}
-        handleSwitchModal={handleSwitchModal}
-      />
-      <LoginModal
-        activeModal={activeModal}
-        handleSwitchModal={handleSwitchModal}
-      />
-    </div>
+    <SetUserContext.Provider value={setCurrentUser}>
+      <UserContext.Provider value={currentUser}>
+        <div className="app">
+          <div className="app__content">
+            <LeftSideBar
+              isLoggedIn={isLoggedIn}
+              handleLoginClick={handleLoginClick}
+              handleLogoutClick={handleLogoutClick}
+              handleRegisterClick={handleRegisterClick}
+            />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="shop" element={<Shop />} />
+              <Route path="quiz" element={<Quiz />} />
+            </Routes>
+          </div>
+          <RegisterModal
+            activeModal={activeModal}
+            closeModal={closeModal}
+            handleSwitchModal={handleSwitchModal}
+          />
+          <LoginModal
+            activeModal={activeModal}
+            closeModal={closeModal}
+            handleSwitchModal={handleSwitchModal}
+            setCurrentUser={setCurrentUser}
+            setIsLoggedIn={setIsLoggedIn}
+            users={users}
+          />
+        </div>
+      </UserContext.Provider>
+    </SetUserContext.Provider>
   );
 }
 

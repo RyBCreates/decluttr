@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo/decluttr-logo.svg";
 import "./LeftSideBar.css";
+import home from "../../assets/icons/home-icon.svg";
+import profile from "../../assets/icons/profile-icon.svg";
+import shop from "../../assets/icons/shop-icon.svg";
+import quiz from "../../assets/icons/quiz-icon.svg";
 
 function LeftSideBar({
   isLoggedIn,
@@ -19,16 +23,16 @@ function LeftSideBar({
           ></img>
         </NavLink>
         <NavLink className="left-sidebar__link" to="/">
-          <span className="left-sidebar__link-emoji">🏠</span> Home
+          <img src={home} alt="" className="left-sidebar__icon" /> Home
         </NavLink>
         <NavLink className="left-sidebar__link" to="profile">
-          <span className="left-sidebar__link-emoji">🧑🏿</span> Profile
+          <img src={profile} alt="" className="left-sidebar__icon" /> Profile
         </NavLink>
         <NavLink className="left-sidebar__link" to="shop">
-          <span className="left-sidebar__link-emoji">🛒</span> Shop
+          <img src={shop} alt="" className="left-sidebar__icon" /> Shop
         </NavLink>
         <NavLink className="left-sidebar__link" to="quiz">
-          <span className="left-sidebar__link-emoji">💯</span> Quiz
+          <img src={quiz} alt="" className="left-sidebar__icon" /> Quiz
         </NavLink>
       </nav>
       {isLoggedIn ? (
