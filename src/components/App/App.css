@@ -8,4 +8,5 @@
 .app__content {
   display: grid;
   grid-template-columns: 240px 3fr;
+  min-height: 780px;
 }

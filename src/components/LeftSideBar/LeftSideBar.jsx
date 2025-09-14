@@ -6,11 +6,22 @@ import profile from "../../assets/icons/profile-icon.svg";
 import shop from "../../assets/icons/shop-icon.svg";
 import quiz from "../../assets/icons/quiz-icon.svg";
 
-function LeftSideBar() {
+function LeftSideBar({
+  isLoggedIn,
+  handleLogoutClick,
+  handleLoginClick,
+  handleRegisterClick,
+}) {
   return (
     <div className="left-sidebar">
-      <img className="left-sidebar__logo" src={logo} alt="Decluttr logo"></img>
       <nav className="left-sidebar__container" aria-label="Main navigation">
+        <NavLink to="/">
+          <img
+            className="left-sidebar__logo"
+            src={logo}
+            alt="Decluttr logo"
+          ></img>
+        </NavLink>
         <NavLink className="left-sidebar__link" to="/">
           <img src={home} alt="" className="left-sidebar__icon" /> Home
         </NavLink>

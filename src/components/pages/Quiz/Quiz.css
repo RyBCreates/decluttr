@@ -3,6 +3,74 @@
   grid-template-columns: 2fr 1fr;
 }
 
+.quiz__container {
+  padding: 25px 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .quiz__title {
-  margin: 36px 0 0 25px;
+  font-size: 64px;
+  margin: 0;
+  padding: 0 12vw 15px 4px;
+  border-bottom: 4px solid #bbd979;
+  align-self: start;
+}
+
+.quiz__attempts {
+  font-size: 24px;
+  margin: 15px 0 25px 0;
+  align-self: start;
+}
+
+.quiz__content {
+  background-color: #ddecbc;
+  padding: 30px 25px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.quiz__question-number {
+  margin: 0 0 15px 0;
+  font-size: 24px;
+  align-self: flex-start;
+}
+
+.quiz__question {
+  margin: 0;
+  font-size: 32px;
+}
+
+.quiz__options {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+  gap: 20px;
+}
+
+.quiz__option {
+  width: 100%;
+}
+
+.quiz__option-button {
+  width: 100%;
+  padding: 25px 30px;
+  text-align: left;
+  font-size: 32px;
+}
+
+.quiz__submit-button {
+  padding: 10px 40px;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+  font-size: 32px;
+  align-self: center;
 }

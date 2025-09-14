@@ -1,6 +1,6 @@
 .profile-nav {
   display: flex;
-  gap: 10px;
+  gap: 3px;
 }
 
 .profile-nav__tab {
