@@ -1,0 +1,21 @@
+.login__title {
+  margin: 0 0 25px 0;
+}
+
+.login__content {
+  padding: 40px 20px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login__error {
+  color: red;
+  margin: 0;
+}
