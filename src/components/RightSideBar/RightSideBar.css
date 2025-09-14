@@ -1,24 +1,35 @@
 .right-sidebar {
-  background-color: rgb(137, 137, 137);
-}
-
-.right-sidebar__stats {
+  background-color: #f27f1b;
   display: flex;
-  justify-content: center;
-  list-style: none;
-  padding: 0;
-  margin: 10px 0 0 0;
-  gap: 10px;
+  justify-content: space-around;
+
+  padding: 50px 25px;
+  color: black;
 }
 
 .right-sidebar__stat {
-  border: solid black 1px;
-  background-color: white;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.right-sidebar__streak,
-.right-sidebar__gems,
-.right-sidebar__experience {
+.right-sidebar__label {
+  font-weight: bold;
   margin: 0;
-  padding: 3px 8px;
+  font-size: 20px;
+}
+
+.right-sidebar__value {
+  margin: 5px 0 0 0;
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right-sidebar__icon {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  margin-right: 4px;
 }
