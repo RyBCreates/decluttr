@@ -35,10 +35,35 @@ function LeftSideBar({
           <img src={quiz} alt="" className="left-sidebar__icon" /> Quiz
         </NavLink>
       </nav>
-
-      <div className="left-sidebar__footer">
-        <p className="left-sidebar__footer-text">Log Out</p>
-      </div>
+      {isLoggedIn ? (
+        <button
+          className="left-sidebar__logout"
+          onClick={() => {
+            handleLogoutClick();
+          }}
+        >
+          Log Out
+        </button>
+      ) : (
+        <div className="left-sidebar__auth-buttons">
+          <button
+            className="left-sidebar__login"
+            onClick={() => {
+              handleLoginClick();
+            }}
+          >
+            Log In
+          </button>
+          <button
+            className="left-sidebar__register"
+            onClick={() => {
+              handleRegisterClick();
+            }}
+          >
+            Register
+          </button>
+        </div>
+      )}
     </div>
   );
 }
