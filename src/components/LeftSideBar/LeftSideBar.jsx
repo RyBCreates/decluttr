@@ -27,6 +27,9 @@ function LeftSideBar({
         <NavLink className="left-sidebar__link" to="shop">
           <span className="left-sidebar__link-emoji">🛒</span> Shop
         </NavLink>
+        <NavLink className="left-sidebar__link" to="quiz">
+          <span className="left-sidebar__link-emoji">💯</span> Quiz
+        </NavLink>
       </nav>
       {isLoggedIn ? (
         <button

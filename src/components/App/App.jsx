@@ -4,6 +4,7 @@ import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import Home from "../pages/Home/Home";
 import Profile from "../pages/Profile/Profile";
 import Shop from "../pages/Shop/Shop";
+import Quiz from "../pages/Quiz/Quiz";
 
 import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
@@ -77,6 +78,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="profile" element={<Profile />} />
           <Route path="shop" element={<Shop />} />
+          <Route path="quiz" element={<Quiz />} />
         </Routes>
       </div>
       <RegisterModal
