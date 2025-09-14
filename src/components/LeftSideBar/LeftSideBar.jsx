@@ -50,7 +50,7 @@ function LeftSideBar({
           <button
             className="left-sidebar__register"
             onClick={() => {
-              handleRegisterClick;
+              handleRegisterClick();
             }}
           >
             Register
