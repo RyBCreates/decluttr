@@ -61,14 +61,14 @@
 
 .achievement__progress-bar_progress {
   background-color: rgb(31, 172, 29);
-  height: 20px;
+  height: 8px;
   width: var(--progress, 0%);
 }
 
 .achievement__progress-bar_incomplete {
   background-color: rgb(159, 159, 159);
   width: var(--progress, 0%);
-  height: 20px;
+  height: 8px;
 }
 
 .achievement__progress-bar_completed {
