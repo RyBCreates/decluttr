@@ -10,16 +10,16 @@ function LoginModal({
   setIsLoggedIn,
   users,
 }) {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const formIsValid = username.trim() !== "" && password.trim() !== "";
+  const formIsValid = email.trim() !== "" && password.trim() !== "";
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const foundUser = users.find(
-      (u) => u.username === username && u.password === password
+      (u) => u.email === email && u.password === password
     );
     if (!foundUser) {
       setError("Invalid username or password.");
@@ -33,7 +33,7 @@ function LoginModal({
 
   useEffect(() => {
     if (activeModal === "login") {
-      setUsername("");
+      setEmail("");
       setPassword("");
       setError("");
     }
@@ -51,9 +51,9 @@ function LoginModal({
           <input
             className="login__input"
             type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             className="login__input"

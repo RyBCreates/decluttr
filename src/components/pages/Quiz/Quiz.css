@@ -32,6 +32,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
+  margin: 0 80px 20px;
 }
 
 .quiz__question-number {
@@ -56,26 +57,34 @@
 }
 
 .quiz__option {
-  width: 100%;
-}
-
-.quiz__option-button {
-  width: 100%;
   padding: 25px 30px;
   text-align: left;
   font-size: 32px;
   border-radius: 5px;
+  background-color: #ebebeb;
+  border: solid 1px black;
 }
 
-.quiz__option-button:hover {
+.quiz__option:hover {
   cursor: pointer;
   background-color: #71afff;
 }
 
-.quiz__option-button:focus {
+.quiz__option_active {
   background-color: #5483bf;
 }
 
+.quiz__option_correct {
+  background-color: rgb(77, 188, 77);
+  border-color: green;
+}
+
+.quiz__option_incorrect {
+  background-color: rgb(246, 78, 78);
+  border-color: red;
+}
+
+.quiz__next-button,
 .quiz__submit-button {
   padding: 10px 40px;
   background-color: black;
