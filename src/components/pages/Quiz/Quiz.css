@@ -35,6 +35,21 @@
   margin: 0 80px 20px;
 }
 
+.quiz__result {
+  font-size: 32px;
+  margin: 0 0 30px 0;
+}
+
+.quiz__reward {
+  font-size: 24px;
+  text-align: center;
+  margin: 0 40px;
+}
+
+.quiz__reward-button {
+  margin-top: 30px;
+}
+
 .quiz__question-number {
   margin: 0 0 15px 0;
   font-size: 24px;
@@ -70,7 +85,7 @@
   background-color: #71afff;
 }
 
-.quiz__option_active {
+.quiz__option_selected {
   background-color: #5483bf;
 }
 
@@ -84,8 +99,7 @@
   border-color: red;
 }
 
-.quiz__next-button,
-.quiz__submit-button {
+.quiz__button {
   padding: 10px 40px;
   background-color: black;
   color: white;
@@ -94,7 +108,7 @@
   align-self: center;
 }
 
-.quiz__submit-button:hover {
+.quiz__button:hover {
   transform: scale(1.1);
   cursor: pointer;
 }
