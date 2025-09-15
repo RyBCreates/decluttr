@@ -4,6 +4,7 @@ import ProfileNav from "../../ProfileNav/ProfileNav";
 import Badges from "../../Badges/Badges";
 import Achievements from "../../Achievements/Achievements";
 import Goals from "../../Goals/Goals";
+import Items from "../../Items/Items";
 import Settings from "../../Settings/Settings";
 
 import "./Profile.css";
@@ -11,16 +12,21 @@ import "./Profile.css";
 function Profile() {
   const [activeTab, setActiveTab] = useState("badges");
 
+  const [bannerColor, setBannerColor] = useState("green");
+
   return (
     <div className="profile">
-      <ProfileBanner />
+      <ProfileBanner bannerColor={bannerColor} />
       <ProfileNav activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="profile__tab-content">
         {activeTab === "badges" && <Badges />}
         {activeTab === "achievements" && <Achievements />}
         {activeTab === "goals" && <Goals />}
-        {activeTab === "settings" && <Settings />}
+        {activeTab === "items" && <Items />}
+        {activeTab === "settings" && (
+          <Settings setBannerColor={setBannerColor} />
+        )}
       </div>
     </div>
   );

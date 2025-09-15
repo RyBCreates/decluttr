@@ -14,11 +14,11 @@
 
 .profile-nav__tab:hover {
   cursor: pointer;
-  background-color: gold;
+  background-color: #bbd979;
 }
 
 .profile-nav__tab:focus {
-  background-color: gold;
+  background-color: #ddecbc;
   border-bottom: none;
   top: 2px;
 }
@@ -28,7 +28,11 @@
 }
 
 .profile-nav__tab_active {
-  background-color: gold;
+  background-color: #ddecbc;
   border-bottom: none;
   top: 2px;
+}
+
+.profile-nav__coming-soon {
+  font-size: 16px;
 }

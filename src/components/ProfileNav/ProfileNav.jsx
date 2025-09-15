@@ -25,6 +25,16 @@ function ProfileNav({ activeTab, setActiveTab }) {
       </button>
       <button
         className={`profile-nav__tab ${
+          activeTab === "items" ? "profile-nav__tab_active" : ""
+        }`}
+        role="tab"
+        aria-selected={activeTab === "items"}
+        onClick={() => setActiveTab("items")}
+      >
+        Items
+      </button>
+      <button
+        className={`profile-nav__tab ${
           activeTab === "goals" ? "profile-nav__tab_active" : ""
         }`}
         role="tab"
@@ -32,8 +42,9 @@ function ProfileNav({ activeTab, setActiveTab }) {
         onClick={() => setActiveTab("goals")}
         disabled
       >
-        Goals (Coming Soon)
+        Goals <span className="profile-nav__coming-soon">(Coming Soon)</span>
       </button>
+
       <button
         className={`profile-nav__tab ${
           activeTab === "settings" ? "profile-nav__tab_active" : ""

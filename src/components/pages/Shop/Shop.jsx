@@ -134,3 +134,8 @@ function Shop() {
 }
 
 export default Shop;
+
+// TODO:
+// Make ShopItem component
+// Make StoreMenu component
+// Connect Items to mockData or Database

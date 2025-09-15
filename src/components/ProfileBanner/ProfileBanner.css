@@ -1,8 +1,30 @@
 .profile-banner {
-  background-color: rgb(167, 54, 54);
   margin-bottom: 20px;
   padding: 20px;
+  border-radius: 5px;
   display: flex;
+  color: white;
+}
+
+.profile-banner__green {
+  background-color: rgb(65, 195, 43);
+}
+
+.profile-banner__red {
+  background-color: rgb(167, 54, 54);
+}
+
+.profile-banner__blue {
+  background-color: rgb(45, 96, 173);
+}
+
+.profile-banner__gold {
+  color: black;
+  background-color: rgb(223, 230, 40);
+}
+
+.profile-banner__default {
+  background-color: rgb(80, 67, 67);
 }
 
 .profile-banner__avatar {
@@ -18,7 +40,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  color: white;
   margin-left: 15px;
 }
 
