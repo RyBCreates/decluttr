@@ -70,7 +70,7 @@
   background-color: #71afff;
 }
 
-.quiz__option:focus {
+.quiz__option_active {
   background-color: #5483bf;
 }
 
@@ -84,6 +84,7 @@
   border-color: red;
 }
 
+.quiz__next-button,
 .quiz__submit-button {
   padding: 10px 40px;
   background-color: black;
