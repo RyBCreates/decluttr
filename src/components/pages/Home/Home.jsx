@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { UserContext, SetUserContext } from "../../../contexts/UserContext";
+import { CurrentUserContext } from "../../../contexts/UserContext";
 
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
@@ -9,8 +9,7 @@ import "./Home.css";
 
 function Home() {
   const [tasks, setTasks] = useState([...mockTasks]);
-  const user = useContext(UserContext);
-  const setUser = useContext(SetUserContext);
+  const { user, setUser } = useContext(CurrentUserContext);
 
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task.id !== id));

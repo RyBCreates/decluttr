@@ -1,9 +1,10 @@
 import { useContext } from "react";
-import { UserContext } from "../../contexts/UserContext";
+import { CurrentUserContext } from "../../contexts/UserContext";
+
 import "./ProfileBanner.css";
 
 function ProfileBanner() {
-  const user = useContext(UserContext);
+  const { user } = useContext(CurrentUserContext);
 
   return (
     <div className="profile-banner">
