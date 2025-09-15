@@ -31,12 +31,28 @@ function Achievement({ achievement, progress, completed, achievementVariant }) {
               {progress}/{achievement.goal}
             </p>
           </div>
-          <div
-            className={`achievement__progress-bar ${
-              completed ? "achievement__progress_completed" : ""
-            }`}
-            style={{ "--progress": `${(progress / achievement.goal) * 100}%` }}
-          ></div>
+          <div className="achievement__progress-bar">
+            <div
+              className="achievement__progress-bar_progress"
+              style={{
+                "--progress": `${
+                  progress === achievement.goal
+                    ? "0"
+                    : (progress / achievement.goal) * 100
+                }%`,
+              }}
+            ></div>
+            <div
+              className={`achievement__progress-bar_incomplete ${
+                completed ? "achievement__progress-bar_completed" : ""
+              }`}
+              style={{
+                "--progress": `${
+                  ((achievement.goal - progress) / achievement.goal) * 100
+                }%`,
+              }}
+            ></div>
+          </div>
         </>
       )}
     </div>

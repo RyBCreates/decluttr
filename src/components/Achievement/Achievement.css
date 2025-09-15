@@ -52,14 +52,26 @@
 }
 
 .achievement__progress-bar {
-  margin-top: 10px;
   height: 8px;
+  width: 100%;
+  margin-top: 10px;
   border-radius: 5px;
-  background-color: lightgray;
-  width: var(--progress, 0%);
-  transition: width 0.3s ease-in-out;
+  display: flex;
 }
 
-.achievement__progress_completed {
+.achievement__progress-bar_progress {
+  background-color: rgb(31, 172, 29);
+  height: 20px;
+  width: var(--progress, 0%);
+}
+
+.achievement__progress-bar_incomplete {
+  background-color: rgb(159, 159, 159);
+  width: var(--progress, 0%);
+  height: 20px;
+}
+
+.achievement__progress-bar_completed {
   background-color: gold;
+  width: 100%;
 }

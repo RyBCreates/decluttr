@@ -26,7 +26,7 @@ export const userAchievements = [
   {
     userId: 3,
     achievementId: 2,
-    progress: 2,
+    progress: 4,
     completed: false,
   },
   {
