@@ -1,6 +1,7 @@
 import "./RightSideBar.css";
 import fire from "../../assets/icons/fire-icon.svg";
 import points from "../../assets/icons/points-icon.svg";
+import gem from "../../assets/icons/gem.png";
 import experience from "../../assets/icons/exp-icon.svg";
 import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/UserContext";
@@ -24,7 +25,7 @@ function RightSideBar() {
       <div className="right-sidebar__stat">
         <p className="right-sidebar__label">Gems</p>
         <p className="right-sidebar__value">
-          <img src={points} alt="" className="right-sidebar__icon" /> {gems}
+          <img src={gem} alt="" className="right-sidebar__icon" /> {gems}
         </p>
       </div>
       <div className="right-sidebar__stat">

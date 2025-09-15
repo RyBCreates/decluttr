@@ -16,12 +16,41 @@ function Home() {
   };
 
   const toggleTask = (id, gems) => {
-    const delta = Number(gems) || 0;
+    const deltaGems = Number(gems) || 0;
+
     if (setUser && user) {
-      setUser((prev) =>
-        prev ? { ...prev, gems: (prev.gems ?? 0) + delta } : prev
-      );
+      setUser((prev) => {
+        if (!prev) return prev;
+
+        // Base XP: equal to gems for now
+        const baseXp = deltaGems;
+        const multiplier = prev.xpBoostMultiplier ?? 1;
+        const usesLeft = prev.xpBoostUsesLeft ?? 0;
+
+        // Calculate XP gain with multiplier
+        const xpGain = Math.floor(baseXp * multiplier);
+
+        // Consume a boost use if active
+        let nextUsesLeft = usesLeft;
+        let nextMultiplier = multiplier;
+        if (multiplier > 1 && usesLeft > 0) {
+          nextUsesLeft = usesLeft - 1;
+          if (nextUsesLeft <= 0) {
+            nextUsesLeft = 0;
+            nextMultiplier = 1;
+          }
+        }
+
+        return {
+          ...prev,
+          gems: (prev.gems ?? 0) + deltaGems,
+          xp: (prev.xp ?? 0) + xpGain,
+          xpBoostUsesLeft: nextUsesLeft,
+          xpBoostMultiplier: nextMultiplier,
+        };
+      });
     }
+
     deleteTask(id);
   };
 
