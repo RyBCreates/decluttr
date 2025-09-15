@@ -17,6 +17,9 @@ function Settings({ bannerColor, setBannerColor }) {
               className="settings__input"
               type="text"
               value="Profile Name"
+              onChange={() => {
+                setUser();
+              }}
             />
           </label>
         </form>

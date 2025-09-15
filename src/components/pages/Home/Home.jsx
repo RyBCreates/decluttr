@@ -7,7 +7,7 @@ import { tasks as mockTasks } from "../../../utils/mockData/mockTasks";
 
 import "./Home.css";
 
-function Home() {
+function Home({ achievementVariant }) {
   const [tasks, setTasks] = useState([...mockTasks]);
   const { user, setUser } = useContext(CurrentUserContext);
 

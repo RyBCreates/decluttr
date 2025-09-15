@@ -1,35 +1,15 @@
 .right-sidebar {
   background-color: #f27f1b;
   display: flex;
-  justify-content: space-around;
-
+  flex-direction: column;
+  justify-content: space-between;
   padding: 50px 25px;
   color: black;
 }
 
-.right-sidebar__stat {
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.right-sidebar__label {
-  font-weight: bold;
-  margin: 0;
-  font-size: 20px;
-}
-
-.right-sidebar__value {
-  margin: 5px 0 0 0;
-  font-size: 30px;
-  font-weight: bold;
+.right-sidebar__achievements {
+  margin-top: 20px;
   display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.right-sidebar__icon {
-  width: 28px;
-  height: 28px;
-  vertical-align: middle;
-  margin-right: 4px;
+  flex-direction: column;
+  gap: 20px;
 }

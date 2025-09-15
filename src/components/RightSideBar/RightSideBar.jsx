@@ -1,39 +1,36 @@
-import "./RightSideBar.css";
-import fire from "../../assets/icons/fire-icon.svg";
-import points from "../../assets/icons/points-icon.svg";
-import gem from "../../assets/icons/gem.png";
-import experience from "../../assets/icons/exp-icon.svg";
 import { useContext } from "react";
+import "./RightSideBar.css";
+
+import UserStats from "../UserStats/UserStats";
+import Achievement from "../Achievement/Achievement";
+
+import { achievements } from "../../utils/mockData/mockAchievements";
+import { userAchievements } from "../../utils/mockData/mockUserAchievements";
 import { CurrentUserContext } from "../../contexts/UserContext";
 
 function RightSideBar() {
   const { user } = useContext(CurrentUserContext);
 
-  const streak = user?.streak ?? 0;
-  const gems = user?.gems ?? 0;
-  const level = user?.level ?? 0;
-
   return (
     <div className="right-sidebar">
-      <div className="right-sidebar__stat">
-        <p className="right-sidebar__label">Daily Streak</p>
-        <p className="right-sidebar__value">
-          <img src={fire} alt="" className="right-sidebar__icon" />
-          {streak}
-        </p>
-      </div>
-      <div className="right-sidebar__stat">
-        <p className="right-sidebar__label">Gems</p>
-        <p className="right-sidebar__value">
-          <img src={gem} alt="" className="right-sidebar__icon" /> {gems}
-        </p>
-      </div>
-      <div className="right-sidebar__stat">
-        <p className="right-sidebar__label">Level</p>
-        <p className="right-sidebar__value">
-          <img src={experience} alt="" className="right-sidebar__icon" />
-          {level}
-        </p>
+      <UserStats />
+      <div className="right-sidebar__achievements">
+        {achievements.map((achievement) => {
+          const userProgress = userAchievements.find(
+            (userAchievement) =>
+              userAchievement.userId === user.id &&
+              userAchievement.achievementId === achievement.id
+          );
+          return (
+            <Achievement
+              key={achievement.id}
+              achievementVariant="profile"
+              achievement={achievement}
+              progress={userProgress?.progress || 0}
+              completed={userProgress?.completed || false}
+            />
+          );
+        })}
       </div>
     </div>
   );

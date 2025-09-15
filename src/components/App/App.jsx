@@ -19,6 +19,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(users[2]);
 
   const [activeModal, setActiveModal] = useState("");
+  const [achievementVariant, setAchievementVariant] = useState("");
 
   const handleRegisterClick = () => {
     setActiveModal("register");

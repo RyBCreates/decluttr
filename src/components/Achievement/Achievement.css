@@ -1,7 +1,13 @@
-.achievement {
+.achievement__profile {
   border: 1px solid black;
   background-color: #5483bf;
   padding: 15px;
+}
+
+.achievement__home {
+  background-color: red;
+  padding: 15px;
+  border: 1px solid black;
 }
 
 .achievement__info {
@@ -46,9 +52,14 @@
 }
 
 .achievement__progress-bar {
-  width: 100%;
-  height: 8px;
   margin-top: 10px;
-  background-color: green;
-  color: white;
+  height: 8px;
+  border-radius: 5px;
+  background-color: lightgray;
+  width: var(--progress, 0%);
+  transition: width 0.3s ease-in-out;
+}
+
+.achievement__progress_completed {
+  background-color: gold;
 }

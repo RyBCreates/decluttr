@@ -1,5 +1,4 @@
 import "./TaskCard.css";
-import points from "../../assets/icons/points-icon.svg";
 
 function TaskCard({ icon, name, gems, onDelete, onToggle }) {
   return (

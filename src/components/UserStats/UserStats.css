@@ -1,0 +1,33 @@
+.user-stats {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.user-stats__stat {
+  text-align: center;
+}
+
+.user-stats__label {
+  font-weight: bold;
+  margin: 0;
+  font-size: 18px;
+  text-wrap: nowrap;
+}
+
+.user-stats__value {
+  margin: 5px 0 0 0;
+  font-size: 26px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-stats__icon {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
