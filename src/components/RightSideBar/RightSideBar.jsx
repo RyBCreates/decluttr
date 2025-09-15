@@ -22,7 +22,7 @@ function RightSideBar() {
         </p>
       </div>
       <div className="right-sidebar__stat">
-        <p className="right-sidebar__label">Points</p>
+        <p className="right-sidebar__label">Gems</p>
         <p className="right-sidebar__value">
           <img src={points} alt="" className="right-sidebar__icon" /> {gems}
         </p>

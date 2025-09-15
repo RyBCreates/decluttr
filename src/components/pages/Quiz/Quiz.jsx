@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import { quizData } from "../../../utils/quizData/quizData";
 import "./Quiz.css";
@@ -9,7 +10,8 @@ function Quiz() {
   let [selectedOption, setSelectedOption] = useState(null);
   let [score, setScore] = useState(0);
   let [result, setResult] = useState(false);
-  // let [reward, setReward] = useState(null);
+  let [attempt, setAttempt] = useState(1);
+  const [locked, setLocked] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = () => {
@@ -41,19 +43,26 @@ function Quiz() {
   };
 
   const resetQuiz = () => {
-    setIndex(0);
-    setQuestion(quizData[0]);
-    setScore(0);
-    setResult(false);
-    setSubmitted(false);
-    setSelectedOption(null);
+    if (attempt < 3) {
+      setIndex(0);
+      setQuestion(quizData[0]);
+      setScore(0);
+      setResult(false);
+      setSubmitted(false);
+      setSelectedOption(null);
+      setAttempt(++attempt);
+    } else setLocked(true);
+  };
+
+  const claimReward = () => {
+    setLocked(true);
   };
 
   return (
     <div className="quiz">
       <div className="quiz__container">
         <h2 className="quiz__title">Daily Quiz</h2>
-        <p className="quiz__attempts">Attempt 1 of 3</p>
+        <p className="quiz__attempts">Attempt {attempt} of 3</p>
         {result ? (
           <div className="quiz__content">
             <p className="quiz__result">
@@ -61,18 +70,64 @@ function Quiz() {
             </p>
             {score > 3 ? (
               <>
-                <p className="quiz__reward">
-                  Congrats, you received {checkResult()} Gems! Come back
-                  tomorrow for another chance!
-                </p>
-                <button className="quiz__button quiz__reward-button">
-                  Claim Reward
-                </button>
+                {locked ? (
+                  <>
+                    <p className="quiz__claimed-message">
+                      Come back tomorrow to earn even more gems!
+                    </p>
+                    <NavLink
+                      className="quiz__button quiz__return-button"
+                      to="/"
+                    >
+                      Return Home
+                    </NavLink>
+                  </>
+                ) : (
+                  <>
+                    <p className="quiz__reward">
+                      Congrats, you received{" "}
+                      <span className="quiz__reward_bold">
+                        {checkResult()} Gems!
+                      </span>{" "}
+                      Come back tomorrow for another chance!
+                    </p>
+                    <button
+                      className="quiz__button quiz__reward-button"
+                      onClick={claimReward}
+                      disabled={locked}
+                    >
+                      Claim Reward
+                    </button>
+                  </>
+                )}
               </>
             ) : (
-              <button className="quiz__button" onClick={resetQuiz}>
-                Reset
-              </button>
+              <>
+                {locked ? (
+                  <>
+                    <p>
+                      You have run out of attempts today, come back again
+                      tomorrow to try again!
+                    </p>
+                    <NavLink
+                      className="quiz__button quiz__return-button"
+                      to="/"
+                    >
+                      Return Home
+                    </NavLink>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="quiz__button"
+                      onClick={resetQuiz}
+                      disabled={locked}
+                    >
+                      Reset
+                    </button>
+                  </>
+                )}
+              </>
             )}
           </div>
         ) : (

@@ -40,12 +40,26 @@
   margin: 0 0 30px 0;
 }
 
+.quiz__claimed-message,
 .quiz__reward {
-  font-size: 24px;
+  font-size: 28px;
   text-align: center;
   margin: 0 40px;
 }
 
+.quiz__reward_bold {
+  font-weight: 700;
+  font-size: 30px;
+  color: #5483bf;
+}
+
+.quiz__return-button {
+  text-decoration: none;
+  color: white;
+  text-wrap: nowrap;
+}
+
+.quiz__return-button,
 .quiz__reward-button {
   margin-top: 30px;
 }
@@ -74,7 +88,7 @@
 .quiz__option {
   padding: 25px 30px;
   text-align: left;
-  font-size: 32px;
+  font-size: 24px;
   border-radius: 5px;
   background-color: #ebebeb;
   border: solid 1px black;
