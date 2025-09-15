@@ -25,7 +25,7 @@ function RightSideBar() {
             return (
               <Achievement
                 key={achievement.id}
-                achievementVariant="profile"
+                achievementVariant="home"
                 achievement={achievement}
                 progress={userProgress?.progress || 0}
                 completed={userProgress?.completed || false}

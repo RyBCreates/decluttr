@@ -13,3 +13,9 @@
   color: #3d8b40;
   cursor: pointer;
 }
+
+.home__task-gallery {
+  margin: 0 30px;
+  max-height: 800px;
+  overflow-y: scroll;
+}

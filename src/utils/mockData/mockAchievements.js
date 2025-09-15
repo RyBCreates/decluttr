@@ -15,6 +15,13 @@ export const achievements = [
   },
   {
     id: 3,
+    name: "New You",
+    task: "Finish 3 tasks.",
+    goal: 3,
+    reward: "5 Gems",
+  },
+  {
+    id: 4,
     name: "Master Cleaner",
     task: "Finish 100 tasks.",
     goal: 100,
