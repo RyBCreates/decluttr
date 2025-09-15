@@ -59,17 +59,18 @@ function Home({ achievementVariant }) {
       <div className="home__content">
         <h1 className="home__title">Daily Tasks</h1>
         <p className="home__add-task">+ Add Task</p>
-
-        {tasks.map((task) => (
-          <TaskCard
-            key={task.id}
-            icon={task.icon}
-            name={task.name}
-            gems={task.gems}
-            onDelete={() => deleteTask(task.id)}
-            onToggle={() => toggleTask(task.id, task.gems)}
-          />
-        ))}
+        <div className="home__task-gallery">
+          {tasks.map((task) => (
+            <TaskCard
+              key={task.id}
+              icon={task.icon}
+              name={task.name}
+              gems={task.gems}
+              onDelete={() => deleteTask(task.id)}
+              onToggle={() => toggleTask(task.id, task.gems)}
+            />
+          ))}
+        </div>
       </div>
 
       <RightSideBar />

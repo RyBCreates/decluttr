@@ -2,13 +2,12 @@
   background-color: #f27f1b;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   padding: 50px 25px;
   color: black;
 }
 
 .right-sidebar__achievements {
-  margin-top: 20px;
+  margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 20px;

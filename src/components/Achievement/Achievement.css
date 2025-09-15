@@ -1,65 +1,133 @@
-.achievement__profile {
+.achievement-home {
+  padding: 15px;
+  border-radius: 5px;
   border: 1px solid black;
+}
+
+.achievement-home__info {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievement-home__text {
+  display: flex;
+  flex-direction: column;
+}
+
+.achievement-home__title {
+  margin: 0;
+  text-wrap: nowrap;
+}
+
+.achievement-home__task {
+  margin: 10px;
+}
+
+.achievement-home__progress-bar {
+  height: 30px;
+  width: 100%;
+  /* margin-top: 30px; */
+  display: flex;
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.achievement-home__progress-bar_progress {
+  background-color: #5483bf;
+  width: var(--progress, 0%);
+}
+
+/* Turn off overflow: hidden on parent */
+/* .achievement-home__progress-bar_progress::after {
+  content: "20%";
+  background-color: white;
+  width: fit-content;
+  padding: 5px;
+  border-radius: 5px;
+  height: 20px;
+  position: absolute;
+  top: -45px;
+  right: -10px;
+} */
+
+.achievement-home__progress-bar_incomplete {
+  background-color: #5483bf75;
+  width: var(--progress, 0%);
+}
+
+.achievement-home__progress-bar_completed {
+  background-color: gold;
+  width: 100%;
+}
+
+.achievement-profile {
+  border: 1px solid rgb(166, 149, 149);
   background-color: #5483bf;
   padding: 15px;
 }
 
-.achievement__home {
-  background-color: red;
-  padding: 15px;
-  border: 1px solid black;
-}
-
-.achievement__info {
+.achievement-profile__info {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.achievement__text {
+.achievement-profile__text {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.achievement__title {
+.achievement-profile__title {
   font-size: 24px;
   margin: 0;
 }
 
-.achievement__completed {
+.achievement-profile__completed {
   color: rgb(55, 236, 10);
 }
 
-.achievement__reward {
+.achievement-profile__reward {
   color: #f2ca52;
 }
 
-.achievement__completed,
-.achievement__reward {
+.achievement-profile__completed,
+.achievement-profile__reward {
   margin: 0 0 0 15px;
   font-size: 20px;
 }
 
-.achievement__task {
+.achievement-profile__task {
   margin: 0;
   font-size: 18px;
 }
 
-.achievement__progress {
+.achievement-profile__progress {
   font-size: 36px;
   margin: 0;
 }
 
-.achievement__progress-bar {
-  margin-top: 10px;
+.achievement-profile__progress-bar {
   height: 8px;
+  width: 100%;
+  margin-top: 10px;
   border-radius: 5px;
-  background-color: lightgray;
-  width: var(--progress, 0%);
-  transition: width 0.3s ease-in-out;
+  overflow: hidden;
+  display: flex;
 }
 
-.achievement__progress_completed {
+.achievement-profile__progress-bar_progress {
+  background-color: rgb(31, 172, 29);
+  width: var(--progress, 0%);
+}
+
+.achievement-profile__progress-bar_incomplete {
+  background-color: rgb(159, 159, 159);
+  width: var(--progress, 0%);
+}
+
+.achievement-profile__progress-bar_completed {
   background-color: gold;
+  width: 100%;
 }
