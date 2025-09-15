@@ -6,69 +6,74 @@ import "./Quiz.css";
 function Quiz() {
   let [index, setIndex] = useState(0);
   let [question, setQuestion] = useState(quizData[index]);
-  let option1 = useRef(null);
-  let option2 = useRef(null);
-  let option3 = useRef(null);
-  let option4 = useRef(null);
+  let [selectedOption, setSelectedOption] = useState(null);
   let [score, setScore] = useState(0);
   let [result, setResult] = useState(false);
-  const [locked, setLocked] = useState(false);
-  const options = [option1, option2, option3, option4];
+  // let [reward, setReward] = useState(null);
+  const [submitted, setSubmitted] = useState(false);
 
-  const checkAnswer = (guess, answer) => {
-    if (!locked) {
-      if (question.answer === answer) {
-        guess.target.classList.add("quiz__option_correct");
-        setLocked(true);
-        setScore((prev) => prev + 1);
-      } else {
-        guess.target.classList.add("quiz__option_incorrect");
-        setLocked(true);
-        options[question.answer - 1].current.classList.add(
-          "quiz__option_correct"
-        );
-      }
+  const handleSubmit = () => {
+    if (selectedOption === null) return;
+
+    if (selectedOption === question.answer) {
+      setScore((prev) => prev + 1);
     }
+    setSubmitted(true);
   };
 
   const nextQuestion = () => {
-    if (locked) {
+    if (submitted) {
       if (index === quizData.length - 1) {
         setResult(true);
         return 0;
       }
       setIndex(++index);
       setQuestion(quizData[index]);
-      setLocked(false);
-      options.map((option) => {
-        option.current.classList.remove("quiz__option_correct");
-        option.current.classList.remove("quiz__option_incorrect");
-        return null;
-      });
+      setSubmitted(false);
+      setSelectedOption(null);
     }
+  };
+
+  const checkResult = () => {
+    if (score <= 3) return null;
+    if (score === 4) return 5;
+    return 10;
   };
 
   const resetQuiz = () => {
     setIndex(0);
     setQuestion(quizData[0]);
     setScore(0);
-    setLocked(false);
     setResult(false);
+    setSubmitted(false);
+    setSelectedOption(null);
   };
 
   return (
     <div className="quiz">
       <div className="quiz__container">
-        <h2 className="quiz__title">Daily Quiz</h2>{" "}
-        <p className="quiz__attempts">Attempt 1 of 3</p>{" "}
+        <h2 className="quiz__title">Daily Quiz</h2>
+        <p className="quiz__attempts">Attempt 1 of 3</p>
         {result ? (
           <div className="quiz__content">
             <p className="quiz__result">
-              You scored {score} out of {quizData.length}{" "}
+              You scored {score} out of {quizData.length}
             </p>
-            <button className="quiz__reset-button" onClick={resetQuiz}>
-              Reset
-            </button>
+            {score > 3 ? (
+              <>
+                <p className="quiz__reward">
+                  Congrats, you received {checkResult()} Gems! Come back
+                  tomorrow for another chance!
+                </p>
+                <button className="quiz__button quiz__reward-button">
+                  Claim Reward
+                </button>
+              </>
+            ) : (
+              <button className="quiz__button" onClick={resetQuiz}>
+                Reset
+              </button>
+            )}
           </div>
         ) : (
           <div className="quiz__content">
@@ -80,45 +85,89 @@ function Quiz() {
             </h3>
             <ul className="quiz__options">
               <li
-                className="quiz__option"
-                ref={option1}
-                onClick={(e, answer) => {
-                  checkAnswer(e, 1);
+                className={`quiz__option
+    ${
+      submitted && question.answer === 1
+        ? "quiz__option_correct"
+        : selectedOption === 1
+        ? "quiz__option_selected"
+        : ""
+    }
+    ${
+      submitted && selectedOption === 1 && question.answer !== 1
+        ? "quiz__option_incorrect"
+        : ""
+    }`}
+                onClick={() => {
+                  !submitted && setSelectedOption(1);
                 }}
               >
                 A. {question.option1}
               </li>
               <li
-                className="quiz__option"
-                ref={option2}
-                onClick={(e, answer) => {
-                  checkAnswer(e, 2);
+                className={`quiz__option
+    ${
+      submitted && question.answer === 2
+        ? "quiz__option_correct"
+        : selectedOption === 2
+        ? "quiz__option_selected"
+        : ""
+    }
+    ${
+      submitted && selectedOption === 2 && question.answer !== 2
+        ? "quiz__option_incorrect"
+        : ""
+    }`}
+                onClick={() => {
+                  !submitted && setSelectedOption(2);
                 }}
               >
                 B. {question.option2}
               </li>
               <li
-                className="quiz__option"
-                ref={option3}
-                onClick={(e, answer) => {
-                  checkAnswer(e, 3);
+                className={`quiz__option
+    ${
+      submitted && question.answer === 3
+        ? "quiz__option_correct"
+        : selectedOption === 3
+        ? "quiz__option_selected"
+        : ""
+    }
+    ${
+      submitted && selectedOption === 3 && question.answer !== 3
+        ? "quiz__option_incorrect"
+        : ""
+    }`}
+                onClick={() => {
+                  !submitted && setSelectedOption(3);
                 }}
               >
                 C. {question.option3}
               </li>
               <li
-                className="quiz__option"
-                ref={option4}
-                onClick={(e, answer) => {
-                  checkAnswer(e, 4);
+                className={`quiz__option
+    ${
+      submitted && question.answer === 4
+        ? "quiz__option_correct"
+        : selectedOption === 4
+        ? "quiz__option_selected"
+        : ""
+    }
+    ${
+      submitted && selectedOption === 4 && question.answer !== 4
+        ? "quiz__option_incorrect"
+        : ""
+    }`}
+                onClick={() => {
+                  !submitted && setSelectedOption(4);
                 }}
               >
                 D. {question.option4}
               </li>
             </ul>
-            {locked ? (
+            {submitted ? (
               <button
-                className="quiz__next-button"
+                className="quiz__button"
                 type="button"
                 onClick={nextQuestion}
               >
@@ -126,10 +175,11 @@ function Quiz() {
               </button>
             ) : (
               <button
-                className="quiz__submit-button"
+                className="quiz__button"
                 type="button"
+                disabled={selectedOption === null}
                 onClick={() => {
-                  checkAnswer(guess, answer);
+                  handleSubmit();
                 }}
               >
                 Submit
