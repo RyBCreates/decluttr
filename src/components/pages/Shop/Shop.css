@@ -12,13 +12,16 @@
 .shop__title {
   font-size: 32px;
   margin: 36px auto 0 25px;
+  align-self: flex-start;
 }
 
 .shop__main {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
+  width: 100%;
+  max-width: 720px;
 }
 
 .shop__username {
@@ -32,26 +35,98 @@
   background-color: black;
 }
 
+.shop__detail {
+  background-color: #ddecbc;
+  border: 1px solid #000;
+  border-radius: 8px;
+  margin: 0 25px 20px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.shop__item-title {
+  margin: 0;
+  font-size: 28px;
+}
+
+.shop__item-description {
+  margin: 0;
+  font-size: 18px;
+}
+
+.shop__item-price,
+.shop__item-owned,
+.shop__status {
+  margin: 0;
+  font-size: 16px;
+}
+
+.shop__buy-button {
+  margin-top: 10px;
+  align-self: flex-start;
+  padding: 8px 16px;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.shop__buy-button:disabled {
+  opacity: 0.6;
+}
+
 .shop__gems {
   font-size: 24px;
-  margin-right: auto;
+  margin: 10px 25px 0;
+  align-self: flex-start;
 }
 
 .shop__store {
   background-color: rgb(119, 119, 119);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 30px;
+  align-items: stretch;
+  gap: 12px;
+  padding-bottom: 25px;
 }
 
 .shop__store-title {
   font-size: 32px;
-  margin: 30px auto 0 30px;
+  margin: 30px auto 10px 30px;
 }
 
 .shop__store-item {
-  width: 168px;
-  height: 178px;
-  background-color: black;
+  width: auto;
+  height: auto;
+  margin: 0 18px;
+  padding: 14px 16px;
+  background-color: #2b2b2b;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.shop__store-item:hover {
+  background-color: #3d3d3d;
+}
+
+.shop__store-item_active {
+  outline: 3px solid gold;
+}
+
+.shop__store-item-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.shop__store-item-price {
+  font-size: 16px;
+  opacity: 0.9;
 }
