@@ -11,9 +11,13 @@ function Settings({ bannerColor, setBannerColor }) {
             bannerColor={bannerColor}
             setBannerColor={setBannerColor}
           />
-          <label>
+          <label className="settings__label">
             Change Your Username
-            <input type="text" value="Profile Name" />
+            <input
+              className="settings__input"
+              type="text"
+              value="Profile Name"
+            />
           </label>
         </form>
       </div>
