@@ -4,8 +4,9 @@ function ColorPicker({ bannerColor, setBannerColor }) {
   return (
     <fieldset className="color-picker">
       <legend className="color-picker__legend">Pick a Banner Color</legend>
-      <label>
+      <label className="color-picker__label">
         <input
+          className="color-picker__color"
           type="radio"
           name="color"
           value="red"
@@ -14,10 +15,12 @@ function ColorPicker({ bannerColor, setBannerColor }) {
             setBannerColor("red");
           }}
         />
+        <div className="color-picker__swatch color-picker__swatch_red"></div>
         Red
       </label>
-      <label>
+      <label className="color-picker__label">
         <input
+          className="color-picker__color"
           type="radio"
           name="color"
           value="blue"
@@ -26,10 +29,12 @@ function ColorPicker({ bannerColor, setBannerColor }) {
             setBannerColor("blue");
           }}
         />
+        <div className="color-picker__swatch color-picker__swatch_blue"></div>
         Blue
       </label>
-      <label>
+      <label className="color-picker__label">
         <input
+          className="color-picker__color"
           type="radio"
           name="color"
           value="green"
@@ -38,10 +43,12 @@ function ColorPicker({ bannerColor, setBannerColor }) {
             setBannerColor("green");
           }}
         />
+        <div className="color-picker__swatch color-picker__swatch_green"></div>
         Green
       </label>
-      <label>
+      <label className="color-picker__label">
         <input
+          className="color-picker__color"
           type="radio"
           name="color"
           value="gold"
@@ -50,6 +57,7 @@ function ColorPicker({ bannerColor, setBannerColor }) {
             setBannerColor("gold");
           }}
         />
+        <div className="color-picker__swatch color-picker__swatch_gold"></div>
         Gold
       </label>
     </fieldset>
