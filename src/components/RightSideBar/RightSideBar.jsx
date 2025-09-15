@@ -15,22 +15,26 @@ function RightSideBar() {
     <div className="right-sidebar">
       <UserStats />
       <div className="right-sidebar__achievements">
-        {achievements.map((achievement) => {
-          const userProgress = userAchievements.find(
-            (userAchievement) =>
-              userAchievement.userId === user.id &&
-              userAchievement.achievementId === achievement.id
-          );
-          return (
-            <Achievement
-              key={achievement.id}
-              achievementVariant="profile"
-              achievement={achievement}
-              progress={userProgress?.progress || 0}
-              completed={userProgress?.completed || false}
-            />
-          );
-        })}
+        {user ? (
+          achievements.map((achievement) => {
+            const userProgress = userAchievements.find(
+              (userAchievement) =>
+                userAchievement.userId === user.id &&
+                userAchievement.achievementId === achievement.id
+            );
+            return (
+              <Achievement
+                key={achievement.id}
+                achievementVariant="profile"
+                achievement={achievement}
+                progress={userProgress?.progress || 0}
+                completed={userProgress?.completed || false}
+              />
+            );
+          })
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );
