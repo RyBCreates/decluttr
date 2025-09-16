@@ -9,7 +9,12 @@ import Quiz from "../pages/Quiz/Quiz";
 import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
 
+// mockData
 import { users } from "../../utils/mockData/mockUsers";
+
+// Backend Calls
+import { getAchievements } from "../../utils/api/achievements";
+
 import { CurrentUserContext } from "../../contexts/UserContext";
 
 import "./App.css";
@@ -17,6 +22,8 @@ import "./App.css";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [currentUser, setCurrentUser] = useState(users[2]);
+
+  const [achievements, setAchievements] = useState([]);
 
   const [activeModal, setActiveModal] = useState("");
 
@@ -67,6 +74,14 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    async function loadAchievements() {
+      const data = await getAchievements();
+      setAchievements(data);
+    }
+    loadAchievements();
+  }, []);
+
   return (
     <CurrentUserContext.Provider
       value={{ user: currentUser, setUser: setCurrentUser }}
@@ -80,8 +95,11 @@ function App() {
             handleRegisterClick={handleRegisterClick}
           />
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
+            <Route path="/" element={<Home achievements={achievements} />} />
+            <Route
+              path="profile"
+              element={<Profile achievements={achievements} />}
+            />
             <Route path="shop" element={<Shop />} />
             <Route path="quiz" element={<Quiz />} />
           </Routes>

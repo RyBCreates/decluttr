@@ -1,14 +1,13 @@
 import { useContext } from "react";
 import Achievement from "../Achievement/Achievement";
 
-import { achievements } from "../../utils/mockData/mockAchievements";
 import { userAchievements } from "../../utils/mockData/mockUserAchievements";
 
 import { CurrentUserContext } from "../../contexts/UserContext";
 
 import "./Achievements.css";
 
-function Achievements() {
+function Achievements({ achievements }) {
   const { user } = useContext(CurrentUserContext);
 
   return (
@@ -20,11 +19,11 @@ function Achievements() {
             const userProgress = userAchievements.find(
               (userAchievement) =>
                 userAchievement.userId === user.id &&
-                userAchievement.achievementId === achievement.id
+                userAchievement.achievementId === achievement._id
             );
             return (
               <Achievement
-                key={achievement.id}
+                key={achievement._id}
                 achievementVariant="profile"
                 achievement={achievement}
                 progress={userProgress?.progress || 0}

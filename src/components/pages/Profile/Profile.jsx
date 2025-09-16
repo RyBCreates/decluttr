@@ -9,7 +9,7 @@ import Settings from "../../Settings/Settings";
 
 import "./Profile.css";
 
-function Profile() {
+function Profile({ achievements }) {
   const [activeTab, setActiveTab] = useState("badges");
 
   const [bannerColor, setBannerColor] = useState("green");
@@ -21,7 +21,9 @@ function Profile() {
 
       <div className="profile__tab-content">
         {activeTab === "badges" && <Badges />}
-        {activeTab === "achievements" && <Achievements />}
+        {activeTab === "achievements" && (
+          <Achievements achievements={achievements} />
+        )}
         {activeTab === "goals" && <Goals />}
         {activeTab === "items" && <Items />}
         {activeTab === "settings" && (
