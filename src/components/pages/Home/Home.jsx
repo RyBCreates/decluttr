@@ -8,7 +8,7 @@ import AddTaskModal from "../../modals/AddTask/AddTaskModal.jsx";
 import "./Home.css";
 
 function Home({ achievementVariant }) {
-  const [tasks, setTasks] = useState([...mockTasks]);
+  const [tasks, setTasks] = useState([...mockTasks].slice(0, 5));
   const { user, setUser } = useContext(CurrentUserContext);
 
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
