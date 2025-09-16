@@ -1,0 +1,13 @@
+.store-menu {
+  background-color: rgb(119, 119, 119);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding-bottom: 25px;
+}
+
+.store-menu__title {
+  font-size: 32px;
+  margin: 30px auto 10px 30px;
+}

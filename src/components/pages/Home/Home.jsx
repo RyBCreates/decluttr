@@ -1,21 +1,28 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
-import { tasks as mockTasks } from "../../../utils/mockData/mockTasks";
+import { getTasks } from "../../../utils/api/tasks";
 import AddTaskModal from "../../modals/AddTask/AddTaskModal.jsx";
 import "./Home.css";
 
-function Home({ achievementVariant }) {
+function Home({ achievements }) {
   const [tasks, setTasks] = useState([...mockTasks].slice(0, 5));
   const { user, setUser } = useContext(CurrentUserContext);
-
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [clickedTaskId, setClickedTaskId] = useState(null);
 
+  useEffect(() => {
+    async function loadTasks() {
+      const data = await getTasks();
+      setTasks(data);
+    }
+    loadTasks();
+  }, []);
+
   const deleteTask = (id) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+    setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
   const toggleTask = (id, gems) => {
@@ -102,29 +109,38 @@ function Home({ achievementVariant }) {
           + Add Task
         </p>
         <div className="home__task-gallery">
-          {tasks.map((task) => (
-            <TaskCard
-              key={task.id}
-              icon={task.icon}
-              name={task.name}
-              gems={task.gems}
-              completed={task.completed}
-              onDelete={() => deleteTask(task.id)}
-              onToggle={() => toggleTask(task.id, task.gems)}
-              onClick={() => handleTaskClick(task.id)}
-              isSelected={task.id === clickedTaskId}
-            />
-          ))}
+          {tasks.length === 0 ? (
+            <>
+              <p className="home__tasks-empty">
+                Looks like you are out of tasks!
+              </p>
+              <button className="home__add-task_secondary" type="button">
+                Add Task
+              </button>
+            </>
+          ) : (
+            tasks.map((task) => (
+              <TaskCard
+                key={task._id}
+                icon={task.icon}
+                name={task.name}
+                gems={task.reward.gems}
+                onDelete={() => deleteTask(task._id)}
+                onToggle={() => toggleTask(task._id, task.reward.gems)}
+                onClick={() => handleTaskClick(task.id)}
+                isSelected={task.id === clickedTaskId}
+              />
+            ))
+          )}
         </div>
       </div>
-
       <AddTaskModal
         activeModal={isAddTaskModalOpen ? "addTask" : null}
         closeModal={closeAddTaskModal}
         onAddTask={handleAddTask}
       />
 
-      <RightSideBar />
+      <RightSideBar achievements={achievements} />
     </div>
   );
 }
