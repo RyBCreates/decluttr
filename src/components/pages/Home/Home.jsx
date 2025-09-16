@@ -92,11 +92,7 @@ function Home({ achievements }) {
   const handleAddTask = (newTask) => {
     const newId =
       tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task._id)) + 1;
-    const taskWithId = {
-      ...newTask,
-      _id: newId,
-      completed: false,
-    };
+    const taskWithId = { ...newTask, _id: newId, completed: false };
 
     setTasks((prev) => [taskWithId, ...prev]);
     closeAddTaskModal();
@@ -134,7 +130,6 @@ function Home({ achievements }) {
                 onToggle={() => toggleTask(task._id, task.reward.gems)}
                 onClick={() => handleTaskClick(task._id)}
                 isSelected={task._id === clickedTaskId}
-                completed={task.completed}
               />
             ))
           )}
