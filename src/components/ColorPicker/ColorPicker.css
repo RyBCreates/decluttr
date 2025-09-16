@@ -36,7 +36,7 @@
 }
 
 .color-picker__swatch_red {
-  background-color: red;
+  background-color: rgb(167, 54, 54);
 }
 
 .color-picker__swatch_blue {
