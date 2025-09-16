@@ -7,7 +7,7 @@ import { getTasks } from "../../../utils/api/tasks";
 
 import "./Home.css";
 
-function Home() {
+function Home({ achievements }) {
   const [tasks, setTasks] = useState([]);
   const { user, setUser } = useContext(CurrentUserContext);
 
@@ -92,7 +92,7 @@ function Home() {
         </div>
       </div>
 
-      <RightSideBar />
+      <RightSideBar achievements={achievements} />
     </div>
   );
 }

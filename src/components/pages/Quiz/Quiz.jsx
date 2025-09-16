@@ -4,7 +4,7 @@ import RightSideBar from "../../RightSideBar/RightSideBar";
 import { quizData } from "../../../utils/quizData/quizData";
 import "./Quiz.css";
 
-function Quiz() {
+function Quiz({ achievements }) {
   let [index, setIndex] = useState(0);
   let [question, setQuestion] = useState(quizData[index]);
   let [selectedOption, setSelectedOption] = useState(null);
@@ -243,7 +243,7 @@ function Quiz() {
           </div>
         )}
       </div>
-      <RightSideBar />
+      <RightSideBar achievements={achievements} />
     </div>
   );
 }

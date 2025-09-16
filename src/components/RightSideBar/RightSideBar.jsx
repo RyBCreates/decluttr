@@ -4,11 +4,10 @@ import "./RightSideBar.css";
 import UserStats from "../UserStats/UserStats";
 import Achievement from "../Achievement/Achievement";
 
-import { achievements } from "../../utils/mockData/mockAchievements";
 import { userAchievements } from "../../utils/mockData/mockUserAchievements";
 import { CurrentUserContext } from "../../contexts/UserContext";
 
-function RightSideBar() {
+function RightSideBar({ achievements }) {
   const { user } = useContext(CurrentUserContext);
 
   return (
@@ -20,11 +19,11 @@ function RightSideBar() {
             const userProgress = userAchievements.find(
               (userAchievement) =>
                 userAchievement.userId === user.id &&
-                userAchievement.achievementId === achievement.id
+                userAchievement.achievementId === achievement._id
             );
             return (
               <Achievement
-                key={achievement.id}
+                key={achievement._id}
                 achievementVariant="home"
                 achievement={achievement}
                 progress={userProgress?.progress || 0}

@@ -52,7 +52,8 @@ function Achievement({ achievement, progress, completed, achievementVariant }) {
                   <p className="achievement-profile__completed">(Completed)</p>
                 ) : (
                   <p className="achievement-profile__reward">
-                    Reward: {achievement.reward}
+                    Reward:
+                    {achievement.reward.gems || achievement.reward.badge}
                   </p>
                 )}
               </div>

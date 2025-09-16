@@ -1,5 +1,8 @@
 import "./Shop.css";
 import { useContext, useMemo, useState } from "react";
+
+import StoreMenu from "../../StoreMenu/StoreMenu";
+
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
 function Shop() {
@@ -111,31 +114,14 @@ function Shop() {
         </div>
       </div>
 
-      <div className="shop__store">
-        <h3 className="shop__store-title">Buy Items</h3>
-        {items.map((item) => (
-          <button
-            key={item.id}
-            className={`shop__store-item ${
-              selectedItemId === item.id ? "shop__store-item_active" : ""
-            }`}
-            onClick={() => {
-              setSelectedItemId(item.id);
-              setStatus("");
-            }}
-          >
-            <span className="shop__store-item-name">{item.name}</span>
-            <span className="shop__store-item-price">💎 {item.price}</span>
-          </button>
-        ))}
-      </div>
+      <StoreMenu
+        items={items}
+        selectedItemId={selectedItemId}
+        setSelectedItemId={setSelectedItemId}
+        setStatus={setStatus}
+      />
     </div>
   );
 }
 
 export default Shop;
-
-// TODO:
-// Make ShopItem component
-// Make StoreMenu component
-// Connect Items to mockData or Database
