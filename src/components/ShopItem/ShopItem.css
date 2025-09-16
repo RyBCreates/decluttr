@@ -1,8 +1,37 @@
 .shop-item {
+  margin: 0 18px;
+  padding: 14px 16px;
+  background-color: #2b2b2b;
+  color: #fff;
+  border: 1px solid #000;
+  border-radius: 8px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.shop-item:hover {
+  background-color: #3d3d3d;
+  cursor: pointer;
+}
+
+.shop-item__active {
+  outline: 3px solid gold;
+}
+
+.shop-item__name {
+  margin: 10px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.shop-item__price {
+  margin: 0;
+  font-size: 16px;
+  opacity: 0.9;
+}
+
+/* 
 
 .shop-item__button {
   margin: 0 18px;
@@ -25,12 +54,5 @@
   outline: 3px solid gold;
 }
 
-.shop-item__name {
-  font-size: 18px;
-  font-weight: 600;
-}
 
-.shop-item__price {
-  font-size: 16px;
-  opacity: 0.9;
-}
+ */

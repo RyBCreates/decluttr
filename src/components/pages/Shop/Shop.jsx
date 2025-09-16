@@ -1,40 +1,20 @@
 import "./Shop.css";
-import { useContext, useMemo, useState } from "react";
+import { useContext, useState } from "react";
 
 import StoreMenu from "../../StoreMenu/StoreMenu";
+
+import { shopItemsData } from "../../../utils/mockData/mockItems";
 
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
 function Shop() {
   const { user, setUser } = useContext(CurrentUserContext);
-
-  const items = useMemo(
-    () => [
-      {
-        id: "streak-freeze",
-        name: "Streak Freeze",
-        price: 100,
-        description: "Keep your login streak going even if you miss a day!",
-        uses: 1,
-      },
-      {
-        id: "xp-boost-2x-5",
-        name: "XP Boost x2 (5 tasks)",
-        price: 200,
-        description:
-          "Double XP for your next 5 tasks that award gems. Each completed task consumes 1 use.",
-        multiplier: 2,
-        uses: 5,
-      },
-    ],
-    []
-  );
-
-  const [selectedItemId, setSelectedItemId] = useState(items[0].id);
-  const selectedItem = items.find((i) => i.id === selectedItemId);
+  const [shopItems, setShopItem] = useState(shopItemsData);
+  const [selectedItemId, setSelectedItemId] = useState(shopItems[0]._id);
+  const selectedItem = shopItems.find((i) => i._id === selectedItemId);
   const [status, setStatus] = useState("");
 
-  const canAfford = (user?.gems ?? 0) >= (selectedItem?.price ?? Infinity);
+  const canAfford = (user?.gems ?? 0) >= (selectedItem?.cost ?? Infinity);
 
   const handlePurchase = () => {
     if (!user || !selectedItem || !setUser) return;
@@ -45,9 +25,9 @@ function Shop() {
 
     setUser((prev) => {
       if (!prev) return prev;
-      const next = { ...prev, gems: (prev.gems ?? 0) - selectedItem.price };
+      const next = { ...prev, gems: (prev.gems ?? 0) - selectedItem.cost };
 
-      switch (selectedItem.id) {
+      switch (selectedItem._id) {
         case "streak-freeze": {
           next.streakFreezes =
             (prev.streakFreezes ?? 0) + (selectedItem.uses ?? 1);
@@ -84,15 +64,15 @@ function Shop() {
             <p className="shop__item-description">
               {selectedItem?.description}
             </p>
-            <p className="shop__item-price">Price: 💎 {selectedItem?.price}</p>
+            <p className="shop__item-price">Price: 💎 {selectedItem?.cost}</p>
 
-            {selectedItem?.id === "streak-freeze" && (
+            {selectedItem?._id === "streak-freeze" && (
               <p className="shop__item-owned">
                 You own: {user?.streakFreezes ?? 0} Streak Freeze
                 {(user?.streakFreezes ?? 0) === 1 ? "" : "s"}
               </p>
             )}
-            {selectedItem?.id === "xp-boost-2x-5" && (
+            {selectedItem?._id === "xp-boost-2x-5" && (
               <p className="shop__item-owned">
                 Active XP Multiplier: x{user?.xpBoostMultiplier ?? 1} • Uses
                 left: {user?.xpBoostUsesLeft ?? 0}
@@ -113,9 +93,8 @@ function Shop() {
           <p className="shop__gems">Gems: {user?.gems ?? 0}</p>
         </div>
       </div>
-
       <StoreMenu
-        items={items}
+        shopItems={shopItems}
         selectedItemId={selectedItemId}
         setSelectedItemId={setSelectedItemId}
         setStatus={setStatus}
