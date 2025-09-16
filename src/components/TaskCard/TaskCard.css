@@ -49,3 +49,7 @@
   width: 24px;
   height: 24px;
 }
+
+.task-card__checkbox:hover {
+  cursor: pointer;
+}
