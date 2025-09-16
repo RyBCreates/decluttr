@@ -3,35 +3,19 @@ import { CurrentUserContext } from "../../../contexts/UserContext";
 
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
-import { getTasks } from "../../../utils/api/tasks";
-import AddTaskModal from "../../modals/AddTask/AddTaskModal.jsx";
 import "./Home.css";
 
-function Home({ achievements }) {
-  // const [tasks, setTasks] = useState([...tasks].slice(0, 5));
-  const [tasks, setTasks] = useState([]);
+function Home({ achievements, setActiveModal, tasks, setTasks }) {
   const { user, setUser } = useContext(CurrentUserContext);
-  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [clickedTaskId, setClickedTaskId] = useState(null);
 
-  useEffect(() => {
-    async function loadTasks() {
-      try {
-        const data = await getTasks();
-        setTasks(data);
-      } catch (err) {
-        console.error("Failed to load Tasks", err);
-        setTasks([]);
-      }
-    }
-    loadTasks();
-  }, []);
-
+  // Delete a specific task
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  const toggleTask = (id, gems) => {
+  // Complete a task and get rewards?
+  const toggleTask = (id, gems, experience) => {
     setTasks((prevTasks) => {
       const toggledTask = prevTasks.find((task) => task._id === id);
       if (!toggledTask) return prevTasks;
@@ -44,6 +28,7 @@ function Home({ achievements }) {
     });
 
     const deltaGems = Number(gems) || 0;
+    const baseXp = Number(experience) || 0;
 
     if (setUser && user) {
       setUser((prev) => {
@@ -85,27 +70,11 @@ function Home({ achievements }) {
       const clickedTask = prevTasks.find((task) => task._id === id);
       if (!clickedTask) return prevTasks;
 
+      const finishedTask = { ...clickedTask, disabled: true };
       const otherTasks = prevTasks.filter((task) => task._id !== id);
 
-      return [...otherTasks, clickedTask];
+      return [...otherTasks, finishedTask];
     });
-  };
-
-  const openAddTaskModal = () => setAddTaskModalOpen(true);
-  const closeAddTaskModal = () => setAddTaskModalOpen(false);
-
-  const handleAddTask = (newTask) => {
-    // This newId does not work with the database format
-    const newId =
-      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task._id)) + 1;
-    const taskWithId = {
-      ...newTask,
-      _id: newId,
-      completed: false,
-      reward: { gems: newTask.gems ?? 0, xp: newTask.xp ?? 5 },
-    };
-    setTasks((prev) => [taskWithId, ...prev]);
-    closeAddTaskModal();
   };
 
   return (
@@ -114,7 +83,9 @@ function Home({ achievements }) {
         <h1 className="home__title">Daily Tasks</h1>
         <p
           className="home__add-task"
-          onClick={openAddTaskModal}
+          onClick={() => {
+            setActiveModal("add-task");
+          }}
           style={{ cursor: "pointer" }}
         >
           + Add Task
@@ -125,7 +96,11 @@ function Home({ achievements }) {
               <p className="home__tasks-empty">
                 Looks like you are out of tasks!
               </p>
-              <button className="home__add-task_secondary" type="button">
+              <button
+                className="home__add-task_secondary"
+                type="button"
+                onClick={() => setActiveModal("add-task")}
+              >
                 Add Task
               </button>
             </>
@@ -135,22 +110,23 @@ function Home({ achievements }) {
                 key={task._id}
                 icon={task.icon}
                 name={task.name}
-                gems={task.reward.gems}
+                gems={task.reward?.gems ?? 0}
                 onDelete={() => deleteTask(task._id)}
-                onToggle={() => toggleTask(task._id, task.reward.gems)}
+                onToggle={() =>
+                  toggleTask(
+                    task._id,
+                    task.reward?.gems ?? 0,
+                    task.reward?.xp ?? 0
+                  )
+                }
                 onClick={() => handleTaskClick(task._id)}
                 isSelected={task._id === clickedTaskId}
+                disabled={task.disabled ?? false}
               />
             ))
           )}
         </div>
       </div>
-      <AddTaskModal
-        activeModal={isAddTaskModalOpen ? "addTask" : null}
-        closeModal={closeAddTaskModal}
-        onAddTask={handleAddTask}
-      />
-
       <RightSideBar achievements={achievements} />
     </div>
   );
