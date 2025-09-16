@@ -28,7 +28,7 @@ export const users = [
     username: "Jordan",
     email: "jordan@test.com",
     password: "1234",
-    level: 21,
+    level: 1,
     xp: 50,
     gems: 100,
     streak: 1,
