@@ -1,6 +1,9 @@
 import { useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
+import { applyDailyTaskStreak } from "../../../utils/gameLogic/streakSystem";
+import { calculateLevel } from "../../../utils/gameLogic/levelSystem";
+
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
 import { getTasks } from "../../../utils/api/tasks";
@@ -8,7 +11,6 @@ import AddTaskModal from "../../modals/AddTask/AddTaskModal.jsx";
 import "./Home.css";
 
 function Home({ achievements }) {
-  // const [tasks, setTasks] = useState([...tasks].slice(0, 5));
   const [tasks, setTasks] = useState([]);
   const { user, setUser } = useContext(CurrentUserContext);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
@@ -28,14 +30,11 @@ function Home({ achievements }) {
 
   const toggleTask = (id, gems) => {
     setTasks((prevTasks) => {
-      const toggledTask = prevTasks.find((task) => task.id === id);
+      const toggledTask = prevTasks.find((task) => task._id === id);
       if (!toggledTask) return prevTasks;
-
       const updatedTask = { ...toggledTask, completed: !toggledTask.completed };
-
-      const otherTasks = prevTasks.filter((task) => task.id !== id);
-
-      return [...otherTasks, updatedTask];
+      const otherTasks = prevTasks.filter((task) => task._id !== id);
+      return [updatedTask, ...otherTasks];
     });
 
     const deltaGems = Number(gems) || 0;
@@ -44,34 +43,43 @@ function Home({ achievements }) {
       setUser((prev) => {
         if (!prev) return prev;
 
-        // Base XP: equal to gems for now
+        const { updatedUser } = applyDailyTaskStreak(prev);
+
         const baseXp = deltaGems;
-        const multiplier = prev.xpBoostMultiplier ?? 1;
-        const usesLeft = prev.xpBoostUsesLeft ?? 0;
+        const streakMult = Math.pow(
+          1.01,
+          Math.max((updatedUser.streak ?? 0) - 1, 0)
+        );
+        const boostMult = updatedUser.xpBoostMultiplier ?? 1;
+        const boostUses = updatedUser.xpBoostUsesLeft ?? 0;
 
-        // Calculate XP gain with multiplier
-        const xpGain = Math.floor(baseXp * multiplier);
+        let xpGain = Math.floor(baseXp * streakMult * boostMult);
 
-        // Consume a boost use if active
-        let nextUsesLeft = usesLeft;
-        let nextMultiplier = multiplier;
-        if (multiplier > 1 && usesLeft > 0) {
-          nextUsesLeft = usesLeft - 1;
-          if (nextUsesLeft <= 0) {
-            nextUsesLeft = 0;
-            nextMultiplier = 1;
+        let nextBoostUses = boostUses;
+        let nextBoostMult = boostMult;
+        if (boostMult > 1 && boostUses > 0) {
+          nextBoostUses = boostUses - 1;
+          if (nextBoostUses <= 0) {
+            nextBoostUses = 0;
+            nextBoostMult = 1;
           }
         }
 
+        const nextXp = (updatedUser.xp ?? 0) + xpGain;
+        const nextLevel = calculateLevel(nextXp);
+
         return {
-          ...prev,
-          gems: (prev.gems ?? 0) + deltaGems,
-          xp: (prev.xp ?? 0) + xpGain,
-          xpBoostUsesLeft: nextUsesLeft,
-          xpBoostMultiplier: nextMultiplier,
+          ...updatedUser,
+          gems: (updatedUser.gems ?? 0) + deltaGems,
+          xp: nextXp,
+          level: nextLevel,
+          xpBoostUsesLeft: nextBoostUses,
+          xpBoostMultiplier: nextBoostMult,
         };
       });
     }
+
+    deleteTask(id);
   };
 
   const handleTaskClick = (id) => {
@@ -102,6 +110,7 @@ function Home({ achievements }) {
     <div className="home">
       <div className="home__content">
         <h1 className="home__title">Daily Tasks</h1>
+
         <p
           className="home__add-task"
           onClick={openAddTaskModal}
@@ -128,8 +137,8 @@ function Home({ achievements }) {
                 gems={task.reward.gems}
                 onDelete={() => deleteTask(task._id)}
                 onToggle={() => toggleTask(task._id, task.reward.gems)}
-                onClick={() => handleTaskClick(task.id)}
-                isSelected={task.id === clickedTaskId}
+                onClick={() => handleTaskClick(task._id)}
+                isSelected={task._id === clickedTaskId}
               />
             ))
           )}
