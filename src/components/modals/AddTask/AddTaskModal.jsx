@@ -5,13 +5,13 @@ import { tasks } from "../../../utils/mockData/mockTasks";
 
 function AddTaskModal({ activeModal, closeModal, onAddTask }) {
   const [selectedTaskId, setSelectedTaskId] = useState(tasks[0]?.id || null);
-  const [icon, setIcon] = useState("");
-  const [name, setName] = useState("");
-  const [gems, setGems] = useState("");
+  // const [icon, setIcon] = useState("");
+  // const [name, setName] = useState("");
+  // const [gems, setGems] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (activeModal === "addTask") {
+    if (activeModal === "add-task") {
       setSelectedTaskId(tasks[0]?.id || null);
       setError("");
     }
@@ -33,7 +33,7 @@ function AddTaskModal({ activeModal, closeModal, onAddTask }) {
     closeModal();
   };
 
-  if (activeModal !== "addTask") return null;
+  if (activeModal !== "add-task") return null;
 
   return (
     <div className="add-task modal modal__opened">
