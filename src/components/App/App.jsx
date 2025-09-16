@@ -9,6 +9,7 @@ import Quiz from "../pages/Quiz/Quiz";
 import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
 
+
 import { users } from "../../utils/mockData/mockUsers";
 import { CurrentUserContext } from "../../contexts/UserContext";
 

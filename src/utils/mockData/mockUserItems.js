@@ -1,3 +1,1 @@
-export const userItems = [
-  { userId: 1, itemId: 1, },
-];
+export const userItems = [{ userId: 1, itemId: 1 }];
