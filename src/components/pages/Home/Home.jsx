@@ -4,12 +4,14 @@ import { CurrentUserContext } from "../../../contexts/UserContext";
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
 import { getTasks } from "../../../utils/api/tasks";
-
+import AddTaskModal from "../../modals/AddTask/AddTaskModal.jsx";
 import "./Home.css";
 
 function Home({ achievements }) {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState([...mockTasks].slice(0, 5));
   const { user, setUser } = useContext(CurrentUserContext);
+  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
+  const [clickedTaskId, setClickedTaskId] = useState(null);
 
   useEffect(() => {
     async function loadTasks() {
@@ -24,6 +26,17 @@ function Home({ achievements }) {
   };
 
   const toggleTask = (id, gems) => {
+    setTasks((prevTasks) => {
+      const toggledTask = prevTasks.find((task) => task.id === id);
+      if (!toggledTask) return prevTasks;
+
+      const updatedTask = { ...toggledTask, completed: !toggledTask.completed };
+
+      const otherTasks = prevTasks.filter((task) => task.id !== id);
+
+      return [...otherTasks, updatedTask];
+    });
+
     const deltaGems = Number(gems) || 0;
 
     if (setUser && user) {
@@ -58,15 +71,43 @@ function Home({ achievements }) {
         };
       });
     }
+  };
 
-    deleteTask(id);
+  const handleTaskClick = (id) => {
+    setClickedTaskId(id);
+    setTasks((prevTasks) => {
+      const clickedTask = prevTasks.find((task) => task.id === id);
+      if (!clickedTask) return prevTasks;
+
+      const otherTasks = prevTasks.filter((task) => task.id !== id);
+
+      return [...otherTasks, clickedTask];
+    });
+  };
+
+  const openAddTaskModal = () => setAddTaskModalOpen(true);
+  const closeAddTaskModal = () => setAddTaskModalOpen(false);
+
+  const handleAddTask = (newTask) => {
+    const newId =
+      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task.id)) + 1;
+    const taskWithId = { ...newTask, id: newId, completed: false };
+
+    setTasks((prev) => [taskWithId, ...prev]);
+    closeAddTaskModal();
   };
 
   return (
     <div className="home">
       <div className="home__content">
         <h1 className="home__title">Daily Tasks</h1>
-        <p className="home__add-task">+ Add Task</p>
+        <p
+          className="home__add-task"
+          onClick={openAddTaskModal}
+          style={{ cursor: "pointer" }}
+        >
+          + Add Task
+        </p>
         <div className="home__task-gallery">
           {tasks.length === 0 ? (
             <>
@@ -86,11 +127,18 @@ function Home({ achievements }) {
                 gems={task.reward.gems}
                 onDelete={() => deleteTask(task._id)}
                 onToggle={() => toggleTask(task._id, task.reward.gems)}
+                onClick={() => handleTaskClick(task.id)}
+                isSelected={task.id === clickedTaskId}
               />
             ))
           )}
         </div>
       </div>
+      <AddTaskModal
+        activeModal={isAddTaskModalOpen ? "addTask" : null}
+        closeModal={closeAddTaskModal}
+        onAddTask={handleAddTask}
+      />
 
       <RightSideBar achievements={achievements} />
     </div>
