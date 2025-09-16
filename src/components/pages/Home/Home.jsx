@@ -28,12 +28,12 @@ function Home({ achievements }) {
 
   const toggleTask = (id, gems) => {
     setTasks((prevTasks) => {
-      const toggledTask = prevTasks.find((task) => task.id === id);
+      const toggledTask = prevTasks.find((task) => task._id === id);
       if (!toggledTask) return prevTasks;
 
       const updatedTask = { ...toggledTask, completed: !toggledTask.completed };
 
-      const otherTasks = prevTasks.filter((task) => task.id !== id);
+      const otherTasks = prevTasks.filter((task) => task._id !== id);
 
       return [...otherTasks, updatedTask];
     });
@@ -77,10 +77,10 @@ function Home({ achievements }) {
   const handleTaskClick = (id) => {
     setClickedTaskId(id);
     setTasks((prevTasks) => {
-      const clickedTask = prevTasks.find((task) => task.id === id);
+      const clickedTask = prevTasks.find((task) => task._id === id);
       if (!clickedTask) return prevTasks;
 
-      const otherTasks = prevTasks.filter((task) => task.id !== id);
+      const otherTasks = prevTasks.filter((task) => task._id !== id);
 
       return [...otherTasks, clickedTask];
     });
@@ -91,8 +91,12 @@ function Home({ achievements }) {
 
   const handleAddTask = (newTask) => {
     const newId =
-      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task.id)) + 1;
-    const taskWithId = { ...newTask, id: newId, completed: false };
+      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task._id)) + 1;
+    const taskWithId = {
+      ...newTask,
+      _id: newId,
+      completed: false,
+    };
 
     setTasks((prev) => [taskWithId, ...prev]);
     closeAddTaskModal();
@@ -128,8 +132,9 @@ function Home({ achievements }) {
                 gems={task.reward.gems}
                 onDelete={() => deleteTask(task._id)}
                 onToggle={() => toggleTask(task._id, task.reward.gems)}
-                onClick={() => handleTaskClick(task.id)}
-                isSelected={task.id === clickedTaskId}
+                onClick={() => handleTaskClick(task._id)}
+                isSelected={task._id === clickedTaskId}
+                completed={task.completed}
               />
             ))
           )}
