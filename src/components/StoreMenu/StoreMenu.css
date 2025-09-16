@@ -11,3 +11,11 @@
   font-size: 32px;
   margin: 30px auto 10px 30px;
 }
+
+.store-menu__items {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding: 0;
+  gap: 8px;
+}

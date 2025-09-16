@@ -1,4 +1,4 @@
-export const items = [
+export const shopItemsData = [
   {
     _id: "streak-freeze",
     name: "Streak Freeze",
