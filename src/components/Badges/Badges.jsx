@@ -1,16 +1,16 @@
 import Badge from "../Badge/Badge";
-import { badges } from "../../utils/mockData/mockBadges";
 import "./Badges.css";
 
-function Badges() {
+function Badges({ badges }) {
   return (
     <section className="badges profile__tab">
       <h2 className="badges__title">Here are your Badges!</h2>
       <ul className="badges__gallery">
         {badges
-          .filter((badge) => badge.unlocked)
+          // Implement userBadges in backend First
+          // .filter((badge) => badge)
           .map((badge) => (
-            <Badge key={badge.id} badge={badge} />
+            <Badge key={badge._id} badge={badge} />
           ))}
       </ul>
     </section>

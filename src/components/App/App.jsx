@@ -14,6 +14,7 @@ import { users } from "../../utils/mockData/mockUsers";
 
 // Backend Calls
 import { getAchievements } from "../../utils/api/achievements";
+import { getBadges } from "../../utils/api/badges";
 
 import { CurrentUserContext } from "../../contexts/UserContext";
 
@@ -24,6 +25,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(users[2]);
 
   const [achievements, setAchievements] = useState([]);
+  const [badges, setBadges] = useState([]);
 
   const [activeModal, setActiveModal] = useState("");
 
@@ -74,12 +76,22 @@ function App() {
     }
   };
 
+  // Load ALL achievements
   useEffect(() => {
     async function loadAchievements() {
       const data = await getAchievements();
       setAchievements(data);
     }
     loadAchievements();
+  }, []);
+
+  // Load ALL badges
+  useEffect(() => {
+    async function loadBadges() {
+      const data = await getBadges();
+      setBadges(data);
+    }
+    loadBadges();
   }, []);
 
   return (
@@ -98,10 +110,10 @@ function App() {
             <Route path="/" element={<Home achievements={achievements} />} />
             <Route
               path="profile"
-              element={<Profile achievements={achievements} />}
+              element={<Profile achievements={achievements} badges={badges} />}
             />
             <Route path="shop" element={<Shop />} />
-            <Route path="quiz" element={<Quiz />} />
+            <Route path="quiz" element={<Quiz achievements={achievements} />} />
           </Routes>
         </div>
         <RegisterModal
