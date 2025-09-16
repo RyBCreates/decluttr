@@ -1,18 +1,33 @@
 import "./Shop.css";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import StoreMenu from "../../StoreMenu/StoreMenu";
 
-import { shopItemsData } from "../../../utils/mockData/mockItems";
+import { getShopItems } from "../../../utils/api/shopItems";
 
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
 function Shop() {
   const { user, setUser } = useContext(CurrentUserContext);
-  const [shopItems, setShopItem] = useState(shopItemsData);
-  const [selectedItemId, setSelectedItemId] = useState(shopItems[0]._id);
-  const selectedItem = shopItems.find((i) => i._id === selectedItemId);
+  const [shopItems, setShopItems] = useState([]);
+  const [selectedItemId, setSelectedItemId] = useState(null);
   const [status, setStatus] = useState("");
+
+  // On mount, Load Shop Items from backend
+  useEffect(() => {
+    async function loadItems() {
+      const items = await getShopItems();
+      setShopItems(items);
+
+      if (items.length > 0) {
+        setSelectedItemId(items[0]._id);
+      }
+    }
+
+    loadItems();
+  }, []);
+
+  const selectedItem = shopItems.find((i) => i._id === selectedItemId);
 
   const canAfford = (user?.gems ?? 0) >= (selectedItem?.cost ?? Infinity);
 
