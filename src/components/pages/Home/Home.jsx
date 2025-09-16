@@ -8,7 +8,8 @@ import AddTaskModal from "../../modals/AddTask/AddTaskModal.jsx";
 import "./Home.css";
 
 function Home({ achievements }) {
-  const [tasks, setTasks] = useState([...mockTasks].slice(0, 5));
+  // const [tasks, setTasks] = useState([...tasks].slice(0, 5));
+  const [tasks, setTasks] = useState([]);
   const { user, setUser } = useContext(CurrentUserContext);
   const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [clickedTaskId, setClickedTaskId] = useState(null);
