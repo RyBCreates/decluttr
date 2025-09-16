@@ -1,5 +1,5 @@
-import cleanSweep from "../../assets/badges/clean-sweep.jpeg";
-import earthDefender from "../../assets/badges/earth-defender.png";
+import cleanSweep from "../../../public/badges/clean-sweep.jpeg";
+import earthDefender from "../../../public/badges/earth-defender.png";
 
 export const badges = [
   {
