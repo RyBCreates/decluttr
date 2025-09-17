@@ -1,0 +1,42 @@
+import { BASE_URL } from "../constants";
+
+export async function getUserAchievements() {
+  const token = localStorage.getItem("token");
+  if (!token) return [];
+
+  try {
+    const res = await fetch(`${BASE_URL}/user-achievements/me`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!res.ok) throw new Error("Failed to fetch user achievements");
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error("Get user achievements error:", err);
+    return [];
+  }
+}
+
+export async function incrementAchievement(achievementId, amount = 1) {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Not authorized");
+
+  try {
+    const res = await fetch(`${BASE_URL}/user-achievements/increment`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ achievementId, amount }),
+    });
+    if (!res.ok) throw new Error("Failed to increment achievement");
+    return await res.json();
+  } catch (err) {
+    console.error("Increment achievement error:", err);
+    throw err;
+  }
+}
