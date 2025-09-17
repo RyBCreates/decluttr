@@ -2,7 +2,12 @@ import { useState, useEffect } from "react";
 import "./RegisterModal.css";
 import "../Modals.css";
 
+import { useCurrentUser } from "../../../contexts/UserContext";
+import { registerUser } from "../../../utils/api/auth";
+
 function RegisterModal({ activeModal, closeModal, handleSwitchModal }) {
+  const { setUser } = useCurrentUser();
+
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -10,10 +15,10 @@ function RegisterModal({ activeModal, closeModal, handleSwitchModal }) {
 
   useEffect(() => {
     if (activeModal === "register") {
-      setUsername("Test User");
-      setEmail("test@test.com");
-      setPassword("1234");
-      setVerifiedPassword("1234");
+      setUsername("");
+      setEmail("");
+      setPassword("");
+      setVerifiedPassword("");
     }
   }, [activeModal]);
 
@@ -24,10 +29,18 @@ function RegisterModal({ activeModal, closeModal, handleSwitchModal }) {
     verifiedPassword.trim() !== "" &&
     password === verifiedPassword;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formIsValid) return;
-    closeModal();
+
+    try {
+      const data = await registerUser({ username, email, password });
+      localStorage.setItem("token", data.token);
+      setUser(data.user);
+      closeModal();
+    } catch (err) {
+      console.error(err.message);
+    }
   };
 
   return (
@@ -79,18 +92,25 @@ function RegisterModal({ activeModal, closeModal, handleSwitchModal }) {
           {verifiedPassword && password !== verifiedPassword && (
             <p className="register__error">Passwords do not match!</p>
           )}
-          <button className="register__submit" disabled={!formIsValid}>
-            Register
-          </button>
-          <button
-            className="register__switch"
-            type="button"
-            onClick={() => {
-              handleSwitchModal();
-            }}
-          >
-            or Log In
-          </button>
+          <div className="register__buttons">
+            <button
+              className={`register__submit ${
+                !formIsValid ? "register__submit_disabled" : ""
+              }`}
+              disabled={!formIsValid}
+            >
+              Register
+            </button>
+            <button
+              className="register__switch"
+              type="button"
+              onClick={() => {
+                handleSwitchModal();
+              }}
+            >
+              or Log In
+            </button>
+          </div>
         </form>
       </div>
     </div>
