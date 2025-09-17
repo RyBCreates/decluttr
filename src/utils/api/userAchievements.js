@@ -1,11 +1,11 @@
-import { BASE_URL } from "../constants";
+import { BASE_URL, API_URL } from "../constants";
 
 export async function getUserAchievements() {
   const token = localStorage.getItem("token");
   if (!token) return [];
 
   try {
-    const res = await fetch(`${BASE_URL}/user-achievements/me`, {
+    const res = await fetch(`${BASE_URL}${API_URL}/user-achievements/me`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

@@ -1,8 +1,8 @@
-import { BASE_URL } from "../constants";
+import { BASE_URL, API_URL } from "../constants";
 
 export async function getAchievements() {
   try {
-    const response = await fetch(`${BASE_URL}/achievements`);
+    const response = await fetch(`${BASE_URL}${API_URL}/achievements`);
     if (!response.ok) {
       throw new Error("Failed to fetch achievements");
     }
