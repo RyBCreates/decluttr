@@ -1,3 +1,8 @@
-.items__list-container {
-  list-style: none;
+.items__list {
+  display: flex;
+}
+
+.items__list_disable-click {
+  pointer-events: none;
+  cursor: default;
 }

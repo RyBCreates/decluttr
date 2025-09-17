@@ -17,6 +17,7 @@ import { getUserAchievements } from "../../utils/api/userAchievements.js";
 import { getBadges } from "../../utils/api/badges";
 import { getTasks } from "../../utils/api/tasks";
 import { getCurrentUser } from "../../utils/api/auth.js";
+import { getShopItems } from "../../utils/api/shopItems.js";
 
 import { CurrentUserContext } from "../../contexts/UserContext";
 
@@ -30,6 +31,7 @@ function App() {
   const [achievements, setAchievements] = useState([]);
   const [badges, setBadges] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [items, setItems] = useState([]);
 
   const [activeModal, setActiveModal] = useState("");
 
@@ -139,6 +141,20 @@ function App() {
     loadTasks();
   }, []);
 
+  //Load All items
+  useEffect(() => {
+    async function loadItems() {
+      try {
+        const data = await getShopItems();
+        setItems(data);
+      } catch (err) {
+        console.error("Failed to load items", err);
+        setItems([]);
+      }
+    }
+    loadItems();
+  }, []);
+
   const handleAddTask = (newTask) => {
     // This newId does not work with the database format
     const newId =
@@ -153,41 +169,62 @@ function App() {
 
     closeModal();
   };
-
+  //get rid of login/reg on hompage
   return (
     <CurrentUserContext.Provider
       value={{ user: currentUser, setUser: setCurrentUser }}
     >
       <div className="app">
-        <div className="app__content">
-          <LeftSideBar
-            isLoggedIn={isLoggedIn}
-            handleLoginClick={handleLoginClick}
-            handleLogoutClick={handleLogoutClick}
-            handleRegisterClick={handleRegisterClick}
-          />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Home
-                  achievements={achievements}
-                  setActiveModal={setActiveModal}
-                  tasks={tasks}
-                  setTasks={setTasks}
-                  userAchievements={userAchievements}
-                  setUserAchievements={setUserAchievements}
-                />
-              }
+        {isLoggedIn ? (
+          <div className="app__content">
+            {" "}
+            <LeftSideBar
+              isLoggedIn={isLoggedIn}
+              handleLoginClick={handleLoginClick}
+              handleLogoutClick={handleLogoutClick}
+              handleRegisterClick={handleRegisterClick}
             />
-            <Route
-              path="profile"
-              element={<Profile achievements={achievements} badges={badges} />}
-            />
-            <Route path="shop" element={<Shop />} />
-            <Route path="quiz" element={<Quiz achievements={achievements} />} />
-          </Routes>
-        </div>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <Home
+                    achievements={achievements}
+                    setActiveModal={setActiveModal}
+                    tasks={tasks}
+                    setTasks={setTasks}
+                    userAchievements={userAchievements}
+                    setUserAchievements={setUserAchievements}
+                  />
+                }
+              />
+              <Route
+                path="profile"
+                element={
+                  <Profile
+                    achievements={achievements}
+                    badges={badges}
+                    items={items}
+                  />
+                }
+              />
+              <Route path="shop" element={<Shop />} />
+              <Route
+                path="quiz"
+                element={<Quiz achievements={achievements} />}
+              />
+            </Routes>
+          </div>
+        ) : (
+          <div>
+            <LandingPage
+              isLoggedIn={isLoggedIn}
+              handleLoginClick={handleLoginClick}
+              handleRegisterClick={handleRegisterClick}
+            />{" "}
+          </div>
+        )}
+
         <RegisterModal
           activeModal={activeModal}
           closeModal={closeModal}
