@@ -22,48 +22,69 @@ function LeftSideBar({
             alt="Decluttr logo"
           ></img>
         </NavLink>
-        <NavLink className="left-sidebar__link" to="/">
-          <img src={home} alt="" className="left-sidebar__icon" /> Home
+        <NavLink className="left-sidebar__link" to="/" aria-label="Home">
+          <img src={home} alt="" className="left-sidebar__icon" />
+          <span className="left-sidebar__label">Home</span>
         </NavLink>
-        <NavLink className="left-sidebar__link" to="profile">
-          <img src={profile} alt="" className="left-sidebar__icon" /> Profile
+        <NavLink
+          className="left-sidebar__link"
+          to="profile"
+          aria-label="Profile"
+        >
+          <img src={profile} alt="" className="left-sidebar__icon" />
+          <span className="left-sidebar__label">Profile</span>
         </NavLink>
-        <NavLink className="left-sidebar__link" to="shop">
-          <img src={shop} alt="" className="left-sidebar__icon" /> Shop
+        <NavLink className="left-sidebar__link" to="shop" aria-label="Shop">
+          <img src={shop} alt="" className="left-sidebar__icon" />
+          <span className="left-sidebar__label">Shop</span>
         </NavLink>
-        <NavLink className="left-sidebar__link" to="quiz">
-          <img src={quiz} alt="" className="left-sidebar__icon" /> Quiz
+        <NavLink className="left-sidebar__link" to="quiz" aria-label="Quiz">
+          <img src={quiz} alt="" className="left-sidebar__icon" />
+          <span className="left-sidebar__label">Quiz</span>
         </NavLink>
       </nav>
+
       {isLoggedIn ? (
-        <button
-          className="left-sidebar__logout"
-          onClick={() => {
-            handleLogoutClick();
-          }}
-        >
+        <button className="left-sidebar__logout" onClick={handleLogoutClick}>
           Log Out
         </button>
       ) : (
         <div className="left-sidebar__auth-buttons">
-          <button
-            className="left-sidebar__login"
-            onClick={() => {
-              handleLoginClick();
-            }}
-          >
+          <button className="left-sidebar__login" onClick={handleLoginClick}>
             Log In
           </button>
           <button
             className="left-sidebar__register"
-            onClick={() => {
-              handleRegisterClick();
-            }}
+            onClick={handleRegisterClick}
           >
             Register
           </button>
         </div>
       )}
+
+      <div className="left-sidebar__auth-mobile" aria-label="Authentication">
+        {isLoggedIn ? (
+          <button
+            aria-label="Log Out"
+            className="left-sidebar__auth-pill"
+            onClick={handleLogoutClick}
+            title="Log Out"
+          >
+            <span aria-hidden>🚪</span>
+          </button>
+        ) : (
+          <>
+            <button
+              aria-label="Register"
+              className="left-sidebar__auth-pill"
+              onClick={handleRegisterClick}
+              title="Register"
+            >
+              <span aria-hidden>➕</span>
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 }

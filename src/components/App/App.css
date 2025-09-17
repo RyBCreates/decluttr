@@ -3,10 +3,20 @@
   margin: 0;
   background-color: rgb(235, 235, 235);
   font-family: "Gabarito", sans-serif; /* Custom font */
+  min-height: 100vh;
 }
 
 .app__content {
   display: grid;
   grid-template-columns: 240px 3fr;
-  min-height: 780px;
+  position: relative;
+}
+
+@media (max-width: 768px) {
+  .app__content {
+    grid-template-columns: 1fr;
+  }
+  .app {
+    padding-bottom: 72px;
+  }
 }

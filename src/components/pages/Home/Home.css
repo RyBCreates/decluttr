@@ -1,6 +1,13 @@
 .home {
   display: grid;
   grid-template-columns: 2fr 1fr;
+  overflow-x: hidden;
+  transition: grid-template-columns 1s ease;
+  position: relative;
+}
+
+.home:has(.right-sidebar--closed) {
+  grid-template-columns: 1fr 0fr;
 }
 
 .home__title {
@@ -16,6 +23,6 @@
 
 .home__task-gallery {
   margin: 0 30px;
-  max-height: 800px;
+  height: calc(100vh - 200px);
   overflow-y: scroll;
 }
