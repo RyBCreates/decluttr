@@ -1,30 +1,29 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+
 import LeftSideBar from "../LeftSideBar/LeftSideBar";
 import Home from "../pages/Home/Home";
 import Profile from "../pages/Profile/Profile";
 import Shop from "../pages/Shop/Shop";
 import Quiz from "../pages/Quiz/Quiz";
+import LandingPage from "../pages/LandingPage/LandingPage.jsx";
 
 import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
-import AddTaskModal from "../modals/AddTask/AddTaskModal.jsx";
+import AddTaskModal from "../modals/AddTaskModal/AddTaskModal.jsx";
 
-// mockData
-import { users } from "../../utils/mockData/mockUsers";
-
-// Backend Calls
 import { getAchievements } from "../../utils/api/achievements";
 import { getBadges } from "../../utils/api/badges";
 import { getTasks } from "../../utils/api/tasks";
+import { getCurrentUser } from "../../utils/api/auth.js";
 
 import { CurrentUserContext } from "../../contexts/UserContext";
 
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const [currentUser, setCurrentUser] = useState(users[2]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const [achievements, setAchievements] = useState([]);
   const [badges, setBadges] = useState([]);
@@ -41,6 +40,7 @@ function App() {
   };
 
   const handleLogoutClick = () => {
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     setCurrentUser(null);
   };
@@ -78,6 +78,21 @@ function App() {
       setActiveModal("register");
     }
   };
+
+  // Load User using jwt token
+  useEffect(() => {
+    async function loadUser() {
+      const user = await getCurrentUser();
+      if (user) {
+        setCurrentUser(user);
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+        setCurrentUser(null);
+      }
+    }
+    loadUser();
+  }, []);
 
   // Load ALL achievements
   useEffect(() => {
@@ -162,6 +177,7 @@ function App() {
           activeModal={activeModal}
           closeModal={closeModal}
           handleSwitchModal={handleSwitchModal}
+          setIsLoggedIn={setIsLoggedIn}
         />
         <LoginModal
           activeModal={activeModal}
@@ -169,7 +185,6 @@ function App() {
           handleSwitchModal={handleSwitchModal}
           setCurrentUser={setCurrentUser}
           setIsLoggedIn={setIsLoggedIn}
-          users={users}
         />
         <AddTaskModal
           activeModal={activeModal}

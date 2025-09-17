@@ -1,5 +1,8 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
+
 import { CurrentUserContext } from "../../../contexts/UserContext";
+
+import { updateUserStats } from "../../../utils/api/auth";
 
 import { applyDailyTaskStreak } from "../../../utils/gameLogic/streakSystem";
 import { calculateLevel } from "../../../utils/gameLogic/levelSystem";
@@ -12,12 +15,10 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
   const { user, setUser } = useContext(CurrentUserContext);
   const [clickedTaskId, setClickedTaskId] = useState(null);
 
-  // Delete a specific task
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  // Complete a task and get rewards?
   const toggleTask = (id, gems, experience) => {
     setTasks((prevTasks) => {
       const toggledTask = prevTasks.find((task) => task._id === id);
@@ -38,7 +39,7 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
 
         const { updatedUser } = applyDailyTaskStreak(prev);
 
-        const baseXp = deltaGems;
+        // const baseXp = deltaGems;
         const streakMult = Math.pow(
           1.01,
           Math.max((updatedUser.streak ?? 0) - 1, 0)
@@ -61,16 +62,32 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
         const nextXp = (updatedUser.xp ?? 0) + xpGain;
         const nextLevel = calculateLevel(nextXp);
 
-        return {
+        const newUser = {
           ...updatedUser,
           gems: (updatedUser.gems ?? 0) + deltaGems,
           xp: nextXp,
           level: nextLevel,
+          streak: updatedUser.streak,
           xpBoostUsesLeft: nextBoostUses,
           xpBoostMultiplier: nextBoostMult,
         };
+        const persistUserStats = async () => {
+          try {
+            await updateUserStats({
+              xp: newUser.xp,
+              level: newUser.level,
+              gems: newUser.gems,
+              streak: newUser.streak,
+            });
+          } catch (err) {
+            console.error("Failed to update user stats:", err);
+          }
+        };
+        persistUserStats();
+        return newUser;
       });
     }
+    deleteTask(id);
   };
 
   const handleTaskClick = (id) => {

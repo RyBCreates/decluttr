@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import { quizData } from "../../../utils/quizData/quizData";
+import { CurrentUserContext } from "../../../contexts/UserContext";
+import { calculateLevel } from "../../../utils/gameLogic/levelSystem";
 import "./Quiz.css";
 
 function Quiz({ achievements }) {
@@ -13,6 +15,7 @@ function Quiz({ achievements }) {
   let [attempt, setAttempt] = useState(1);
   const [locked, setLocked] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const { user, setUser } = useContext(CurrentUserContext);
 
   const handleSubmit = () => {
     if (selectedOption === null) return;
@@ -55,6 +58,25 @@ function Quiz({ achievements }) {
   };
 
   const claimReward = () => {
+    const rewardGems = Number(checkResult()) || 0;
+
+    if (rewardGems <= 0) {
+      setLocked(true);
+      return;
+    }
+
+    setUser((prev) => {
+      if (!prev) return prev;
+      const nextXp = (prev.xp ?? 0) + rewardGems;
+      const nextLevel = calculateLevel(nextXp);
+      return {
+        ...prev,
+        gems: (prev.gems ?? 0) + rewardGems,
+        xp: nextXp,
+        level: nextLevel,
+      };
+    });
+
     setLocked(true);
   };
 
