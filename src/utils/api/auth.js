@@ -2,6 +2,7 @@ import { BASE_URL } from "../constants";
 
 export async function registerUser({ username, email, password }) {
   try {
+    // Change URL for Deployment
     const response = await fetch(`http://localhost:3002/register`, {
       method: "POST",
       headers: {
@@ -25,6 +26,7 @@ export async function registerUser({ username, email, password }) {
 
 export async function loginUser({ email, password }) {
   try {
+    // Change URL for Deployment
     const response = await fetch("http://localhost:3002/login", {
       method: "POST",
       headers: {
@@ -67,4 +69,24 @@ export async function getCurrentUser() {
     console.error("Get current user error:", err);
     return null;
   }
+}
+
+export async function updateUserStats({ xp, level, gems, streak }) {
+  const token = localStorage.getItem("token");
+  if (!token) throw new Error("Not authorized");
+
+  const response = await fetch(`${BASE_URL}/users/stats`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ xp, level, gems, streak }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to update user stats");
+  }
+
+  return await response.json();
 }
