@@ -2,8 +2,38 @@
   background-color: #f27f1b;
   display: flex;
   flex-direction: column;
-  padding: 50px 25px;
+  padding: 24px;
   color: black;
+
+  transform: translateX(0);
+  transition: transform 1s ease;
+  box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
+  overflow-y: auto;
+
+  /* Check if Necessary */
+}
+
+.right-sidebar--closed {
+  transform: translateX(100%);
+  pointer-events: none;
+}
+
+.right-sidebar__close {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.right-sidebar__close:hover {
+  background: #fff;
 }
 
 .right-sidebar__achievements {
@@ -11,4 +41,33 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.right-sidebar__handle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 36px;
+  height: 64px;
+  border-radius: 8px 0 0 8px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.right-sidebar__handle:hover {
+  background: #f2ca52;
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .right-sidebar__handle {
+    top: auto;
+    bottom: 84px;
+    transform: none;
+  }
 }
