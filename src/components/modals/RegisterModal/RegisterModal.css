@@ -1,9 +1,10 @@
 .register__title {
-  margin: 0 0 25px 0;
+  font-size: 32px;
+  margin: 0 0 15px 0;
 }
 
 .register__content {
-  padding: 40px 20px;
+  padding: 20px;
   background-color: white;
   border: 1px solid black;
   border-radius: 15px;
@@ -15,7 +16,35 @@
   gap: 15px;
 }
 
+.register__input {
+  font-size: 18px;
+  padding: 5px 10px;
+}
+
 .register__error {
   color: red;
   margin: 0;
+}
+
+.register__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.register__submit,
+.register__switch {
+  padding: 5px 10px;
+  background: #000;
+  color: white;
+}
+
+.register__submit:hover,
+.register__switch:hover {
+  cursor: pointer;
+}
+
+.register__submit_disabled {
+  opacity: 0.5;
 }
