@@ -13,6 +13,7 @@ import RegisterModal from "../modals/RegisterModal/RegisterModal";
 import AddTaskModal from "../modals/AddTaskModal/AddTaskModal.jsx";
 
 import { getAchievements } from "../../utils/api/achievements";
+import { getUserAchievements } from "../../utils/api/userAchievements.js";
 import { getBadges } from "../../utils/api/badges";
 import { getTasks } from "../../utils/api/tasks";
 import { getCurrentUser } from "../../utils/api/auth.js";
@@ -25,6 +26,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [userAchievements, setUserAchievements] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [badges, setBadges] = useState([]);
   const [tasks, setTasks] = useState([]);
@@ -103,6 +105,17 @@ function App() {
     loadAchievements();
   }, []);
 
+  // Load User Achievements if Logged In
+  useEffect(() => {
+    if (isLoggedIn) {
+      async function loadUserAchievements() {
+        const data = await getUserAchievements();
+        setUserAchievements(data);
+      }
+      loadUserAchievements();
+    }
+  }, [isLoggedIn]);
+
   // Load ALL badges
   useEffect(() => {
     async function loadBadges() {
@@ -162,6 +175,8 @@ function App() {
                   setActiveModal={setActiveModal}
                   tasks={tasks}
                   setTasks={setTasks}
+                  userAchievements={userAchievements}
+                  setUserAchievements={setUserAchievements}
                 />
               }
             />

@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
 import { updateUserStats } from "../../../utils/api/auth";
+import { incrementAchievement } from "../../../utils/api/userAchievements";
 
 import { applyDailyTaskStreak } from "../../../utils/gameLogic/streakSystem";
 import { calculateLevel } from "../../../utils/gameLogic/levelSystem";
@@ -11,35 +12,50 @@ import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
 import "./Home.css";
 
-function Home({ achievements, setActiveModal, tasks, setTasks }) {
+function Home({
+  achievements,
+  setActiveModal,
+  tasks,
+  setTasks,
+  userAchievements,
+  setUserAchievements,
+}) {
   const { user, setUser } = useContext(CurrentUserContext);
   const [clickedTaskId, setClickedTaskId] = useState(null);
+
+  const ANIMATION_MS = 1000;
 
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  const toggleTask = (id, gems, experience) => {
+  const toggleTask = async (id, gems, experience) => {
+    let shouldUpdateStats = false;
+
     setTasks((prevTasks) => {
-      const toggledTask = prevTasks.find((task) => task._id === id);
-      if (!toggledTask) return prevTasks;
-      const updatedTask = { ...toggledTask, completed: !toggledTask.completed };
+      const already = prevTasks.find((t) => t._id === id);
+      if (!already || already.completing) return prevTasks;
 
-      const otherTasks = prevTasks.filter((task) => task._id !== id);
+      shouldUpdateStats = true;
 
-      return [...otherTasks, updatedTask];
+      return prevTasks.map((task) =>
+        task._id === id
+          ? {
+              ...task,
+              completed: true,
+              completing: true,
+              disabled: true,
+            }
+          : task
+      );
     });
 
-    const deltaGems = Number(gems) || 0;
-    const baseXp = Number(experience) || 0;
-
-    if (setUser && user) {
+    if (shouldUpdateStats && setUser && user) {
       setUser((prev) => {
         if (!prev) return prev;
 
         const { updatedUser } = applyDailyTaskStreak(prev);
 
-        // const baseXp = deltaGems;
         const streakMult = Math.pow(
           1.01,
           Math.max((updatedUser.streak ?? 0) - 1, 0)
@@ -47,16 +63,14 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
         const boostMult = updatedUser.xpBoostMultiplier ?? 1;
         const boostUses = updatedUser.xpBoostUsesLeft ?? 0;
 
-        let xpGain = Math.floor(baseXp * streakMult * boostMult);
-
+        const xpGain = Math.floor(
+          (Number(experience) || 0) * streakMult * boostMult
+        );
         let nextBoostUses = boostUses;
         let nextBoostMult = boostMult;
         if (boostMult > 1 && boostUses > 0) {
           nextBoostUses = boostUses - 1;
-          if (nextBoostUses <= 0) {
-            nextBoostUses = 0;
-            nextBoostMult = 1;
-          }
+          if (nextBoostUses <= 0) nextBoostMult = 1;
         }
 
         const nextXp = (updatedUser.xp ?? 0) + xpGain;
@@ -64,14 +78,16 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
 
         const newUser = {
           ...updatedUser,
-          gems: (updatedUser.gems ?? 0) + deltaGems,
+          gems: (updatedUser.gems ?? 0) + (Number(gems) || 0),
           xp: nextXp,
           level: nextLevel,
           streak: updatedUser.streak,
           xpBoostUsesLeft: nextBoostUses,
           xpBoostMultiplier: nextBoostMult,
         };
-        const persistUserStats = async () => {
+
+        // Async updates: user stats + achievements
+        (async () => {
           try {
             await updateUserStats({
               xp: newUser.xp,
@@ -79,28 +95,56 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
               gems: newUser.gems,
               streak: newUser.streak,
             });
+
+            const relevantAchievements = achievements.filter(
+              (achievement) => achievement.taskId === id
+            );
+
+            for (const achievement of relevantAchievements) {
+              try {
+                const updated = await incrementAchievement({
+                  achievementId: achievement._id,
+                  amount: 1,
+                });
+
+                setUserAchievements((prev) => {
+                  const exists = prev.find(
+                    (ua) =>
+                      ua.achievementId._id ===
+                      (updated.achievementId._id || updated.achievementId)
+                  );
+                  if (exists) {
+                    return prev.map((ua) =>
+                      ua.achievementId._id ===
+                      (updated.achievementId._id || updated.achievementId)
+                        ? updated
+                        : ua
+                    );
+                  } else {
+                    return [...prev, updated];
+                  }
+                });
+              } catch (err) {
+                console.error("Failed to increment achievement:", err);
+              }
+            }
           } catch (err) {
             console.error("Failed to update user stats:", err);
           }
-        };
-        persistUserStats();
+        })();
+
         return newUser;
       });
     }
-    deleteTask(id);
+
+    setTimeout(() => {
+      deleteTask(id);
+      setClickedTaskId((prev) => (prev === id ? null : prev));
+    }, ANIMATION_MS);
   };
 
   const handleTaskClick = (id) => {
-    setClickedTaskId(id);
-    setTasks((prevTasks) => {
-      const clickedTask = prevTasks.find((task) => task._id === id);
-      if (!clickedTask) return prevTasks;
-
-      const finishedTask = { ...clickedTask, disabled: true };
-      const otherTasks = prevTasks.filter((task) => task._id !== id);
-
-      return [...otherTasks, finishedTask];
-    });
+    setClickedTaskId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -110,13 +154,12 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
 
         <p
           className="home__add-task"
-          onClick={() => {
-            setActiveModal("add-task");
-          }}
+          onClick={() => setActiveModal("add-task")}
           style={{ cursor: "pointer" }}
         >
           + Add Task
         </p>
+
         <div className="home__task-gallery">
           {tasks.length === 0 ? (
             <>
@@ -149,13 +192,18 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
                 onClick={() => handleTaskClick(task._id)}
                 isSelected={task._id === clickedTaskId}
                 disabled={task.disabled ?? false}
-                completed={task.completed}
+                completed={task.completed ?? false}
+                isCompleting={task.completing ?? false}
               />
             ))
           )}
         </div>
       </div>
-      <RightSideBar achievements={achievements} />
+
+      <RightSideBar
+        achievements={achievements}
+        userAchievements={userAchievements}
+      />
     </div>
   );
 }

@@ -1,5 +1,8 @@
 import { useContext, useEffect, useMemo, useState } from "react";
+
+import { updateUserInfo } from "../../utils/api/user";
 import { CurrentUserContext } from "../../contexts/UserContext";
+
 import ColorPicker from "../ColorPicker/ColorPicker";
 import ProfileAvatarPicker from "../ProfileAvatarPicker/ProfileAvatarPicker";
 import "./Settings.css";
@@ -39,7 +42,7 @@ function Settings({
     setUsername(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!valid) {
       setMsg(
@@ -51,9 +54,16 @@ function Settings({
       setMsg("No changes to save.");
       return;
     }
-    setUser((prev) => (prev ? { ...prev, username } : prev));
-    setMsg("Username updated.");
+    try {
+      // Pass in avatar when avatar picker is added.
+      const updatedUser = await updateUserInfo({ username });
+      setUser(updatedUser);
+      setMsg("Username updated.");
+    } catch (err) {
+      setMsg(err.message);
+    }
   };
+
   return (
     <section className="settings profile__tab">
       <p className="settings__title">Profile Settings</p>
@@ -87,7 +97,6 @@ function Settings({
               aria-describedby="settings-username-help"
             />
           </label>
-
           <button
             className="settings__submit"
             type="submit"

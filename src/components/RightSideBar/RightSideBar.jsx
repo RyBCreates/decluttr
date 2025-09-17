@@ -1,26 +1,54 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./RightSideBar.css";
 
 import UserStats from "../UserStats/UserStats";
 import Achievement from "../Achievement/Achievement";
 
-import { userAchievements } from "../../utils/mockData/mockUserAchievements";
 import { CurrentUserContext } from "../../contexts/UserContext";
 
-function RightSideBar({ achievements }) {
+function RightSideBar({ achievements, userAchievements = [] }) {
   const { user } = useContext(CurrentUserContext);
+  console.log("UserAchievements loaded to RightSideBar:", userAchievements);
+
+  if (!user) return null;
+
+  const [open, setOpen] = useState(true);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("rightSidebarOpen");
+    if (saved !== null) setOpen(saved === "true");
+  }, []);
+  useEffect(() => {
+    localStorage.setItem("rightSidebarOpen", String(open));
+  }, [open]);
 
   return (
-    <div className="right-sidebar">
-      <UserStats />
-      <div className="right-sidebar__achievements">
-        {user ? (
-          achievements.map((achievement) => {
+    <>
+      <div
+        className={`right-sidebar ${
+          open ? "right-sidebar--open" : "right-sidebar--closed"
+        }`}
+      >
+        <button
+          type="button"
+          className="right-sidebar__close"
+          aria-label="Close sidebar"
+          onClick={() => setOpen(false)}
+          title="Close"
+        >
+          ✕
+        </button>
+
+        <UserStats />
+
+        <div className="right-sidebar__achievements">
+          {achievements.map((achievement) => {
             const userProgress = userAchievements.find(
-              (userAchievement) =>
-                userAchievement.userId === user.id &&
-                userAchievement.achievementId === achievement._id
+              (ua) =>
+                (ua.userId === user._id || ua.userId === user.id) &&
+                ua.achievementId?._id === achievement._id
             );
+
             return (
               <Achievement
                 key={achievement._id}
@@ -30,12 +58,22 @@ function RightSideBar({ achievements }) {
                 completed={userProgress?.completed || false}
               />
             );
-          })
-        ) : (
-          <></>
-        )}
+          })}
+        </div>
       </div>
-    </div>
+
+      {!open && (
+        <button
+          type="button"
+          className="right-sidebar__handle"
+          aria-label="Open sidebar"
+          onClick={() => setOpen(true)}
+          title="Open"
+        >
+          ◀
+        </button>
+      )}
+    </>
   );
 }
 

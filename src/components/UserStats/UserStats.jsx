@@ -39,7 +39,12 @@ function UserStats() {
       </div>
       <div className="user-stats__stat">
         <p className="user-stats__label">Level</p>
-        <p className="user-stats__value user-stats__tooltip-wrap">
+        <p
+          className="user-stats__value user-stats__tooltip-wrap"
+          tabIndex={0}
+          aria-describedby="xp-tooltip"
+          aria-label={`Level ${level}, ${xpIntoLevel} out of ${xpForThisLevel} XP into this level, ${xpToNext} XP to next level`}
+        >
           <img
             src={experience}
             alt="experience icon"
