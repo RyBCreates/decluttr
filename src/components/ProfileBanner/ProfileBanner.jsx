@@ -1,9 +1,10 @@
 import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/UserContext";
+import { avatarImages } from "../ProfileAvatarPicker/ProfileAvatarPicker";
 
 import "./ProfileBanner.css";
 
-function ProfileBanner({ bannerColor }) {
+function ProfileBanner({ bannerColor, bannerAvatar }) {
   const { user } = useContext(CurrentUserContext);
 
   return (
@@ -12,9 +13,9 @@ function ProfileBanner({ bannerColor }) {
     >
       <img
         className="profile-banner__avatar"
-        // src={user?.avatarUrl || "/default-avatar.png"}
-        // alt={`${user?.username || "User"}'s avatar`}
-      ></img>
+        src={avatarImages[bannerAvatar] || avatarImages.defaultAvatar}
+        alt="profile avatar"
+      />
       <div className="profile-banner__info">
         <h2 className="profile-banner__username">
           {user?.username || "Profile Name"}

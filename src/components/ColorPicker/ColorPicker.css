@@ -36,17 +36,17 @@
 }
 
 .color-picker__swatch_red {
-  background-color: rgb(167, 54, 54);
+  background-color: #ea4239;
 }
 
 .color-picker__swatch_blue {
-  background-color: rgb(45, 96, 173);
+  background-color: #5483bf;
 }
 
 .color-picker__swatch_green {
-  background-color: rgb(65, 195, 43);
+  background-color: #afd261;
 }
 
 .color-picker__swatch_gold {
-  background-color: rgb(223, 230, 40);
+  background-color: #f2ca52;
 }

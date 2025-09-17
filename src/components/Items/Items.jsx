@@ -1,37 +1,27 @@
 import "./Items.css";
 import { useContext } from "react";
+import ShopItem from "../ShopItem/ShopItem.jsx";
 import { CurrentUserContext } from "../../contexts/UserContext";
-// import { items } from "../../utils/mockData/mockItems";
-import { userItems } from "../../utils/mockData/mockUserItems";
 
-function Items() {
+function Items({ items }) {
   const { user } = useContext(CurrentUserContext);
-  if (!user) return null;
-
-  const ownedItemData = userItems.filter(
-    (ui) => ui.userId === user.id && (ui.uses ?? 0) > 0
-  );
-
-  const ownedItems = ownedItemData
-    .map((ui) => {
-      const meta = items.find((item) => item.id == ui.itemId);
-
-      return meta ? { ...meta, uses: ui.uses } : null;
-    })
-    .filter(Boolean);
 
   return (
     <div className="items profile__tab">
       <h2 className="items__title">Here are the Items you have!</h2>
-      {ownedItems.length === 0 && <p>You have no purchased items</p>}
-      <ul className="items__list-container">
-        {ownedItems.map((item) => (
-          <li className="items__list-item" key={item.id}>
-            {item.name} - Uses left: {item.uses}
-          </li>
-        ))}
-      </ul>
+      {user ? (
+        <div className="items__list">
+          {items.map((item) => (
+            <div key={item._id} className="items__list_disable-click">
+              <ShopItem item={item} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>Please log in to see your items.</p>
+      )}
     </div>
   );
 }
+
 export default Items;

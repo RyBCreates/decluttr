@@ -4,11 +4,17 @@ import { updateUserInfo } from "../../utils/api/user";
 import { CurrentUserContext } from "../../contexts/UserContext";
 
 import ColorPicker from "../ColorPicker/ColorPicker";
+import ProfileAvatarPicker from "../ProfileAvatarPicker/ProfileAvatarPicker";
 import "./Settings.css";
 
 const USERNAME_REGEX = /^[A-Za-z0-9]{3,16}$/;
 
-function Settings({ bannerColor, setBannerColor }) {
+function Settings({
+  bannerColor,
+  setBannerColor,
+  bannerAvatar,
+  setBannerAvatar,
+}) {
   const { user, setUser } = useContext(CurrentUserContext);
   const original = user?.username ?? "";
   const [username, setUsername] = useState(original);
@@ -68,6 +74,10 @@ function Settings({ bannerColor, setBannerColor }) {
             setBannerColor={setBannerColor}
           />
 
+          <ProfileAvatarPicker
+            bannerAvatar={bannerAvatar}
+            setBannerAvatar={setBannerAvatar}
+          />
           <label className="settings__label">
             Change Your Username
             <input
