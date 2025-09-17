@@ -1,34 +1,38 @@
+import { useEffect, useState } from "react";
+
 import "./LoginModal.css";
 import "../Modals.css";
-import { useEffect, useState } from "react";
+
+import { useCurrentUser } from "../../../contexts/UserContext";
+import { loginUser } from "../../../utils/api/auth";
 
 function LoginModal({
   activeModal,
   handleSwitchModal,
   closeModal,
-  setCurrentUser,
   setIsLoggedIn,
-  users,
 }) {
+  const { setUser } = useCurrentUser();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const formIsValid = email.trim() !== "" && password.trim() !== "";
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const foundUser = users.find(
-      (u) => u.email === email && u.password === password
-    );
-    if (!foundUser) {
-      setError("Invalid username or password.");
-      return;
-    }
-    setCurrentUser(foundUser);
-    setIsLoggedIn(true);
     setError("");
-    closeModal();
+
+    try {
+      const data = await loginUser({ email, password });
+      localStorage.setItem("token", data.token);
+      setUser(data.user);
+      setIsLoggedIn(true);
+      closeModal();
+    } catch (err) {
+      setError(err.message);
+    }
   };
 
   useEffect(() => {
@@ -50,7 +54,7 @@ function LoginModal({
         <form className="login__form" onSubmit={handleSubmit}>
           <input
             className="login__input"
-            type="text"
+            type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
