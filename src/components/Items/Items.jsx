@@ -1,7 +1,7 @@
 import "./Items.css";
 import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/UserContext";
-// import { items } from "../../utils/mockData/mockItems";
+
 import { userItems } from "../../utils/mockData/mockUserItems";
 
 function Items() {

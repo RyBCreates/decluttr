@@ -13,10 +13,11 @@ function Profile({ achievements, badges }) {
   const [activeTab, setActiveTab] = useState("badges");
 
   const [bannerColor, setBannerColor] = useState("green");
+  const [bannerAvatar, setBannerAvatar] = useState("defaultAvatar");
 
   return (
     <div className="profile">
-      <ProfileBanner bannerColor={bannerColor} />
+      <ProfileBanner bannerColor={bannerColor} bannerAvatar={bannerAvatar} />
       <ProfileNav activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="profile__tab-content">
@@ -27,7 +28,10 @@ function Profile({ achievements, badges }) {
         {activeTab === "goals" && <Goals />}
         {activeTab === "items" && <Items />}
         {activeTab === "settings" && (
-          <Settings setBannerColor={setBannerColor} />
+          <Settings
+            setBannerColor={setBannerColor}
+            setBannerAvatar={setBannerAvatar}
+          />
         )}
       </div>
     </div>

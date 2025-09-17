@@ -9,6 +9,7 @@ function TaskCard({
   onClick,
   isSelected,
   completed,
+  disabled,
 }) {
   return (
     <div

@@ -8,6 +8,8 @@ export const users = [
     xp: 1000,
     gems: 1000,
     streak: 21,
+    lastTaskDate: null,
+    streakFreezes: 0,
   },
   {
     id: 2,
@@ -18,6 +20,8 @@ export const users = [
     xp: 950,
     gems: 1200,
     streak: 30,
+    lastTaskDate: null,
+    streakFreezes: 0,
   },
   {
     id: 3,
@@ -25,9 +29,11 @@ export const users = [
     email: "jordan@test.com",
     password: "1234",
     level: 21,
-    xp: 2105,
+    xp: 50,
     gems: 100,
     streak: 1,
+    lastTaskDate: null,
+    streakFreezes: 0,
   },
   {
     id: 4,
@@ -38,5 +44,7 @@ export const users = [
     xp: 300,
     gems: 200,
     streak: 3,
+    lastTaskDate: null,
+    streakFreezes: 0,
   },
 ];

@@ -1,0 +1,40 @@
+.avatar-picker {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 50px;
+  border: none;
+}
+
+.avatar-picker__legend {
+  font-size: 24px;
+}
+
+.avatar-picker__label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 11px;
+  width: 55px;
+  height: 55px;
+  padding: 5px;
+}
+
+.avatar-picker__label:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
+.avatar-picker__avatar {
+  display: none;
+}
+
+.avatar-picker__img {
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  border: 1px solid #000000;
+  background-color: transparent;
+  object-fit: cover;
+}

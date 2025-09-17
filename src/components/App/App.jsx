@@ -8,6 +8,7 @@ import Quiz from "../pages/Quiz/Quiz";
 
 import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
+import AddTaskModal from "../modals/AddTask/AddTaskModal.jsx";
 
 // mockData
 import { users } from "../../utils/mockData/mockUsers";
@@ -15,6 +16,7 @@ import { users } from "../../utils/mockData/mockUsers";
 // Backend Calls
 import { getAchievements } from "../../utils/api/achievements";
 import { getBadges } from "../../utils/api/badges";
+import { getTasks } from "../../utils/api/tasks";
 
 import { CurrentUserContext } from "../../contexts/UserContext";
 
@@ -26,6 +28,7 @@ function App() {
 
   const [achievements, setAchievements] = useState([]);
   const [badges, setBadges] = useState([]);
+  const [tasks, setTasks] = useState([]);
 
   const [activeModal, setActiveModal] = useState("");
 
@@ -94,6 +97,35 @@ function App() {
     loadBadges();
   }, []);
 
+  // Load ALL tasks
+  useEffect(() => {
+    async function loadTasks() {
+      try {
+        const data = await getTasks();
+        setTasks(data);
+      } catch (err) {
+        console.error("Failed to load Tasks", err);
+        setTasks([]);
+      }
+    }
+    loadTasks();
+  }, []);
+
+  const handleAddTask = (newTask) => {
+    // This newId does not work with the database format
+    const newId =
+      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task._id)) + 1;
+    const taskWithId = {
+      ...newTask,
+      _id: newId,
+      completed: false,
+      reward: { gems: newTask.gems ?? 0, xp: newTask.xp ?? 5 },
+    };
+    setTasks((prev) => [taskWithId, ...prev]);
+
+    closeModal();
+  };
+
   return (
     <CurrentUserContext.Provider
       value={{ user: currentUser, setUser: setCurrentUser }}
@@ -107,7 +139,17 @@ function App() {
             handleRegisterClick={handleRegisterClick}
           />
           <Routes>
-            <Route path="/" element={<Home achievements={achievements} />} />
+            <Route
+              path="/"
+              element={
+                <Home
+                  achievements={achievements}
+                  setActiveModal={setActiveModal}
+                  tasks={tasks}
+                  setTasks={setTasks}
+                />
+              }
+            />
             <Route
               path="profile"
               element={<Profile achievements={achievements} badges={badges} />}
@@ -128,6 +170,12 @@ function App() {
           setCurrentUser={setCurrentUser}
           setIsLoggedIn={setIsLoggedIn}
           users={users}
+        />
+        <AddTaskModal
+          activeModal={activeModal}
+          closeModal={closeModal}
+          onAddTask={handleAddTask}
+          tasks={tasks}
         />
       </div>
     </CurrentUserContext.Provider>

@@ -1,7 +1,13 @@
 import ColorPicker from "../ColorPicker/ColorPicker";
+import ProfileAvatarPicker from "../ProfileAvatarPicker/ProfileAvatarPicker";
 import "./Settings.css";
 
-function Settings({ bannerColor, setBannerColor }) {
+function Settings({
+  bannerColor,
+  setBannerColor,
+  bannerAvatar,
+  setBannerAvatar,
+}) {
   return (
     <section className="settings profile__tab">
       <p className="settings__title">Profile Settings</p>
@@ -10,6 +16,10 @@ function Settings({ bannerColor, setBannerColor }) {
           <ColorPicker
             bannerColor={bannerColor}
             setBannerColor={setBannerColor}
+          />
+          <ProfileAvatarPicker
+            bannerAvatar={bannerAvatar}
+            setBannerAvatar={setBannerAvatar}
           />
           <label className="settings__label">
             Change Your Username

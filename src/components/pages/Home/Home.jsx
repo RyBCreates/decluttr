@@ -1,36 +1,27 @@
 import { useState, useContext, useEffect } from "react";
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
+import { applyDailyTaskStreak } from "../../../utils/gameLogic/streakSystem";
+import { calculateLevel } from "../../../utils/gameLogic/levelSystem";
+
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
-import { getTasks } from "../../../utils/api/tasks";
-import AddTaskModal from "../../modals/AddTask/AddTaskModal.jsx";
 import "./Home.css";
 
-function Home({ achievements }) {
-  // const [tasks, setTasks] = useState([...tasks].slice(0, 5));
-  const [tasks, setTasks] = useState([]);
+function Home({ achievements, setActiveModal, tasks, setTasks }) {
   const { user, setUser } = useContext(CurrentUserContext);
-  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
   const [clickedTaskId, setClickedTaskId] = useState(null);
 
-  useEffect(() => {
-    async function loadTasks() {
-      const data = await getTasks();
-      setTasks(data);
-    }
-    loadTasks();
-  }, []);
-
+  // Delete a specific task
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  const toggleTask = (id, gems) => {
+  // Complete a task and get rewards?
+  const toggleTask = (id, gems, experience) => {
     setTasks((prevTasks) => {
       const toggledTask = prevTasks.find((task) => task._id === id);
       if (!toggledTask) return prevTasks;
-
       const updatedTask = { ...toggledTask, completed: !toggledTask.completed };
 
       const otherTasks = prevTasks.filter((task) => task._id !== id);
@@ -39,36 +30,44 @@ function Home({ achievements }) {
     });
 
     const deltaGems = Number(gems) || 0;
+    const baseXp = Number(experience) || 0;
 
     if (setUser && user) {
       setUser((prev) => {
         if (!prev) return prev;
 
-        // Base XP: equal to gems for now
+        const { updatedUser } = applyDailyTaskStreak(prev);
+
         const baseXp = deltaGems;
-        const multiplier = prev.xpBoostMultiplier ?? 1;
-        const usesLeft = prev.xpBoostUsesLeft ?? 0;
+        const streakMult = Math.pow(
+          1.01,
+          Math.max((updatedUser.streak ?? 0) - 1, 0)
+        );
+        const boostMult = updatedUser.xpBoostMultiplier ?? 1;
+        const boostUses = updatedUser.xpBoostUsesLeft ?? 0;
 
-        // Calculate XP gain with multiplier
-        const xpGain = Math.floor(baseXp * multiplier);
+        let xpGain = Math.floor(baseXp * streakMult * boostMult);
 
-        // Consume a boost use if active
-        let nextUsesLeft = usesLeft;
-        let nextMultiplier = multiplier;
-        if (multiplier > 1 && usesLeft > 0) {
-          nextUsesLeft = usesLeft - 1;
-          if (nextUsesLeft <= 0) {
-            nextUsesLeft = 0;
-            nextMultiplier = 1;
+        let nextBoostUses = boostUses;
+        let nextBoostMult = boostMult;
+        if (boostMult > 1 && boostUses > 0) {
+          nextBoostUses = boostUses - 1;
+          if (nextBoostUses <= 0) {
+            nextBoostUses = 0;
+            nextBoostMult = 1;
           }
         }
 
+        const nextXp = (updatedUser.xp ?? 0) + xpGain;
+        const nextLevel = calculateLevel(nextXp);
+
         return {
-          ...prev,
-          gems: (prev.gems ?? 0) + deltaGems,
-          xp: (prev.xp ?? 0) + xpGain,
-          xpBoostUsesLeft: nextUsesLeft,
-          xpBoostMultiplier: nextMultiplier,
+          ...updatedUser,
+          gems: (updatedUser.gems ?? 0) + deltaGems,
+          xp: nextXp,
+          level: nextLevel,
+          xpBoostUsesLeft: nextBoostUses,
+          xpBoostMultiplier: nextBoostMult,
         };
       });
     }
@@ -80,31 +79,23 @@ function Home({ achievements }) {
       const clickedTask = prevTasks.find((task) => task._id === id);
       if (!clickedTask) return prevTasks;
 
+      const finishedTask = { ...clickedTask, disabled: true };
       const otherTasks = prevTasks.filter((task) => task._id !== id);
 
-      return [...otherTasks, clickedTask];
+      return [...otherTasks, finishedTask];
     });
-  };
-
-  const openAddTaskModal = () => setAddTaskModalOpen(true);
-  const closeAddTaskModal = () => setAddTaskModalOpen(false);
-
-  const handleAddTask = (newTask) => {
-    const newId =
-      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task._id)) + 1;
-    const taskWithId = { ...newTask, _id: newId, completed: false };
-
-    setTasks((prev) => [taskWithId, ...prev]);
-    closeAddTaskModal();
   };
 
   return (
     <div className="home">
       <div className="home__content">
         <h1 className="home__title">Daily Tasks</h1>
+
         <p
           className="home__add-task"
-          onClick={openAddTaskModal}
+          onClick={() => {
+            setActiveModal("add-task");
+          }}
           style={{ cursor: "pointer" }}
         >
           + Add Task
@@ -115,7 +106,11 @@ function Home({ achievements }) {
               <p className="home__tasks-empty">
                 Looks like you are out of tasks!
               </p>
-              <button className="home__add-task_secondary" type="button">
+              <button
+                className="home__add-task_secondary"
+                type="button"
+                onClick={() => setActiveModal("add-task")}
+              >
                 Add Task
               </button>
             </>
@@ -125,22 +120,24 @@ function Home({ achievements }) {
                 key={task._id}
                 icon={task.icon}
                 name={task.name}
-                gems={task.reward.gems}
+                gems={task.reward?.gems ?? 0}
                 onDelete={() => deleteTask(task._id)}
-                onToggle={() => toggleTask(task._id, task.reward.gems)}
+                onToggle={() =>
+                  toggleTask(
+                    task._id,
+                    task.reward?.gems ?? 0,
+                    task.reward?.xp ?? 0
+                  )
+                }
                 onClick={() => handleTaskClick(task._id)}
                 isSelected={task._id === clickedTaskId}
+                disabled={task.disabled ?? false}
+                completed={task.completed}
               />
             ))
           )}
         </div>
       </div>
-      <AddTaskModal
-        activeModal={isAddTaskModalOpen ? "addTask" : null}
-        closeModal={closeAddTaskModal}
-        onAddTask={handleAddTask}
-      />
-
       <RightSideBar achievements={achievements} />
     </div>
   );
