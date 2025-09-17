@@ -9,7 +9,7 @@ import Quiz from "../pages/Quiz/Quiz";
 
 import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
-import AddTaskModal from "../modals/AddTask/AddTaskModal.jsx";
+import AddTaskModal from "../modals/AddTaskModal/AddTaskModal.jsx";
 
 import { getAchievements } from "../../utils/api/achievements";
 import { getBadges } from "../../utils/api/badges";
