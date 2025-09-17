@@ -4,36 +4,34 @@ import "./RightSideBar.css";
 import UserStats from "../UserStats/UserStats";
 import Achievement from "../Achievement/Achievement";
 
-import { userAchievements } from "../../utils/mockData/mockUserAchievements";
 import { CurrentUserContext } from "../../contexts/UserContext";
 
-function RightSideBar({ achievements }) {
+function RightSideBar({ achievements, userAchievements = [] }) {
   const { user } = useContext(CurrentUserContext);
+
+  if (!user) return null;
 
   return (
     <div className="right-sidebar">
       <UserStats />
       <div className="right-sidebar__achievements">
-        {user ? (
-          achievements.map((achievement) => {
-            const userProgress = userAchievements.find(
-              (userAchievement) =>
-                userAchievement.userId === user.id &&
-                userAchievement.achievementId === achievement._id
-            );
-            return (
-              <Achievement
-                key={achievement._id}
-                achievementVariant="home"
-                achievement={achievement}
-                progress={userProgress?.progress || 0}
-                completed={userProgress?.completed || false}
-              />
-            );
-          })
-        ) : (
-          <></>
-        )}
+        {achievements.map((achievement) => {
+          const userProgress = userAchievements.find(
+            (ua) =>
+              (ua.userId === user._id || ua.userId === user.id) &&
+              ua.achievementId?._id === achievement._id
+          );
+
+          return (
+            <Achievement
+              key={achievement._id}
+              achievementVariant="home"
+              achievement={achievement}
+              progress={userProgress?.progress || 0}
+              completed={userProgress?.completed || false}
+            />
+          );
+        })}
       </div>
     </div>
   );
