@@ -12,11 +12,20 @@
   position: relative;
 }
 
+.app__landing {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
-  .app__content {
-    grid-template-columns: 1fr;
-  }
   .app {
     padding-bottom: 72px;
+  }
+
+  .app__content {
+    grid-template-columns: 1fr;
   }
 }

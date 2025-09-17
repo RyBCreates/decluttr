@@ -14,9 +14,15 @@
 }
 
 .landing-page__title {
-  font-size: 28px;
+  font-size: 32px;
   margin-bottom: 30px;
   color: #333;
+}
+
+.landing-page__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .landing-page__buttons button {
@@ -26,6 +32,8 @@
   cursor: pointer;
   border-radius: 4px;
   border: none;
+  text-wrap: nowrap;
+  width: 100%;
 }
 
 .landing-page__login {
@@ -44,4 +52,11 @@
 
 .landing-page__register:hover {
   background-color: #0b7dda;
+}
+
+@media (max-width: 768px) {
+  .landing-page__buttons {
+    flex-direction: column;
+    gap: 20px;
+  }
 }

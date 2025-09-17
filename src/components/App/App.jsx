@@ -177,7 +177,6 @@ function App() {
       <div className="app">
         {isLoggedIn ? (
           <div className="app__content">
-            {" "}
             <LeftSideBar
               isLoggedIn={isLoggedIn}
               handleLoginClick={handleLoginClick}
@@ -216,12 +215,12 @@ function App() {
             </Routes>
           </div>
         ) : (
-          <div>
+          <div className="app__landing">
             <LandingPage
               isLoggedIn={isLoggedIn}
               handleLoginClick={handleLoginClick}
               handleRegisterClick={handleRegisterClick}
-            />{" "}
+            />
           </div>
         )}
 
