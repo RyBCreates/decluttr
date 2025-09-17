@@ -5,7 +5,12 @@ import "../Modals.css";
 import { useCurrentUser } from "../../../contexts/UserContext";
 import { registerUser } from "../../../utils/api/auth";
 
-function RegisterModal({ activeModal, closeModal, handleSwitchModal }) {
+function RegisterModal({
+  activeModal,
+  closeModal,
+  handleSwitchModal,
+  setIsLoggedIn,
+}) {
   const { setUser } = useCurrentUser();
 
   const [username, setUsername] = useState("");
@@ -37,6 +42,7 @@ function RegisterModal({ activeModal, closeModal, handleSwitchModal }) {
       const data = await registerUser({ username, email, password });
       localStorage.setItem("token", data.token);
       setUser(data.user);
+      setIsLoggedIn(true);
       closeModal();
     } catch (err) {
       console.error(err.message);

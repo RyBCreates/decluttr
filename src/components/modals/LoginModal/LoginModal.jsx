@@ -6,7 +6,12 @@ import "../Modals.css";
 import { useCurrentUser } from "../../../contexts/UserContext";
 import { loginUser } from "../../../utils/api/auth";
 
-function LoginModal({ activeModal, handleSwitchModal, closeModal }) {
+function LoginModal({
+  activeModal,
+  handleSwitchModal,
+  closeModal,
+  setIsLoggedIn,
+}) {
   const { setUser } = useCurrentUser();
 
   const [email, setEmail] = useState("");
@@ -23,6 +28,7 @@ function LoginModal({ activeModal, handleSwitchModal, closeModal }) {
       const data = await loginUser({ email, password });
       localStorage.setItem("token", data.token);
       setUser(data.user);
+      setIsLoggedIn(true);
       closeModal();
     } catch (err) {
       setError(err.message);
