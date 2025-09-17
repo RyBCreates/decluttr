@@ -12,12 +12,10 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
   const { user, setUser } = useContext(CurrentUserContext);
   const [clickedTaskId, setClickedTaskId] = useState(null);
 
-  // Delete a specific task
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
-  // Complete a task and get rewards?
   const toggleTask = (id, gems, experience) => {
     setTasks((prevTasks) => {
       const toggledTask = prevTasks.find((task) => task._id === id);
