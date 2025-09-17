@@ -12,7 +12,8 @@ export async function getUserAchievements() {
       },
     });
     if (!res.ok) throw new Error("Failed to fetch user achievements");
-    return await res.json();
+    const data = await res.json();
+    return data;
   } catch (err) {
     console.error("Get user achievements error:", err);
     return [];

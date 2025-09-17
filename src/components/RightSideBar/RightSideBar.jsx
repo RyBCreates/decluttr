@@ -8,6 +8,7 @@ import { CurrentUserContext } from "../../contexts/UserContext";
 
 function RightSideBar({ achievements, userAchievements = [] }) {
   const { user } = useContext(CurrentUserContext);
+  console.log("UserAchievements loaded to RightSideBar:", userAchievements);
 
   if (!user) return null;
 
