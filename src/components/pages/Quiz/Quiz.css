@@ -1,6 +1,13 @@
 .quiz {
   display: grid;
   grid-template-columns: 2fr 1fr;
+  overflow-x: hidden;
+  transition: grid-template-columns 1s ease;
+  position: relative;
+}
+
+.quiz:has(.right-sidebar--closed) {
+  grid-template-columns: 1fr 0fr;
 }
 
 .quiz__container {
@@ -32,7 +39,7 @@
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
-  margin: 0 80px 20px;
+  margin: 0 0 20px;
 }
 
 .quiz__result {

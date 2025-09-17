@@ -10,12 +10,19 @@ function TaskCard({
   isSelected,
   completed,
   disabled,
+  isCompleting,
 }) {
+  const className = [
+    "task-card",
+    isSelected ? "task-card--selected" : "",
+    isCompleting ? "task-card--completing" : "",
+    disabled ? "task-card--disabled" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <div
-      className={`task-card ${isSelected ? "task-card--selected" : ""}`}
-      onClick={onClick}
-    >
+    <div className={className} onClick={isCompleting ? undefined : onClick}>
       <div className="task-card__left">
         <span className="task-card__icon">{icon}</span>
         <div className="task-card__details">
@@ -24,7 +31,7 @@ function TaskCard({
             className="task-card__delete"
             onClick={(e) => {
               e.stopPropagation();
-              onDelete();
+              if (!isCompleting) onDelete();
             }}
           >
             Delete Task
@@ -38,8 +45,9 @@ function TaskCard({
           type="checkbox"
           className="task-card__checkbox"
           checked={!!completed}
+          disabled={!!disabled || !!isCompleting}
           onClick={(e) => e.stopPropagation()}
-          onChange={onToggle}
+          onChange={isCompleting ? undefined : onToggle}
         />
       </div>
     </div>

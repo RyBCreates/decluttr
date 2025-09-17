@@ -15,31 +15,42 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
   const { user, setUser } = useContext(CurrentUserContext);
   const [clickedTaskId, setClickedTaskId] = useState(null);
 
+  const ANIMATION_MS = 1000;
+
   const deleteTask = (id) => {
     setTasks((prev) => prev.filter((task) => task._id !== id));
   };
 
   const toggleTask = (id, gems, experience) => {
+    let shouldUpdateStats = false;
+
     setTasks((prevTasks) => {
-      const toggledTask = prevTasks.find((task) => task._id === id);
-      if (!toggledTask) return prevTasks;
-      const updatedTask = { ...toggledTask, completed: !toggledTask.completed };
+      const already = prevTasks.find((t) => t._id === id);
+      if (!already || already.completing) return prevTasks;
 
-      const otherTasks = prevTasks.filter((task) => task._id !== id);
+      shouldUpdateStats = true;
 
-      return [...otherTasks, updatedTask];
+      return prevTasks.map((task) =>
+        task._id === id
+          ? {
+              ...task,
+              completed: true,
+              completing: true,
+              disabled: true,
+            }
+          : task
+      );
     });
 
-    const deltaGems = Number(gems) || 0;
-    const baseXp = Number(experience) || 0;
+    if (shouldUpdateStats && setUser && user) {
+      const deltaGems = Number(gems) || 0;
+      const baseXp = Number(experience) || 0;
 
-    if (setUser && user) {
       setUser((prev) => {
         if (!prev) return prev;
 
         const { updatedUser } = applyDailyTaskStreak(prev);
 
-        // const baseXp = deltaGems;
         const streakMult = Math.pow(
           1.01,
           Math.max((updatedUser.streak ?? 0) - 1, 0)
@@ -47,7 +58,7 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
         const boostMult = updatedUser.xpBoostMultiplier ?? 1;
         const boostUses = updatedUser.xpBoostUsesLeft ?? 0;
 
-        let xpGain = Math.floor(baseXp * streakMult * boostMult);
+        const xpGain = Math.floor(baseXp * streakMult * boostMult);
 
         let nextBoostUses = boostUses;
         let nextBoostMult = boostMult;
@@ -71,7 +82,8 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
           xpBoostUsesLeft: nextBoostUses,
           xpBoostMultiplier: nextBoostMult,
         };
-        const persistUserStats = async () => {
+
+        (async () => {
           try {
             await updateUserStats({
               xp: newUser.xp,
@@ -82,25 +94,20 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
           } catch (err) {
             console.error("Failed to update user stats:", err);
           }
-        };
-        persistUserStats();
+        })();
+
         return newUser;
       });
     }
-    deleteTask(id);
+
+    setTimeout(() => {
+      deleteTask(id);
+      setClickedTaskId((prev) => (prev === id ? null : prev));
+    }, ANIMATION_MS);
   };
 
   const handleTaskClick = (id) => {
-    setClickedTaskId(id);
-    setTasks((prevTasks) => {
-      const clickedTask = prevTasks.find((task) => task._id === id);
-      if (!clickedTask) return prevTasks;
-
-      const finishedTask = { ...clickedTask, disabled: true };
-      const otherTasks = prevTasks.filter((task) => task._id !== id);
-
-      return [...otherTasks, finishedTask];
-    });
+    setClickedTaskId((prev) => (prev === id ? null : id));
   };
 
   return (
@@ -149,6 +156,8 @@ function Home({ achievements, setActiveModal, tasks, setTasks }) {
                 onClick={() => handleTaskClick(task._id)}
                 isSelected={task._id === clickedTaskId}
                 disabled={task.disabled ?? false}
+                completed={task.completed ?? false}
+                isCompleting={task.completing ?? false}
               />
             ))
           )}
