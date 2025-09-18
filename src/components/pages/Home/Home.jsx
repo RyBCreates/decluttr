@@ -30,8 +30,6 @@ function Home({
   };
 
   const toggleTask = async (id, gems, experience) => {
-    console.log("Toggling task:", id);
-
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task._id === id
@@ -41,8 +39,6 @@ function Home({
     );
 
     if (!user) return;
-
-    console.log("User before update:", user);
 
     // Update user stats
     const { updatedUser } = applyDailyTaskStreak(user);
@@ -76,7 +72,6 @@ function Home({
     };
 
     setUser(newUser);
-    console.log("User after update:", newUser);
 
     try {
       await updateUserStats({
@@ -86,19 +81,14 @@ function Home({
         streak: newUser.streak,
       });
 
-      console.log("here are the achievements:", achievements);
       // Increment achievements
       const relevantAchievements = achievements.filter(
         (achievement) => achievement.type === "task_count"
       );
 
-      console.log("Relevant achievements for this task:", relevantAchievements);
-
       for (const achievement of relevantAchievements) {
         try {
           const updated = await incrementAchievement(achievement._id, 1);
-
-          console.log("Achievement updated:", updated);
 
           setUserAchievements((prev) => {
             const exists = prev.find(
@@ -117,8 +107,6 @@ function Home({
               return [...prev, updated];
             }
           });
-
-          console.log("User achievements after setState:", userAchievements);
         } catch (err) {
           console.error("Failed to increment achievement:", err);
         }
