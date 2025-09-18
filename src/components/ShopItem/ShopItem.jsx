@@ -1,6 +1,13 @@
 import "./ShopItem.css";
 
-function ShopItem({ item, selectedItemId, setSelectedItemId, setStatus }) {
+function ShopItem({
+  item,
+  selectedItemId,
+  setSelectedItemId,
+  setStatus,
+  shopItemVariant,
+  quantity,
+}) {
   return (
     <li
       className={`shop-item ${
@@ -12,7 +19,17 @@ function ShopItem({ item, selectedItemId, setSelectedItemId, setStatus }) {
       }}
     >
       <h4 className="shop-item__name">{item.name}</h4>
-      <p className="shop-item__price">💎 {item.cost}</p>
+      {shopItemVariant === "user" ? (
+        <>
+          {/* Map in User Items */}
+          <p>Quantity: {quantity}</p>
+        </>
+      ) : (
+        <>
+          {" "}
+          <p className="shop-item__price">💎 {item.cost}</p>
+        </>
+      )}
     </li>
   );
 }

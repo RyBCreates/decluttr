@@ -12,9 +12,11 @@ import "./Profile.css";
 function Profile({
   achievements,
   badges,
-  items,
   userBadges,
   userAchievements,
+  items,
+  userItems,
+  setUserItems,
 }) {
   const [activeTab, setActiveTab] = useState("badges");
 
@@ -37,7 +39,7 @@ function Profile({
           />
         )}
         {activeTab === "goals" && <Goals />}
-        {activeTab === "items" && <Items items={items} />}
+        {activeTab === "items" && <Items items={items} userItems={userItems} />}
         {activeTab === "settings" && (
           <Settings
             setBannerColor={setBannerColor}
