@@ -12,13 +12,14 @@ import LoginModal from "../modals/LoginModal/LoginModal";
 import RegisterModal from "../modals/RegisterModal/RegisterModal";
 import AddTaskModal from "../modals/AddTaskModal/AddTaskModal.jsx";
 
+import { getCurrentUser } from "../../utils/api/auth.js";
+import { getTasks } from "../../utils/api/tasks";
 import { getAchievements } from "../../utils/api/achievements";
 import { getUserAchievements } from "../../utils/api/userAchievements.js";
 import { getBadges } from "../../utils/api/badges";
 import { getUserBadges, unlockBadge } from "../../utils/api/userBadges.js";
-import { getTasks } from "../../utils/api/tasks";
-import { getCurrentUser } from "../../utils/api/auth.js";
 import { getShopItems } from "../../utils/api/shopItems.js";
+import { getUserItems, purchaseItem } from "../../utils/api/userItems.js";
 
 import { CurrentUserContext } from "../../contexts/UserContext";
 
@@ -28,15 +29,17 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
+  const [tasks, setTasks] = useState([]);
   const [userAchievements, setUserAchievements] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [userBadges, setUserBadges] = useState([]);
   const [badges, setBadges] = useState([]);
-  const [tasks, setTasks] = useState([]);
   const [items, setItems] = useState([]);
+  const [userItems, setUserItems] = useState([]);
 
   const [activeModal, setActiveModal] = useState("");
 
+  // Open Modals
   const handleRegisterClick = () => {
     setActiveModal("register");
   };
@@ -49,6 +52,19 @@ function App() {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setCurrentUser(null);
+  };
+
+  const handleAddTask = (newTask) => {
+    const newId = crypto.randomUUID();
+    const taskWithId = {
+      ...newTask,
+      _id: newId,
+      completed: false,
+      reward: { gems: newTask.reward.gems ?? 0, xp: newTask.reward.xp ?? 5 },
+    };
+    setTasks((prev) => [taskWithId, ...prev]);
+
+    closeModal();
   };
 
   // Close Modals(global)
@@ -85,6 +101,8 @@ function App() {
     }
   };
 
+  // Load data from backend
+
   // Load User using jwt token
   useEffect(() => {
     async function loadUser() {
@@ -98,6 +116,20 @@ function App() {
       }
     }
     loadUser();
+  }, []);
+
+  // Load ALL tasks
+  useEffect(() => {
+    async function loadTasks() {
+      try {
+        const data = await getTasks();
+        setTasks(data);
+      } catch (err) {
+        console.error("Failed to load Tasks", err);
+        setTasks([]);
+      }
+    }
+    loadTasks();
   }, []);
 
   // Load ALL achievements
@@ -144,6 +176,7 @@ function App() {
     }
   }, []);
 
+  // Unlock a badge
   const handleUnlockBadge = async (badgeId) => {
     const token = localStorage.getItem("token");
     if (!token) return;
@@ -157,20 +190,6 @@ function App() {
       console.error("Error unlocking badge:", err);
     }
   };
-
-  // Load ALL tasks
-  useEffect(() => {
-    async function loadTasks() {
-      try {
-        const data = await getTasks();
-        setTasks(data);
-      } catch (err) {
-        console.error("Failed to load Tasks", err);
-        setTasks([]);
-      }
-    }
-    loadTasks();
-  }, []);
 
   //Load All items
   useEffect(() => {
@@ -186,17 +205,61 @@ function App() {
     loadItems();
   }, []);
 
-  const handleAddTask = (newTask) => {
-    const newId = crypto.randomUUID();
-    const taskWithId = {
-      ...newTask,
-      _id: newId,
-      completed: false,
-      reward: { gems: newTask.reward.gems ?? 0, xp: newTask.reward.xp ?? 5 },
-    };
-    setTasks((prev) => [taskWithId, ...prev]);
+  // Load User Items if Logged in
+  useEffect(() => {
+    if (isLoggedIn && items.length > 0) {
+      async function loadUserItems() {
+        try {
+          const token = localStorage.getItem("token");
+          const data = await getUserItems(token);
 
-    closeModal();
+          const allUserItems = items.map((shopItem) => {
+            const existing = data.find((ui) => ui.itemId === shopItem._id);
+
+            return (
+              existing || {
+                _id: shopItem._id,
+                itemId: shopItem._id,
+                quantity: 0,
+                acquiredAt: null,
+              }
+            );
+          });
+
+          setUserItems(allUserItems);
+          console.log("Loaded user items:", allUserItems);
+        } catch (err) {
+          console.error("Failed to fetch User Items", err);
+        }
+      }
+      loadUserItems();
+    }
+  }, [isLoggedIn, items]);
+
+  // purchase an Item
+  const handlePurchaseItem = async (itemId) => {
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("Not logged in");
+
+    try {
+      const { userItem, remainingGems } = await purchaseItem(itemId, token);
+
+      setUserItems((prev) => {
+        const exists = prev.find((i) => i.itemId === userItem.itemId);
+        if (exists) {
+          return prev.map((i) => (i.itemId === userItem.itemId ? userItem : i));
+        } else {
+          return [...prev, userItem];
+        }
+      });
+
+      setCurrentUser((prev) => ({ ...prev, gems: remainingGems }));
+
+      return { userItem, remainingGems };
+    } catch (err) {
+      console.error("Error purchasing item:", err);
+      throw err;
+    }
   };
 
   return (
@@ -231,10 +294,19 @@ function App() {
                     userBadges={userBadges}
                     userAchievements={userAchievements}
                     items={items}
+                    userItems={userItems}
                   />
                 }
               />
-              <Route path="shop" element={<Shop />} />
+              <Route
+                path="shop"
+                element={
+                  <Shop
+                    handlePurchaseItem={handlePurchaseItem}
+                    userItems={userItems}
+                  />
+                }
+              />
               <Route
                 path="quiz"
                 element={
