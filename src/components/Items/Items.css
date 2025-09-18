@@ -1,5 +1,8 @@
 .items__list {
   display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  gap: 20px;
 }
 
 .items__list_disable-click {

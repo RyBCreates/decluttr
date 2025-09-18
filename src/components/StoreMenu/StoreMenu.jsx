@@ -18,6 +18,7 @@ function StoreMenu({
             selectedItemId={selectedItemId}
             setSelectedItemId={setSelectedItemId}
             setStatus={setStatus}
+            shopItemVariant="shop"
           />
         ))}
       </ul>

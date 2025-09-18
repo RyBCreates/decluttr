@@ -3,25 +3,33 @@ import { useContext } from "react";
 import ShopItem from "../ShopItem/ShopItem.jsx";
 import { CurrentUserContext } from "../../contexts/UserContext";
 
-function Items({ items }) {
-  const { user } = useContext(CurrentUserContext);
+function Items({ items, userItems }) {
+  // const { user } = useContext(CurrentUserContext);
 
   return (
     <div className="items profile__tab">
       <h2 className="items__title">Here are the Items you have!</h2>
-      {user ? (
+      {userItems.length > 0 ? (
         <div className="items__list">
-          {items.map((item) => (
-            <div key={item._id} className="items__list_disable-click">
-              <ShopItem item={item} />
-            </div>
-          ))}
+          {items.map((item) => {
+            const userItem = userItems.find((ui) => ui.itemId === item._id);
+            const quantity = userItem?.quantity ?? 0;
+
+            return (
+              <div key={item._id} className="items__list_disable-click">
+                <ShopItem
+                  item={item}
+                  shopItemVariant="user"
+                  quantity={quantity}
+                />
+              </div>
+            );
+          })}
         </div>
       ) : (
-        <p>Please log in to see your items.</p>
+        <p>You don’t have any items yet.</p>
       )}
     </div>
   );
 }
-
 export default Items;
