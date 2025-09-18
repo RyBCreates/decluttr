@@ -56,6 +56,11 @@ function RegisterModal({
       }`}
     >
       <div className="register__content">
+        <button
+          onClick={closeModal}
+          type="button"
+          className="register__close-btn"
+        />
         <h2 className="register__title">Register</h2>
         <form
           className="register__form"

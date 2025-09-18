@@ -4,11 +4,14 @@
   justify-content: center;
   height: 100vh;
   width: 100vw;
+  padding: 20px;
   background-color: #5483bf;
 }
 
 .landing-page__container {
-  padding: 100px 70px;
+  padding: 70px;
+  margin: 0 auto;
+  max-width: 900px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background-color: white;
@@ -19,15 +22,25 @@
 }
 
 .landing-page__title {
-  font-size: 46px;
+  font-size: 56px;
   margin-bottom: 30px;
   color: #5483bf;
   padding: 30px;
+
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .landing-page__buttons {
-  border-left: 5px solid #f27f1b;
   padding-left: 60px;
+  min-width: 150px;
+  height: 50px;
+  flex-grow: 1;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -68,8 +81,32 @@
 }
 
 @media (max-width: 768px) {
-  .landing-page__buttons {
+  .landing-page__container {
     flex-direction: column;
+
+    box-sizing: border-box;
+  }
+
+  .landing-page__title {
+    font-size: 32px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .landing-page__buttons {
+    border-left: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 20px;
+    width: 100%;
+  }
+  .landing-page__buttons button {
+    font-size: 18px;
+    text-wrap: unset;
+    flex: 1;
+    align-self: center;
   }
 }

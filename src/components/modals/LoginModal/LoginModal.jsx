@@ -50,7 +50,13 @@ function LoginModal({
       }`}
     >
       <div className="login__content">
+        <button
+          onClick={closeModal}
+          type="button"
+          className="login__close-btn"
+        />
         <h2 className="login__title">Log In</h2>
+
         <form className="login__form" onSubmit={handleSubmit}>
           <input
             className="login__input"
