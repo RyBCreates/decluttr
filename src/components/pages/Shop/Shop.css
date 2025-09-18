@@ -73,6 +73,11 @@
   font-size: 18px;
 }
 
+.shop__buy-button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 .shop__buy-button:disabled {
   opacity: 0.6;
 }

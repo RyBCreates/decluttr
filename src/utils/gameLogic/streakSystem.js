@@ -34,6 +34,7 @@ export function applyDailyTaskStreak(user) {
     newStreak = 1;
   }
 
+  // Causes First task of the day to give an extra 5 gems
   const dailyBonus = Math.round(5 * Math.pow(1.01, newStreak - 1));
 
   const updatedUser = {

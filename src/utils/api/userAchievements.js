@@ -23,13 +23,13 @@ export const getUserAchievements = async () => {
 // Note the id is the string that the achievement is called
 // http://localhost:3002/decluttr/api/user-achievements/increment/hot-garbage
 // Send Body of amount:1
-export const incrementAchievement = async (achievementId, amount = 1) => {
+export const incrementAchievement = async (achievementId, amount) => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Not authorized");
 
   try {
     const res = await fetch(
-      `${BASE_URL}/user-achievements/increment/${achievementId}`,
+      `${BASE_URL}${API_URL}/user-achievements/increment/${achievementId}`,
       {
         method: "PATCH",
         headers: {
