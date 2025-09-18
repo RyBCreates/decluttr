@@ -5,10 +5,12 @@
   padding: 24px;
   color: black;
 
+  box-sizing: border-box;
   transform: translateX(0);
   transition: transform 1s ease;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .right-sidebar--closed {
@@ -35,7 +37,6 @@
 }
 
 .right-sidebar__achievements {
-  /* padding-bottom: auto; */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -66,9 +67,22 @@
 }
 
 @media (max-width: 768px) {
+  .right-sidebar {
+    position: absolute;
+    padding: 16px;
+
+    inset: 0;
+    width: 100%;
+    max-width: 100vw;
+    height: 100%;
+    z-index: 50;
+    box-shadow: none;
+  }
+
   .right-sidebar__handle {
-    top: auto;
-    bottom: 84px;
+    top: 16px;
+    bottom: auto;
     transform: none;
+    right: 8px;
   }
 }
