@@ -187,20 +187,18 @@ function App() {
   }, []);
 
   const handleAddTask = (newTask) => {
-    // This newId does not work with the database format
-    const newId =
-      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task._id)) + 1;
+    const newId = crypto.randomUUID();
     const taskWithId = {
       ...newTask,
       _id: newId,
       completed: false,
-      reward: { gems: newTask.gems ?? 0, xp: newTask.xp ?? 5 },
+      reward: { gems: newTask.reward.gems ?? 0, xp: newTask.reward.xp ?? 5 },
     };
     setTasks((prev) => [taskWithId, ...prev]);
 
     closeModal();
   };
-  //get rid of login/reg on hompage
+
   return (
     <CurrentUserContext.Provider
       value={{ user: currentUser, setUser: setCurrentUser }}
@@ -231,6 +229,7 @@ function App() {
                     achievements={achievements}
                     badges={badges}
                     userBadges={userBadges}
+                    userAchievements={userAchievements}
                     items={items}
                   />
                 }
@@ -238,7 +237,12 @@ function App() {
               <Route path="shop" element={<Shop />} />
               <Route
                 path="quiz"
-                element={<Quiz achievements={achievements} />}
+                element={
+                  <Quiz
+                    achievements={achievements}
+                    userAchievements={userAchievements}
+                  />
+                }
               />
             </Routes>
           </div>
