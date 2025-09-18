@@ -3,16 +3,16 @@ import { useEffect, useState } from "react";
 import "./AddTaskModal.css";
 import "../Modals.css";
 
-function AddTaskModal({ activeModal, closeModal, onAddTask, tasks }) {
-  const [selectedTaskId, setSelectedTaskId] = useState(tasks[0]?._id ?? "");
+function AddTaskModal({ activeModal, closeModal, onAddTask, allTasks }) {
+  const [selectedTaskId, setSelectedTaskId] = useState(allTasks[0]?._id ?? "");
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (activeModal === "add-task") {
-      setSelectedTaskId(tasks[0]?._id ?? "");
+      setSelectedTaskId(allTasks[0]?._id ?? "");
       setError("");
     }
-  }, [activeModal, tasks]);
+  }, [activeModal, allTasks]);
 
   const handleChange = (e) => {
     setSelectedTaskId(e.target.value);
@@ -20,7 +20,7 @@ function AddTaskModal({ activeModal, closeModal, onAddTask, tasks }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const selectedTask = tasks.find((task) => task._id === selectedTaskId);
+    const selectedTask = allTasks.find((task) => task._id === selectedTaskId);
     if (!selectedTask) {
       setError("Please select a valid task.");
       return;
@@ -46,7 +46,7 @@ function AddTaskModal({ activeModal, closeModal, onAddTask, tasks }) {
               onChange={handleChange}
               required
             >
-              {tasks.map((task) => (
+              {allTasks.map((task) => (
                 <option key={task._id} value={task._id}>
                   {task.icon} {task.name} (💎 {task.reward.gems})
                 </option>

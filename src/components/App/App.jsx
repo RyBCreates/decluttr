@@ -30,6 +30,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
   const [tasks, setTasks] = useState([]);
+  const [allTasks, setAllTasks] = useState([]);
   const [userAchievements, setUserAchievements] = useState([]);
   const [achievements, setAchievements] = useState([]);
   const [userBadges, setUserBadges] = useState([]);
@@ -118,7 +119,7 @@ function App() {
     loadUser();
   }, []);
 
-  // Load ALL tasks
+  // Load ALL tasks for User (will be userTasks in future)
   useEffect(() => {
     async function loadTasks() {
       try {
@@ -130,6 +131,20 @@ function App() {
       }
     }
     loadTasks();
+  }, []);
+
+  // Load ALL tasks for AddTaskModal
+  useEffect(() => {
+    async function loadAllTasks() {
+      try {
+        const data = await getTasks();
+        setAllTasks(data);
+      } catch (err) {
+        console.error("Failed to load All Tasks", err);
+        setAllTasks([]);
+      }
+    }
+    loadAllTasks();
   }, []);
 
   // Load ALL achievements
@@ -347,7 +362,7 @@ function App() {
           activeModal={activeModal}
           closeModal={closeModal}
           onAddTask={handleAddTask}
-          tasks={tasks}
+          allTasks={allTasks}
         />
       </div>
     </CurrentUserContext.Provider>
