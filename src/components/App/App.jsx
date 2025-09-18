@@ -242,7 +242,6 @@ function App() {
           });
 
           setUserItems(allUserItems);
-          console.log("Loaded user items:", allUserItems);
         } catch (err) {
           console.error("Failed to fetch User Items", err);
         }

@@ -10,8 +10,6 @@ import { useLocalStorageState } from "../../hooks/useLocalStorageState";
 
 function RightSideBar({ achievements, userAchievements = [] }) {
   const { user } = useContext(CurrentUserContext);
-  // console.log("UserAchievements loaded to RightSideBar:", userAchievements);
-
   const [open, setOpen] = useLocalStorageState("rightSidebarOpen", true);
 
   if (!user) return null;

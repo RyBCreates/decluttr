@@ -13,7 +13,7 @@ export const avatarImages = {
   dog,
 };
 
-function ProfileAvatarPicker({ bannerAvatar, setBannerAvatar }) {
+function ProfileAvatarPicker({ avatar, setAvatar }) {
   return (
     <fieldset className="avatar-picker">
       <legend className="avatar-picker__legend">Pick an Avatar</legend>
@@ -23,9 +23,9 @@ function ProfileAvatarPicker({ bannerAvatar, setBannerAvatar }) {
           type="radio"
           name="avatar"
           value="defaultAvatar"
-          checked={bannerAvatar === "defaultAvatar"}
+          checked={avatar === "defaultAvatar"}
           onChange={() => {
-            setBannerAvatar("defaultAvatar");
+            setAvatar("defaultAvatar");
           }}
         />
         <img
@@ -40,9 +40,9 @@ function ProfileAvatarPicker({ bannerAvatar, setBannerAvatar }) {
           type="radio"
           name="avatar"
           value="frog"
-          checked={bannerAvatar === "frog"}
+          checked={avatar === "frog"}
           onChange={() => {
-            setBannerAvatar("frog");
+            setAvatar("frog");
           }}
         />
         <img
@@ -57,9 +57,9 @@ function ProfileAvatarPicker({ bannerAvatar, setBannerAvatar }) {
           type="radio"
           name="avatar"
           value="duck"
-          checked={bannerAvatar === "duck"}
+          checked={avatar === "duck"}
           onChange={() => {
-            setBannerAvatar("duck");
+            setAvatar("duck");
           }}
         />
         <img
@@ -74,9 +74,9 @@ function ProfileAvatarPicker({ bannerAvatar, setBannerAvatar }) {
           type="radio"
           name="avatar"
           value="bear"
-          checked={bannerAvatar === "bear"}
+          checked={avatar === "bear"}
           onChange={() => {
-            setBannerAvatar("bear");
+            setAvatar("bear");
           }}
         />
         <img
@@ -90,10 +90,10 @@ function ProfileAvatarPicker({ bannerAvatar, setBannerAvatar }) {
           className="avatar-picker__avatar"
           type="radio"
           name="avatar"
-          value="dog "
-          checked={bannerAvatar === "dog"}
+          value="dog"
+          checked={avatar === "dog"}
           onChange={() => {
-            setBannerAvatar("dog");
+            setAvatar("dog");
           }}
         />
         <img

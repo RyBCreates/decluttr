@@ -2,9 +2,6 @@ import Badge from "../Badge/Badge";
 import "./Badges.css";
 
 function Badges({ badges, userBadges }) {
-  // console.log("All badges:", badges);
-  // console.log("User badges:", userBadges);
-
   const unlockedBadges = badges.map((badge) => {
     const userBadge = userBadges.find((ub) => ub.badgeId._id === badge._id);
     return {

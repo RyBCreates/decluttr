@@ -9,12 +9,7 @@ import "./Settings.css";
 
 const USERNAME_REGEX = /^[A-Za-z0-9]{3,16}$/;
 
-function Settings({
-  bannerColor,
-  setBannerColor,
-  bannerAvatar,
-  setBannerAvatar,
-}) {
+function Settings({ bannerColor, setBannerColor, avatar, setAvatar }) {
   const { user, setUser } = useContext(CurrentUserContext);
   const original = user?.username ?? "";
   const [username, setUsername] = useState(original);
@@ -22,11 +17,12 @@ function Settings({
 
   useEffect(() => {
     setUsername(user?.username ?? "");
+    setAvatar(user?.avatar ?? "defaultAvatar");
     setMsg("");
-  }, [user?.username]);
+  }, [user?.username, user?.avatar]);
 
   const valid = useMemo(() => USERNAME_REGEX.test(username), [username]);
-  const unchanged = username === original;
+  const unchanged = username === original && avatar === user?.avatar;
 
   useEffect(() => {
     if (!unchanged && !valid) {
@@ -55,8 +51,10 @@ function Settings({
       return;
     }
     try {
-      // Pass in avatar when avatar picker is added.
-      const updatedUser = await updateUserInfo({ username });
+      const updatedUser = await updateUserInfo({
+        username,
+        avatar: avatar ?? user?.avatar,
+      });
       setUser(updatedUser);
       setMsg("Username updated.");
     } catch (err) {
@@ -75,8 +73,8 @@ function Settings({
           />
 
           <ProfileAvatarPicker
-            bannerAvatar={bannerAvatar}
-            setBannerAvatar={setBannerAvatar}
+            avatar={avatar ?? user?.avatar}
+            setAvatar={setAvatar}
           />
           <label className="settings__label">
             Change Your Username

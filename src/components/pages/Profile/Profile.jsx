@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ProfileBanner from "../../ProfileBanner/ProfileBanner";
 import ProfileNav from "../../ProfileNav/ProfileNav";
 import Badges from "../../Badges/Badges";
@@ -6,6 +6,8 @@ import Achievements from "../../Achievements/Achievements";
 import Goals from "../../Goals/Goals";
 import Items from "../../Items/Items";
 import Settings from "../../Settings/Settings";
+
+import { CurrentUserContext } from "../../../contexts/UserContext";
 
 import "./Profile.css";
 
@@ -16,16 +18,17 @@ function Profile({
   userAchievements,
   items,
   userItems,
-  setUserItems,
 }) {
+  const { user } = useContext(CurrentUserContext);
+
   const [activeTab, setActiveTab] = useState("badges");
 
   const [bannerColor, setBannerColor] = useState("green");
-  const [bannerAvatar, setBannerAvatar] = useState("defaultAvatar");
+  const [avatar, setAvatar] = useState(user?.avatar ?? "defaultAvatar");
 
   return (
     <div className="profile">
-      <ProfileBanner bannerColor={bannerColor} bannerAvatar={bannerAvatar} />
+      <ProfileBanner bannerColor={bannerColor} avatar={avatar} />
       <ProfileNav activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <div className="profile__tab-content">
@@ -43,7 +46,8 @@ function Profile({
         {activeTab === "settings" && (
           <Settings
             setBannerColor={setBannerColor}
-            setBannerAvatar={setBannerAvatar}
+            avatar={avatar}
+            setAvatar={setAvatar}
           />
         )}
       </div>

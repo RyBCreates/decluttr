@@ -49,8 +49,6 @@ function Shop({ handlePurchaseItem, userItems }) {
       setStatus(`Purchased ${selectedItem.name}!`);
       setUser((prev) => ({ ...prev, gems: remainingGems }));
       setInitialPurchase(true);
-
-      console.log("After purchase, userItems:", userItems);
     } catch (err) {
       console.error(err);
       setStatus("Purchase failed");
@@ -59,14 +57,12 @@ function Shop({ handlePurchaseItem, userItems }) {
 
   const canAfford = (user?.gems ?? 0) >= (selectedItem?.cost ?? Infinity);
 
-  //  Move this logic out of the shop page
+  //  Logic for Boost Multiplier (not working yet)
   //         next.xpBoostUsesLeft =
   //           (prev.xpBoostUsesLeft ?? 0) + (selectedItem.uses ?? 0);
   //         const currentMult = prev.xpBoostMultiplier ?? 1;
   //         const itemMult = selectedItem.multiplier ?? 1;
   //         next.xpBoostMultiplier = Math.max(currentMult, itemMult);
-  console.log("This is the userItem's array:", userItems);
-
   return (
     <div className="shop">
       <div className="shop__content">

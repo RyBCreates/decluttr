@@ -4,7 +4,7 @@ import { avatarImages } from "../ProfileAvatarPicker/ProfileAvatarPicker";
 
 import "./ProfileBanner.css";
 
-function ProfileBanner({ bannerColor, bannerAvatar }) {
+function ProfileBanner({ bannerColor, avatar }) {
   const { user } = useContext(CurrentUserContext);
 
   return (
@@ -13,7 +13,7 @@ function ProfileBanner({ bannerColor, bannerAvatar }) {
     >
       <img
         className="profile-banner__avatar"
-        src={avatarImages[bannerAvatar] || avatarImages.defaultAvatar}
+        src={avatarImages[avatar] || avatarImages.defaultAvatar}
         alt="profile avatar"
       />
       <div className="profile-banner__info">

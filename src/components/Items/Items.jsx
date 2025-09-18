@@ -1,11 +1,8 @@
-import "./Items.css";
-import { useContext } from "react";
 import ShopItem from "../ShopItem/ShopItem.jsx";
-import { CurrentUserContext } from "../../contexts/UserContext";
+
+import "./Items.css";
 
 function Items({ items, userItems }) {
-  // const { user } = useContext(CurrentUserContext);
-
   return (
     <div className="items profile__tab">
       <h2 className="items__title">Here are the Items you have!</h2>
