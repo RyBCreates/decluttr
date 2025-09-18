@@ -18,7 +18,7 @@ export function applyDailyTaskStreak(user) {
   const last = user?.lastTaskDate || null;
 
   if (last === today) {
-    return { updatedUser: user, bonus: 0, awardedToday: false };
+    return { updatedUser: user, awardedToday: false };
   }
 
   const gap = diffInDays(last, today);
@@ -34,19 +34,16 @@ export function applyDailyTaskStreak(user) {
     newStreak = 1;
   }
 
-  // Causes First task of the day to give an extra 5 gems
-  const dailyBonus = Math.round(5 * Math.pow(1.01, newStreak - 1));
-
   const updatedUser = {
     ...user,
     streak: newStreak,
     lastTaskDate: today,
-    gems: (user?.gems ?? 0) + dailyBonus,
+    gems: user?.gems ?? 0,
     streakFreezes: Math.max(
       (user?.streakFreezes ?? 0) - (consumeFreeze ? 1 : 0),
       0
     ),
   };
 
-  return { updatedUser, bonus: dailyBonus, awardedToday: true };
+  return { updatedUser, awardedToday: true };
 }

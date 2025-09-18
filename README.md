@@ -1,82 +1,114 @@
-# Decluttr
+# Decluttr — Code Jam Edition
 
-Decluttr is a **gamified cleaning app** that motivates users to complete real-life tasks and keep their environment clean. By turning chores into achievements, users earn rewards, unlock badges, and progress through levels making cleaning fun and rewarding.
+Turning tidying into a game you’ll actually want to play.
 
-## Tech Stack
+## What is Decluttr?
 
-### Frontend
+Decluttr takes the everyday act of cleaning and turns it into a game. Every time you tidy up; whether it’s picking up litter, organizing your desk, or cleaning your room, you earn points that level up your profile. Those points can be spent in a virtual shop on fun cosmetics like profile colors and badges. Daily tasks, streak bonuses, and achievements keep you motivated, so staying consistent feels less like a chore and more like a quest.
 
-- React
-- HTML
-- CSS
-- JavaScript
+## Live demo
 
-### Backend
+- Homepage: https://decluttr.mycityulife.com
 
-- Node.js
-- Express
-- MongoDB
+## Why it matters
 
-### Tools & Design
+Habits stick when progress is visible and rewards feel immediate. Decluttr lowers the barrier to starting, then keeps momentum with streaks, gems, levels, and achievements—small wins that add up to real-life cleanliness.
 
-- GitHub (Version Control)
-- Figma (UI/UX Design)
+## Highlights (MVP scope)
 
-## Figma Design
+- Daily task list with one-tap completion and satisfying feedback
+- Gamification system: XP, Levels, Gems, Streaks, multipliers, level thresholds
+- Achievements and badges that unlock as you build consistency
+- Quiz mini-game with daily rewards for variety and fun
+- Collapsible right sidebar with User Stats and Achievements; main area expands when collapsed
+- Mobile responsive layout; accessible tooltips and keyboard interactions
 
-You can view the initial design concept here:  
-[Decluttr Figma Design](https://www.figma.com/design/Jn0MTvtjpMYgnEQrAkRBqY/Decluttr?node-id=0-1&p=f&t=e3uueE4Lhmkhtrsf-0)
+## Quick tour for judges
 
-## Live Demo
+- Home: Add and complete tasks, watch your gems/XP grow, maintain streaks
+- Quiz: Answer a few questions, claim rewards, repeat daily
+- Profile: See badges/achievements, adjust settings, personalize your profile banner
+- Shop (MVP scaffolding): Preview the economy for cosmetics and boosters
 
-Check out the deployed version of Decluttr here:  
-[Decluttr Live Site](http://www.decluttr.mycityulife.com)
+## Tech stack
 
-## Getting Started
+- React 19 + Vite 7 (fast dev server, production build)
+- React Router (hash-based routing for static hosting)
+- Plain CSS per component (responsive, accessible)
+- ESLint for basic code quality
 
-Follow these steps to run the project locally:
+## Project structure (high level)
 
-### 1. Clone the repository
+- `src/components/` — feature and UI components
+  - `pages/Home` — tasks list and interactions
+  - `pages/Quiz` — daily quiz and rewards
+  - `pages/Profile` — badges, achievements, items, settings
+  - `RightSideBar` — user stats + achievements (collapsible)
+  - `LeftSideBar` — main navigation (desktop + bottom bar behavior on mobile)
+  - `TaskCard`, `ShopItem`, `StoreMenu`, etc.
+- `src/contexts/` — `CurrentUserContext` for app-wide user state
+- `src/utils/` — APIs, game logic (XP, streaks), constants, and mock data
+- `public/` — static assets
 
-git clone https://github.com/your-username/decluttr.git
-cd decluttr
+## Architecture and game logic
 
-### 2. Install Dependencies (Frontend and Backend)
+- State: React state + Context for the current user; some preferences persisted to `localStorage` (e.g., right sidebar open/closed)
+- Layout: CSS grid; the right sidebar slides out of view and the main column expands using `:has(.right-sidebar--closed)`
+- Accessibility: keyboard focus for tooltips, ARIA labeling for controls, no horizontal scroll on small screens
+- Game mechanics:
+  - XP/Levels: thresholds computed in `utils/gameLogic/levelSystem.js`
+  - Streaks: daily streak handling in `utils/gameLogic/streakSystem.js`
+  - Rewards: tasks and quizzes grant gems and XP; future boosts and perks planned
 
-cd (project folder)
-npm install
+## Design decisions
 
-### 3. Configure enviornment variable
+- Mobile-first vertical stat cards across all screen sizes
+- Sidebar overlays visually without causing layout shifts; main content expands when collapsed
+- Tooltip for Level shows detailed XP progress, positioned to avoid viewport overflow
 
-Create a .env file in the root folder and add:
+## Roadmap
 
-MONGO_URI=(your-mongodb-connection-string)
-PORT=3000
-JWT_SECRET=(your-secret-key)
+Near-term
 
-### 4. Run the app
+- Recurring tasks and reminders
+- XP progress bar and level-up animations
+- Achievement detail views with filtering
+- Shop MVP polish: inventory and boost consumption
 
-#### Frontend
+Mid-term
 
-Inside the project folder:
+- PWA (offline support, install prompts) and notifications
+- Internationalization and localization (i18n)
+- Leaderboards/friends (privacy-first)
 
-npm run dev
+Long-term
 
-#### Backend
+- Admin content tools (achievements, quiz, items)
+- Performance budgets and CI checks
 
-Inside the project folder:
+## Contributing
 
-npm run seed
-npm run dev
+We welcome focused, well-described PRs. Please include:
 
-## Future Improvements
+- What/why of the change
+- Any visual or interaction changes (with screenshots/gifs)
+- Tests if logic is affected
 
-We plan to continue expanding Decluttr with new content and features:
+## License
 
-- More tasks, achievements, and badges
+This code is for the Decluttr project; licensing to be finalized for post–code jam publication.
 
-- Level-based rewards (unlock special badges at milestone levels)
+- `src/utils/` – constants, API helpers, game logic, and mock data
+- `public/` – static assets
 
-- Store upgrades with cosmetics and items that affect user stats
+## Roadmap (high level)
 
-- Daily streaks and seasonal events to boost engagement
+- Recurring tasks, reminders, and calendar-friendly planning
+- XP progress bar and level-up animations
+- Achievement detail views and better filters
+- Shop and inventory improvements (boosts, cosmetics)
+- PWA and offline support; notifications
+
+## Contributing
+
+Issues and PRs are welcome. Please keep changes focused and include a brief description of intent and scope.
