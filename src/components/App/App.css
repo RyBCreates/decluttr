@@ -2,7 +2,7 @@
   max-width: 1440px;
   margin: 0;
   background-color: rgb(235, 235, 235);
-  font-family: "Gabarito", sans-serif; /* Custom font */
+  font-family: "Gabarito", sans-serif;
   min-height: 100vh;
 }
 
@@ -21,6 +21,7 @@
 }
 
 @media (max-width: 768px) {
+  /* Why is this here? */
   .app {
     padding-bottom: 72px;
   }

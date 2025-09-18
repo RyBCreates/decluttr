@@ -10,7 +10,8 @@
 
 .left-sidebar__logo {
   width: 170px;
-  height: 100px;
+  height: auto;
+  object-fit: contain;
 }
 
 .left-sidebar__container {
@@ -63,9 +64,7 @@
   border-top: 1px solid rgba(0, 0, 0, 0.15);
 }
 
-.left-sidebar__logout,
-.left-sidebar__login,
-.left-sidebar__register {
+.left-sidebar__logout {
   font-size: 20px;
   padding: 8px 24px;
   border: none;
@@ -76,9 +75,7 @@
   white-space: nowrap;
 }
 
-.left-sidebar__logout:hover,
-.left-sidebar__login:hover,
-.left-sidebar__register:hover {
+.left-sidebar__logout:hover {
   background: #f2ca52;
   color: #fff;
   cursor: pointer;

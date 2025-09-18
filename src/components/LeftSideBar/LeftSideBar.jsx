@@ -49,8 +49,8 @@ function LeftSideBar({
           Log Out
         </button>
       ) : (
-        <div className="left-sidebar__auth-buttons">
-          <button className="left-sidebar__login" onClick={handleLoginClick}>
+        <>
+          {/* <button className="left-sidebar__login" onClick={handleLoginClick}>
             Log In
           </button>
           <button
@@ -58,8 +58,8 @@ function LeftSideBar({
             onClick={handleRegisterClick}
           >
             Register
-          </button>
-        </div>
+          </button> */}
+        </>
       )}
 
       <div className="left-sidebar__auth-mobile" aria-label="Authentication">
