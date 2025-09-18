@@ -53,7 +53,6 @@
   padding-right: 14px;
 }
 
-.left-sidebar__auth-buttons,
 .left-sidebar__logout {
   margin-top: auto;
   width: 100%;
@@ -138,7 +137,6 @@
     display: none;
   }
 
-  .left-sidebar__auth-buttons,
   .left-sidebar__logout {
     display: none;
   }
@@ -148,8 +146,8 @@
     align-items: center;
     gap: 8px;
     position: absolute;
-    right: 36px;
-    top: 50%;
+    right: 10px;
+    top: -25px;
     transform: translateY(-50%);
   }
 

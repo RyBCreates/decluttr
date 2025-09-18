@@ -140,8 +140,8 @@ function Home({
 
         <div className="home__task-gallery">
           {tasks.length === 0 ? (
-            <>
-              <p className="home__tasks-empty">
+            <div className="home__empty">
+              <p className="home__empty-message">
                 Looks like you are out of tasks!
               </p>
               <button
@@ -151,7 +151,7 @@ function Home({
               >
                 Add Task
               </button>
-            </>
+            </div>
           ) : (
             tasks.map((task) => (
               <TaskCard
