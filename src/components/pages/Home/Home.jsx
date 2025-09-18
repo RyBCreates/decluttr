@@ -5,8 +5,10 @@ import { CurrentUserContext } from "../../../contexts/UserContext";
 import { updateUserStats } from "../../../utils/api/auth";
 import { incrementAchievement } from "../../../utils/api/userAchievements";
 
-import { applyDailyTaskStreak } from "../../../utils/gameLogic/streakSystem";
 import { calculateLevel } from "../../../utils/gameLogic/levelSystem";
+
+import { buildUserAfterTask } from "../../../utils/users/buildUserAfterTask";
+import { incrementTaskAchievements } from "../../../utils/achievements/incrementTaskAchievements";
 
 import RightSideBar from "../../RightSideBar/RightSideBar";
 import TaskCard from "../../TaskCard/TaskCard";
@@ -40,37 +42,12 @@ function Home({
 
     if (!user) return;
 
-    // Update user stats
-    const { updatedUser } = applyDailyTaskStreak(user);
-
-    const streakMult = Math.pow(
-      1.01,
-      Math.max((updatedUser.streak ?? 0) - 1, 0)
+    const { newUser } = buildUserAfterTask(
+      user,
+      experience,
+      gems,
+      calculateLevel
     );
-    const boostMult = updatedUser.xpBoostMultiplier ?? 1;
-    const boostUses = updatedUser.xpBoostUsesLeft ?? 0;
-
-    let xpGain = Math.floor((Number(experience) || 0) * streakMult * boostMult);
-    let nextBoostUses = boostUses;
-    let nextBoostMult = boostMult;
-    if (boostMult > 1 && boostUses > 0) {
-      nextBoostUses = boostUses - 1;
-      if (nextBoostUses <= 0) nextBoostMult = 1;
-    }
-
-    const nextXp = (updatedUser.xp ?? 0) + xpGain;
-    const nextLevel = calculateLevel(nextXp);
-
-    const newUser = {
-      ...updatedUser,
-      gems: (updatedUser.gems ?? 0) + (Number(gems) || 0),
-      xp: nextXp,
-      level: nextLevel,
-      streak: updatedUser.streak,
-      xpBoostUsesLeft: nextBoostUses,
-      xpBoostMultiplier: nextBoostMult,
-    };
-
     setUser(newUser);
 
     try {
@@ -81,41 +58,13 @@ function Home({
         streak: newUser.streak,
       });
 
-      // Increment achievements
-      const relevantAchievements = achievements.filter(
-        (achievement) => achievement.taskId === id
+      await incrementTaskAchievements(
+        achievements,
+        incrementAchievement,
+        setUserAchievements
       );
-
-      for (const achievement of relevantAchievements) {
-        try {
-          const updated = await incrementAchievement({
-            achievementId: achievement._id,
-            amount: 1,
-          });
-
-          setUserAchievements((prev) => {
-            const exists = prev.find(
-              (ua) =>
-                ua.achievementId._id ===
-                (updated.achievementId._id || updated.achievementId)
-            );
-            if (exists) {
-              return prev.map((ua) =>
-                ua.achievementId._id ===
-                (updated.achievementId._id || updated.achievementId)
-                  ? updated
-                  : ua
-              );
-            } else {
-              return [...prev, updated];
-            }
-          });
-        } catch (err) {
-          console.error("Failed to increment achievement:", err);
-        }
-      }
     } catch (err) {
-      console.error("Failed to update user stats:", err);
+      console.error("Failed to update after task:", err);
     }
 
     setTimeout(() => {
@@ -143,8 +92,8 @@ function Home({
 
         <div className="home__task-gallery">
           {tasks.length === 0 ? (
-            <>
-              <p className="home__tasks-empty">
+            <div className="home__empty">
+              <p className="home__empty-message">
                 Looks like you are out of tasks!
               </p>
               <button
@@ -154,7 +103,7 @@ function Home({
               >
                 Add Task
               </button>
-            </>
+            </div>
           ) : (
             tasks.map((task) => (
               <TaskCard

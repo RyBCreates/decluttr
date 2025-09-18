@@ -1,8 +1,8 @@
-import { BASE_URL } from "../constants";
+import { BASE_URL, API_URL } from "../constants";
 
-export async function getBadges() {
+export const getBadges = async () => {
   try {
-    const response = await fetch(`${BASE_URL}/badges`);
+    const response = await fetch(`${BASE_URL}${API_URL}/badges`);
     if (!response.ok) {
       throw new Error("Failed to fetch badges");
     }
@@ -11,4 +11,4 @@ export async function getBadges() {
     console.error("Error fetching badges:", err);
     return [];
   }
-}
+};

@@ -1,10 +1,10 @@
-import { BASE_URL } from "../constants";
+import { BASE_URL, API_URL } from "../constants";
 
-export async function updateUserInfo({ username, avatar }) {
+export const updateUserInfo = async ({ username, avatar }) => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Not authorized");
 
-  const response = await fetch(`${BASE_URL}/users/me`, {
+  const response = await fetch(`${BASE_URL}${API_URL}/users/me`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -18,4 +18,4 @@ export async function updateUserInfo({ username, avatar }) {
   }
 
   return await response.json();
-}
+};

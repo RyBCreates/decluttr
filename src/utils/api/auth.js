@@ -1,9 +1,8 @@
-import { BASE_URL } from "../constants";
+import { BASE_URL, API_URL } from "../constants";
 
-export async function registerUser({ username, email, password }) {
+export const registerUser = async ({ username, email, password }) => {
   try {
-    // Change URL for Deployment
-    const response = await fetch(`http://localhost:3002/register`, {
+    const response = await fetch(`${BASE_URL}/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,12 +21,11 @@ export async function registerUser({ username, email, password }) {
     console.error("Registration error:", err);
     throw err;
   }
-}
+};
 
-export async function loginUser({ email, password }) {
+export const loginUser = async ({ email, password }) => {
   try {
-    // Change URL for Deployment
-    const response = await fetch("http://localhost:3002/login", {
+    const response = await fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,14 +44,14 @@ export async function loginUser({ email, password }) {
     console.error("Login error:", err);
     throw err;
   }
-}
+};
 
-export async function getCurrentUser() {
+export const getCurrentUser = async () => {
   const token = localStorage.getItem("token");
   if (!token) return null;
 
   try {
-    const response = await fetch(`${BASE_URL}/users/me`, {
+    const response = await fetch(`${BASE_URL}${API_URL}/users/me`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -69,13 +67,13 @@ export async function getCurrentUser() {
     console.error("Get current user error:", err);
     return null;
   }
-}
+};
 
-export async function updateUserStats({ xp, level, gems, streak }) {
+export const updateUserStats = async ({ xp, level, gems, streak }) => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Not authorized");
 
-  const response = await fetch(`${BASE_URL}/users/stats`, {
+  const response = await fetch(`${BASE_URL}${API_URL}/users/stats`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -89,4 +87,4 @@ export async function updateUserStats({ xp, level, gems, streak }) {
   }
 
   return await response.json();
-}
+};

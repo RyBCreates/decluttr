@@ -67,20 +67,25 @@ function LoginModal({
             onChange={(e) => setPassword(e.target.value)}
           />
           {error && <p className="login__error">{error}</p>}
-          <button
-            className="login__submit"
-            type="submit"
-            disabled={!formIsValid}
-          >
-            Log In
-          </button>
-          <button
-            className="login__switch"
-            type="button"
-            onClick={handleSwitchModal}
-          >
-            or Register
-          </button>
+          <div className="login__buttons">
+            <button
+              className={`login__submit ${
+                !formIsValid ? "login__submit_disabled" : ""
+              }`}
+              disabled={!formIsValid}
+            >
+              Log In
+            </button>
+            <button
+              className="login__switch"
+              type="button"
+              onClick={() => {
+                handleSwitchModal();
+              }}
+            >
+              or Register
+            </button>
+          </div>
         </form>
       </div>
     </div>

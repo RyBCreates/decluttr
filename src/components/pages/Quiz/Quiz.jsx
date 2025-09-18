@@ -6,7 +6,7 @@ import { CurrentUserContext } from "../../../contexts/UserContext";
 import { calculateLevel } from "../../../utils/gameLogic/levelSystem";
 import "./Quiz.css";
 
-function Quiz({ achievements }) {
+function Quiz({ achievements, userAchievements }) {
   let [index, setIndex] = useState(0);
   let [question, setQuestion] = useState(quizData[index]);
   let [selectedOption, setSelectedOption] = useState(null);
@@ -265,7 +265,10 @@ function Quiz({ achievements }) {
           </div>
         )}
       </div>
-      <RightSideBar achievements={achievements} />
+      <RightSideBar
+        achievements={achievements}
+        userAchievements={userAchievements}
+      />
     </div>
   );
 }
