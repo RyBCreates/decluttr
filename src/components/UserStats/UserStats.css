@@ -4,7 +4,7 @@
   align-items: stretch;
   gap: 12px;
   margin-bottom: 20px;
-  padding-right: 12px;
+  padding-right: 24px;
   padding-top: 24px;
 }
 
@@ -16,7 +16,7 @@
   padding: 10px 12px;
   background: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
-  margin-right: 12px;
+  margin-right: 0px;
   text-align: initial;
 }
 
@@ -99,11 +99,15 @@
 }
 
 @media (max-width: 550px) {
-  .user-stats__label {
+  .user-stats {
+    padding-right: 24px;
+  }
+
+  /* .user-stats__label {
     display: none;
   }
 
   .user-stats__stat {
     justify-content: center;
-  }
+  } */
 }
