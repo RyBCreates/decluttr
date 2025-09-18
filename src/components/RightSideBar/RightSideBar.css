@@ -9,8 +9,6 @@
   transition: transform 1s ease;
   box-shadow: -4px 0 12px rgba(0, 0, 0, 0.2);
   overflow-y: auto;
-
-  /* Check if Necessary */
 }
 
 .right-sidebar--closed {
@@ -37,10 +35,13 @@
 }
 
 .right-sidebar__achievements {
-  margin-top: auto;
+  /* padding-bottom: auto; */
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-bottom: 30px;
+  height: 60vh;
+  overflow-y: scroll;
 }
 
 .right-sidebar__handle {
