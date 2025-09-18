@@ -6,12 +6,7 @@ import profile from "../../assets/icons/profile-icon.svg";
 import shop from "../../assets/icons/shop-icon.svg";
 import quiz from "../../assets/icons/quiz-icon.svg";
 
-function LeftSideBar({
-  isLoggedIn,
-  handleLogoutClick,
-  handleLoginClick,
-  handleRegisterClick,
-}) {
+function LeftSideBar({ handleLogoutClick }) {
   return (
     <div className="left-sidebar">
       <nav className="left-sidebar__container" aria-label="Main navigation">
@@ -43,47 +38,18 @@ function LeftSideBar({
           <span className="left-sidebar__label">Quiz</span>
         </NavLink>
       </nav>
-
-      {isLoggedIn ? (
-        <button className="left-sidebar__logout" onClick={handleLogoutClick}>
-          Log Out
-        </button>
-      ) : (
-        <div className="left-sidebar__auth-buttons">
-          <button className="left-sidebar__login" onClick={handleLoginClick}>
-            Log In
-          </button>
-          <button
-            className="left-sidebar__register"
-            onClick={handleRegisterClick}
-          >
-            Register
-          </button>
-        </div>
-      )}
-
+      <button className="left-sidebar__logout" onClick={handleLogoutClick}>
+        Log Out
+      </button>
       <div className="left-sidebar__auth-mobile" aria-label="Authentication">
-        {isLoggedIn ? (
-          <button
-            aria-label="Log Out"
-            className="left-sidebar__auth-pill"
-            onClick={handleLogoutClick}
-            title="Log Out"
-          >
-            <span aria-hidden>🚪</span>
-          </button>
-        ) : (
-          <>
-            <button
-              aria-label="Register"
-              className="left-sidebar__auth-pill"
-              onClick={handleRegisterClick}
-              title="Register"
-            >
-              <span aria-hidden>➕</span>
-            </button>
-          </>
-        )}
+        <button
+          aria-label="Log Out"
+          className="left-sidebar__auth-pill"
+          onClick={handleLogoutClick}
+          title="Log Out"
+        >
+          <span aria-hidden>🚪</span>
+        </button>
       </div>
     </div>
   );

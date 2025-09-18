@@ -1,10 +1,3 @@
-/* @font-face {
-  font-family: "Cabinet";
-  font-style: Bold;
-  font-weight: 700;
-  src: url(../vendor/fonts/CabinetGrotesk-Bold.otf) format(truetype);
-} */
-
 @font-face {
   font-family: "Gabarito";
   src: url(../vendor/fonts/Gabarito-Regular.woff) format("woff");

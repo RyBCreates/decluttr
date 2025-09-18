@@ -21,6 +21,33 @@
   cursor: pointer;
 }
 
+.home__empty {
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.home__empty-message {
+  font-size: 24px;
+  margin: 0;
+}
+
+.home__add-task_secondary {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background: black;
+  color: white;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.home__add-task_secondary:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
 .home__task-gallery {
   margin: 0 30px;
   height: calc(100vh - 200px);

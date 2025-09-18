@@ -6,7 +6,6 @@
 .profile-nav__tab {
   font-size: 24px;
   border-radius: 10px 10px 0 0;
-  z-index: 1;
   position: relative;
   top: 1px;
   border: 1px solid black;

@@ -1,29 +1,26 @@
+import { useEffect, useState } from "react";
+
 import "./AddTaskModal.css";
 import "../Modals.css";
-import { useEffect, useState } from "react";
-import { tasks } from "../../../utils/mockData/mockTasks";
 
-function AddTaskModal({ activeModal, closeModal, onAddTask }) {
-  const [selectedTaskId, setSelectedTaskId] = useState(tasks[0]?.id || null);
-  // const [icon, setIcon] = useState("");
-  // const [name, setName] = useState("");
-  // const [gems, setGems] = useState("");
+function AddTaskModal({ activeModal, closeModal, onAddTask, tasks }) {
+  const [selectedTaskId, setSelectedTaskId] = useState(tasks[0]?._id ?? "");
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (activeModal === "add-task") {
-      setSelectedTaskId(tasks[0]?.id || null);
+      setSelectedTaskId(tasks[0]?._id ?? "");
       setError("");
     }
-  }, [activeModal]);
+  }, [activeModal, tasks]);
 
   const handleChange = (e) => {
-    setSelectedTaskId(Number(e.target.value));
+    setSelectedTaskId(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const selectedTask = tasks.find((task) => task.id === selectedTaskId);
+    const selectedTask = tasks.find((task) => task._id === selectedTaskId);
     if (!selectedTask) {
       setError("Please select a valid task.");
       return;
@@ -49,9 +46,9 @@ function AddTaskModal({ activeModal, closeModal, onAddTask }) {
               onChange={handleChange}
               required
             >
-              {tasks.map(({ id, name, gems, icon }) => (
-                <option key={id} value={id}>
-                  {icon} {name} (💎 {gems})
+              {tasks.map((task) => (
+                <option key={task._id} value={task._id}>
+                  {task.icon} {task.name} (💎 {task.reward.gems})
                 </option>
               ))}
             </select>

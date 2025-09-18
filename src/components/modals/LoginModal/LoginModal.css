@@ -1,9 +1,10 @@
 .login__title {
-  margin: 0 0 25px 0;
+  font-size: 32px;
+  margin: 0 0 15px 0;
 }
 
 .login__content {
-  padding: 40px 20px;
+  padding: 20px;
   background-color: white;
   border: 1px solid black;
   border-radius: 15px;
@@ -15,7 +16,36 @@
   gap: 15px;
 }
 
+.login__input {
+  font-size: 18px;
+  padding: 5px 10px;
+}
+
 .login__error {
   color: red;
   margin: 0;
+}
+
+.login__buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.login__submit,
+.login__switch {
+  padding: 5px 10px;
+  background: #000;
+  color: white;
+  border-radius: 5px;
+}
+
+.login__submit:hover,
+.login__switch:hover {
+  cursor: pointer;
+}
+
+.login__submit_disabled {
+  opacity: 0.5;
 }

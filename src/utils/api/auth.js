@@ -1,8 +1,7 @@
 import { BASE_URL, API_URL } from "../constants";
 
-export async function registerUser({ username, email, password }) {
+export const registerUser = async ({ username, email, password }) => {
   try {
-    // Change URL for Deployment
     const response = await fetch(`${BASE_URL}/register`, {
       method: "POST",
       headers: {
@@ -22,11 +21,10 @@ export async function registerUser({ username, email, password }) {
     console.error("Registration error:", err);
     throw err;
   }
-}
+};
 
-export async function loginUser({ email, password }) {
+export const loginUser = async ({ email, password }) => {
   try {
-    // Change URL for Deployment
     const response = await fetch(`${BASE_URL}/login`, {
       method: "POST",
       headers: {
@@ -46,9 +44,9 @@ export async function loginUser({ email, password }) {
     console.error("Login error:", err);
     throw err;
   }
-}
+};
 
-export async function getCurrentUser() {
+export const getCurrentUser = async () => {
   const token = localStorage.getItem("token");
   if (!token) return null;
 
@@ -69,9 +67,9 @@ export async function getCurrentUser() {
     console.error("Get current user error:", err);
     return null;
   }
-}
+};
 
-export async function updateUserStats({ xp, level, gems, streak }) {
+export const updateUserStats = async ({ xp, level, gems, streak }) => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Not authorized");
 
@@ -89,4 +87,4 @@ export async function updateUserStats({ xp, level, gems, streak }) {
   }
 
   return await response.json();
-}
+};

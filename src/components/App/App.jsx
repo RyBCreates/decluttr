@@ -15,6 +15,7 @@ import AddTaskModal from "../modals/AddTaskModal/AddTaskModal.jsx";
 import { getAchievements } from "../../utils/api/achievements";
 import { getUserAchievements } from "../../utils/api/userAchievements.js";
 import { getBadges } from "../../utils/api/badges";
+import { getUserBadges, unlockBadge } from "../../utils/api/userBadges.js";
 import { getTasks } from "../../utils/api/tasks";
 import { getCurrentUser } from "../../utils/api/auth.js";
 import { getShopItems } from "../../utils/api/shopItems.js";
@@ -29,6 +30,7 @@ function App() {
 
   const [userAchievements, setUserAchievements] = useState([]);
   const [achievements, setAchievements] = useState([]);
+  const [userBadges, setUserBadges] = useState([]);
   const [badges, setBadges] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [items, setItems] = useState([]);
@@ -127,6 +129,35 @@ function App() {
     loadBadges();
   }, []);
 
+  // Load User Badges if Logged in
+  useEffect(() => {
+    if (isLoggedIn) {
+      async function loadUserBadges() {
+        try {
+          const data = await getUserBadges();
+          setUserBadges(data);
+        } catch (err) {
+          console.error("Failed to fetch User Badges", err);
+        }
+      }
+      loadUserBadges();
+    }
+  }, []);
+
+  const handleUnlockBadge = async (badgeId) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+      const { badge } = await unlockBadge(badgeId, token);
+      setUserBadges((prev) =>
+        prev.map((b) => (b._id === badge._id ? badge : b))
+      );
+    } catch (err) {
+      console.error("Error unlocking badge:", err);
+    }
+  };
+
   // Load ALL tasks
   useEffect(() => {
     async function loadTasks() {
@@ -156,20 +187,18 @@ function App() {
   }, []);
 
   const handleAddTask = (newTask) => {
-    // This newId does not work with the database format
-    const newId =
-      tasks.length === 0 ? 1 : Math.max(...tasks.map((task) => task._id)) + 1;
+    const newId = crypto.randomUUID();
     const taskWithId = {
       ...newTask,
       _id: newId,
       completed: false,
-      reward: { gems: newTask.gems ?? 0, xp: newTask.xp ?? 5 },
+      reward: { gems: newTask.reward.gems ?? 0, xp: newTask.reward.xp ?? 5 },
     };
     setTasks((prev) => [taskWithId, ...prev]);
 
     closeModal();
   };
-  //get rid of login/reg on hompage
+
   return (
     <CurrentUserContext.Provider
       value={{ user: currentUser, setUser: setCurrentUser }}
@@ -177,24 +206,19 @@ function App() {
       <div className="app">
         {isLoggedIn ? (
           <div className="app__content">
-            {" "}
-            <LeftSideBar
-              isLoggedIn={isLoggedIn}
-              handleLoginClick={handleLoginClick}
-              handleLogoutClick={handleLogoutClick}
-              handleRegisterClick={handleRegisterClick}
-            />
+            <LeftSideBar handleLogoutClick={handleLogoutClick} />
             <Routes>
               <Route
                 path="/"
                 element={
                   <Home
-                    achievements={achievements}
                     setActiveModal={setActiveModal}
                     tasks={tasks}
                     setTasks={setTasks}
+                    achievements={achievements}
                     userAchievements={userAchievements}
                     setUserAchievements={setUserAchievements}
+                    handleUnlockBadge={handleUnlockBadge}
                   />
                 }
               />
@@ -204,6 +228,8 @@ function App() {
                   <Profile
                     achievements={achievements}
                     badges={badges}
+                    userBadges={userBadges}
+                    userAchievements={userAchievements}
                     items={items}
                   />
                 }
@@ -211,17 +237,22 @@ function App() {
               <Route path="shop" element={<Shop />} />
               <Route
                 path="quiz"
-                element={<Quiz achievements={achievements} />}
+                element={
+                  <Quiz
+                    achievements={achievements}
+                    userAchievements={userAchievements}
+                  />
+                }
               />
             </Routes>
           </div>
         ) : (
-          <div>
+          <div className="app__landing">
             <LandingPage
               isLoggedIn={isLoggedIn}
               handleLoginClick={handleLoginClick}
               handleRegisterClick={handleRegisterClick}
-            />{" "}
+            />
           </div>
         )}
 

@@ -83,15 +83,12 @@ function Home({
 
       // Increment achievements
       const relevantAchievements = achievements.filter(
-        (achievement) => achievement.taskId === id
+        (achievement) => achievement.type === "task_count"
       );
 
       for (const achievement of relevantAchievements) {
         try {
-          const updated = await incrementAchievement({
-            achievementId: achievement._id,
-            amount: 1,
-          });
+          const updated = await incrementAchievement(achievement._id, 1);
 
           setUserAchievements((prev) => {
             const exists = prev.find(
@@ -143,8 +140,8 @@ function Home({
 
         <div className="home__task-gallery">
           {tasks.length === 0 ? (
-            <>
-              <p className="home__tasks-empty">
+            <div className="home__empty">
+              <p className="home__empty-message">
                 Looks like you are out of tasks!
               </p>
               <button
@@ -154,7 +151,7 @@ function Home({
               >
                 Add Task
               </button>
-            </>
+            </div>
           ) : (
             tasks.map((task) => (
               <TaskCard
