@@ -20,7 +20,7 @@ export const getUserBadges = async () => {
   }
 };
 
-// Note the id is the string that the achievement is called
+// Note the id is the string that the badge is called
 // http://localhost:3002/decluttr/api/user-badges/unlock/clean-sweep
 export const unlockBadge = async (badgeId, token) => {
   const res = await fetch(

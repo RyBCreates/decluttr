@@ -1,4 +1,3 @@
-import "./Shop.css";
 import { useContext, useEffect, useState } from "react";
 
 import StoreMenu from "../../StoreMenu/StoreMenu";
@@ -7,11 +6,14 @@ import { getShopItems } from "../../../utils/api/shopItems";
 
 import { CurrentUserContext } from "../../../contexts/UserContext";
 
-function Shop() {
+import "./Shop.css";
+
+function Shop({ handlePurchaseItem, userItems }) {
   const { user, setUser } = useContext(CurrentUserContext);
   const [shopItems, setShopItems] = useState([]);
   const [selectedItemId, setSelectedItemId] = useState(null);
   const [status, setStatus] = useState("");
+  const [initialPurchase, setInitialPurchase] = useState(false);
 
   // On mount, Load Shop Items from backend
   useEffect(() => {
@@ -29,42 +31,41 @@ function Shop() {
 
   const selectedItem = shopItems.find((i) => i._id === selectedItemId);
 
+  const selectedUserItem =
+    userItems && selectedItem
+      ? userItems.find((ui) => ui.itemId === selectedItem._id)
+      : null;
+
+  const quantityOwned = selectedUserItem ? selectedUserItem.quantity : 0;
+
+  // Purchase an item
+  const handlePurchase = async () => {
+    if (!user || !selectedItem) return;
+
+    try {
+      const { userItem, remainingGems } = await handlePurchaseItem(
+        selectedItem._id
+      );
+      setStatus(`Purchased ${selectedItem.name}!`);
+      setUser((prev) => ({ ...prev, gems: remainingGems }));
+      setInitialPurchase(true);
+
+      console.log("After purchase, userItems:", userItems);
+    } catch (err) {
+      console.error(err);
+      setStatus("Purchase failed");
+    }
+  };
+
   const canAfford = (user?.gems ?? 0) >= (selectedItem?.cost ?? Infinity);
 
-  const handlePurchase = () => {
-    if (!user || !selectedItem || !setUser) return;
-    if (!canAfford) {
-      setStatus("Not enough gems to purchase.");
-      return;
-    }
-
-    setUser((prev) => {
-      if (!prev) return prev;
-      const next = { ...prev, gems: (prev.gems ?? 0) - selectedItem.cost };
-
-      switch (selectedItem._id) {
-        case "streak-freeze": {
-          next.streakFreezes =
-            (prev.streakFreezes ?? 0) + (selectedItem.uses ?? 1);
-          break;
-        }
-        case "xp-boost-2x-5": {
-          next.xpBoostUsesLeft =
-            (prev.xpBoostUsesLeft ?? 0) + (selectedItem.uses ?? 0);
-          const currentMult = prev.xpBoostMultiplier ?? 1;
-          const itemMult = selectedItem.multiplier ?? 1;
-          next.xpBoostMultiplier = Math.max(currentMult, itemMult);
-          break;
-        }
-        default:
-          break;
-      }
-
-      return next;
-    });
-
-    setStatus(`Purchased ${selectedItem.name}!`);
-  };
+  //  Move this logic out of the shop page
+  //         next.xpBoostUsesLeft =
+  //           (prev.xpBoostUsesLeft ?? 0) + (selectedItem.uses ?? 0);
+  //         const currentMult = prev.xpBoostMultiplier ?? 1;
+  //         const itemMult = selectedItem.multiplier ?? 1;
+  //         next.xpBoostMultiplier = Math.max(currentMult, itemMult);
+  console.log("This is the userItem's array:", userItems);
 
   return (
     <div className="shop">
@@ -80,18 +81,16 @@ function Shop() {
               {selectedItem?.description}
             </p>
             <p className="shop__item-price">Price: 💎 {selectedItem?.cost}</p>
-
-            {selectedItem?._id === "streak-freeze" && (
-              <p className="shop__item-owned">
-                You own: {user?.streakFreezes ?? 0} Streak Freeze
-                {(user?.streakFreezes ?? 0) === 1 ? "" : "s"}
-              </p>
-            )}
-            {selectedItem?._id === "xp-boost-2x-5" && (
-              <p className="shop__item-owned">
-                Active XP Multiplier: x{user?.xpBoostMultiplier ?? 1} • Uses
-                left: {user?.xpBoostUsesLeft ?? 0}
-              </p>
+            {initialPurchase ? (
+              <>
+                {selectedItem && (
+                  <p className="shop__item-owned">
+                    You own: {quantityOwned} {selectedItem.name}
+                  </p>
+                )}
+              </>
+            ) : (
+              <></>
             )}
 
             <button
