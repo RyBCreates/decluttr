@@ -6,20 +6,13 @@ import Achievement from "../Achievement/Achievement";
 
 import { CurrentUserContext } from "../../contexts/UserContext";
 
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
+
 function RightSideBar({ achievements, userAchievements = [] }) {
   const { user } = useContext(CurrentUserContext);
   // console.log("UserAchievements loaded to RightSideBar:", userAchievements);
 
-  const [open, setOpen] = useState(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("rightSidebarOpen");
-    if (saved !== null) setOpen(saved === "true");
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("rightSidebarOpen", String(open));
-  }, [open]);
+  const [open, setOpen] = useLocalStorageState("rightSidebarOpen", true);
 
   if (!user) return null;
 
