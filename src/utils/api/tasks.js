@@ -1,6 +1,6 @@
 import { BASE_URL, API_URL } from "../constants";
 
-export async function getTasks() {
+export const getTasks = async () => {
   try {
     const response = await fetch(`${BASE_URL}${API_URL}/tasks`);
     if (!response.ok) {
@@ -11,4 +11,4 @@ export async function getTasks() {
     console.error("Error fetching tasks:", err);
     return [];
   }
-}
+};
