@@ -295,6 +295,7 @@ function App() {
                     userAchievements={userAchievements}
                     items={items}
                     userItems={userItems}
+                    setUserItems={setUserItems}
                   />
                 }
               />
@@ -304,6 +305,7 @@ function App() {
                   <Shop
                     handlePurchaseItem={handlePurchaseItem}
                     userItems={userItems}
+                    setUserItems={setUserItems}
                   />
                 }
               />
