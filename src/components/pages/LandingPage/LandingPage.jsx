@@ -13,6 +13,7 @@ function LandingPage({ handleLoginClick, handleRegisterClick }) {
           >
             Log In
           </button>
+
           <button
             className="landing-page__register"
             onClick={() => {
