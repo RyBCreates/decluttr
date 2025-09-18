@@ -2,7 +2,7 @@
   max-width: 1440px;
   margin: 0;
   background-color: rgb(235, 235, 235);
-  font-family: "Gabarito", sans-serif; /* Custom font */
+  font-family: "Gabarito", sans-serif;
   min-height: 100vh;
 }
 
@@ -12,11 +12,21 @@
   position: relative;
 }
 
+.app__landing {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 768px) {
-  .app__content {
-    grid-template-columns: 1fr;
-  }
+  /* Why is this here? */
   .app {
     padding-bottom: 72px;
+  }
+
+  .app__content {
+    grid-template-columns: 1fr;
   }
 }

@@ -1,6 +1,6 @@
 import { BASE_URL, API_URL } from "../constants";
 
-export async function updateUserInfo({ username, avatar }) {
+export const updateUserInfo = async ({ username, avatar }) => {
   const token = localStorage.getItem("token");
   if (!token) throw new Error("Not authorized");
 
@@ -18,4 +18,4 @@ export async function updateUserInfo({ username, avatar }) {
   }
 
   return await response.json();
-}
+};

@@ -1,6 +1,6 @@
 import { BASE_URL, API_URL } from "../constants";
 
-export async function getShopItems() {
+export const getShopItems = async () => {
   try {
     const response = await fetch(`${BASE_URL}${API_URL}/shop-items`);
     if (!response.ok) {
@@ -11,4 +11,4 @@ export async function getShopItems() {
     console.error("Error fetching items:", err);
     return [];
   }
-}
+};
