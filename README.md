@@ -8,7 +8,7 @@ Decluttr takes the everyday act of cleaning and turns it into a game. Every time
 
 ## Live demo
 
-- Homepage: https://decluttr.mycityulife.com
+- Homepage: https://decluttr.myhousesetup.com
 
 ## Why it matters
 
