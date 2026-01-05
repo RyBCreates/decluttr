@@ -1,14 +1,7 @@
-import { useState, useEffect } from "react";
 import "./Achievement.css";
 
 function Achievement({ achievement, progress, completed, achievementVariant }) {
-  const [displayProgress, setDisplayProgress] = useState(progress);
-
-  useEffect(() => {
-    setDisplayProgress(progress);
-  }, [progress]);
-
-  const overAchieved = displayProgress > achievement.goal;
+  const overAchieved = progress > achievement.goal;
 
   return (
     <div
@@ -29,9 +22,9 @@ function Achievement({ achievement, progress, completed, achievementVariant }) {
               className="achievement-home__progress-bar_progress"
               style={{
                 "--progress": `${
-                  displayProgress === achievement.goal
+                  progress === achievement.goal
                     ? "0"
-                    : (displayProgress / achievement.goal) * 100
+                    : (progress / achievement.goal) * 100
                 }%`,
               }}
             ></div>
@@ -41,8 +34,7 @@ function Achievement({ achievement, progress, completed, achievementVariant }) {
               }`}
               style={{
                 "--progress": `${
-                  ((achievement.goal - displayProgress) / achievement.goal) *
-                  100
+                  ((achievement.goal - progress) / achievement.goal) * 100
                 }%`,
               }}
             ></div>
@@ -70,7 +62,7 @@ function Achievement({ achievement, progress, completed, achievementVariant }) {
             <p className="achievement-profile__progress">
               {overAchieved
                 ? `${achievement.goal}/${achievement.goal}`
-                : `${displayProgress}/${achievement.goal}`}
+                : `${progress}/${achievement.goal}`}
             </p>
           </div>
           <div className="achievement-profile__progress-bar">
@@ -78,9 +70,9 @@ function Achievement({ achievement, progress, completed, achievementVariant }) {
               className="achievement-profile__progress-bar_progress"
               style={{
                 "--progress": `${
-                  displayProgress === achievement.goal
+                  progress === achievement.goal
                     ? "0"
-                    : (displayProgress / achievement.goal) * 100
+                    : (progress / achievement.goal) * 100
                 }%`,
               }}
             ></div>
@@ -90,8 +82,7 @@ function Achievement({ achievement, progress, completed, achievementVariant }) {
               }`}
               style={{
                 "--progress": `${
-                  ((achievement.goal - displayProgress) / achievement.goal) *
-                  100
+                  ((achievement.goal - progress) / achievement.goal) * 100
                 }%`,
               }}
             ></div>

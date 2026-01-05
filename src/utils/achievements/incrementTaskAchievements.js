@@ -10,9 +10,16 @@ export async function incrementTaskAchievements(
       const updatedId = updated.achievementId._id || updated.achievementId;
       setUserAchievements((prev) => {
         const exists = prev.find((ua) => ua.achievementId._id === updatedId);
+
         return exists
           ? prev.map((ua) =>
-              ua.achievementId._id === updatedId ? updated : ua
+              ua.achievementId._id === updatedId
+                ? {
+                    ...ua,
+                    ...updated,
+                    achievementId: ua.achievementId,
+                  }
+                : ua
             )
           : [...prev, updated];
       });
